@@ -1,93 +1,127 @@
+import { useState, type ElementType } from 'react';
 import { motion } from 'motion/react';
-import { Search, FileText, Ship, Wrench } from 'lucide-react';
+import { Gavel, ScanLine, Ship, FileCheck } from 'lucide-react';
+import { ScrollGlowText } from './fx/ScrollGlowText';
 
-const services = [
+type Block = {
+  icon: ElementType;
+  label: string;
+  desc: string;
+  /** Position du bloc flottant sur l'image (desktop). */
+  pos: string;
+};
+
+const blocks: Block[] = [
   {
-    icon: Search,
-    title: "Sourcing & Enchères",
-    desc: "Accès exclusif aux enchères japonaises (USS, CAA) et réseau de concessionnaires partenaires. Inspection détaillée sur place avant tout achat.",
-    className: "md:col-span-2 md:row-span-2 bg-gradient-to-br from-zinc-900 to-zinc-950"
+    icon: Gavel,
+    label: 'Accès USS',
+    desc: 'Enchères en direct dans les plus grandes salles japonaises.',
+    pos: 'top-4 left-4 md:top-10 md:left-10',
+  },
+  {
+    icon: ScanLine,
+    label: 'Inspection',
+    desc: "Contrôle complet de l'état réel avant tout achat.",
+    pos: 'top-4 right-4 md:top-10 md:right-10',
   },
   {
     icon: Ship,
-    title: "Logistique & Transport",
-    desc: "Gestion complète du fret maritime depuis le Japon jusqu'aux ports européens avec assurance tous risques incluse.",
-    className: "md:col-span-1 md:row-span-1 bg-zinc-900"
+    label: 'Transport',
+    desc: 'Fret maritime sécurisé et assuré jusqu’en Europe.',
+    pos: 'bottom-4 left-4 md:bottom-10 md:left-10',
   },
   {
-    icon: FileText,
-    title: "Dédouanement",
-    desc: "Prise en charge des formalités douanières, paiement des taxes et obtention du 846A.",
-    className: "md:col-span-1 md:row-span-1 bg-zinc-900"
+    icon: FileCheck,
+    label: 'Homologation',
+    desc: 'Mise aux normes et dossier carte grise française.',
+    pos: 'bottom-4 right-4 md:bottom-10 md:right-10',
   },
-  {
-    icon: Wrench,
-    title: "Homologation (DREAL/UTAC)",
-    desc: "Mise aux normes européennes, tests UTAC, constitution du dossier DREAL complet pour l'obtention de la carte grise française définitive.",
-    className: "md:col-span-2 md:row-span-1 bg-zinc-900"
-  }
 ];
 
+/**
+ * Section « Notre Expertise » immersive : une grande image plein cadre de la
+ * salle d'enchères, surmontée de 4 blocs flottants. Au survol d'un bloc, il
+ * s'agrandit et la photo derrière se zoome légèrement.
+ */
 export function Services() {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <section id="services" className="py-32 bg-zinc-950 relative overflow-hidden">
-      {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-red-900/5 blur-[150px] rounded-full pointer-events-none" />
-      
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div className="md:w-1/2">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="flex items-center gap-4 mb-6"
-            >
-              <div className="h-[1px] w-12 bg-red-600" />
-              <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">Services</span>
-            </motion.div>
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9]"
-            >
-              Notre <br /> <span className="text-zinc-500">Expertise</span>
-            </motion.h2>
-          </div>
-          <motion.p 
+        {/* En-tête centré */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: 0.2 }}
-            className="md:w-1/3 text-zinc-400 text-lg font-light"
+            viewport={{ once: true, margin: '-100px' }}
+            className="flex items-center gap-4 mb-6"
           >
-            Importer un véhicule du Japon exige un savoir-faire spécifique. Nous offrons une solution clé en main, transparente et sécurisée.
+            <div className="h-[1px] w-12 bg-red-600" />
+            <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">Services</span>
+            <div className="h-[1px] w-12 bg-red-600" />
+          </motion.div>
+          <ScrollGlowText
+            as="h2"
+            className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9] mb-6"
+            segments={[{ text: 'Notre\n' }, { text: 'Expertise', className: 'text-zinc-500' }]}
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ delay: 0.2 }}
+            className="max-w-xl text-zinc-400 text-lg font-light"
+          >
+            Importer un véhicule depuis le Japon nécessite une expertise complète. Nous maîtrisons
+            chaque maillon de la chaîne, des enchères à l'homologation.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[250px] md:auto-rows-auto">
-          {services.map((service, idx) => (
+        {/* Image immersive + blocs flottants */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 h-[560px] md:h-[680px]"
+        >
+          {/* Photo plein cadre */}
+          <img
+            src="/enchere.png"
+            alt="Salle d'enchères automobiles au Japon"
+            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              hovered ? 'scale-110' : 'scale-105'
+            }`}
+          />
+          {/* Voiles pour la lisibilité des blocs */}
+          <div className="absolute inset-0 bg-zinc-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-zinc-950/50" />
+
+          {/* Blocs flottants */}
+          {blocks.map((block, idx) => (
             <motion.div
-              key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
+              key={block.label}
+              initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`p-10 border border-white/5 rounded-2xl hover:border-white/10 transition-colors group relative overflow-hidden flex flex-col justify-between ${service.className}`}
+              whileHover={{ scale: 1.06, y: -4 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, delay: 0.2 + idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              data-cursor="Expertise"
+              className={`absolute ${block.pos} w-[clamp(140px,42vw,260px)] p-4 md:p-5 rounded-2xl bg-zinc-950/55 backdrop-blur-xl border border-white/10 hover:border-red-600/60 transition-colors cursor-pointer`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <service.icon className="w-10 h-10 text-red-600 group-hover:scale-110 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
-              
-              <div className="relative z-10 mt-8 md:mt-0">
-                <h3 className="text-2xl font-display font-bold mb-3">{service.title}</h3>
-                <p className="text-sm text-zinc-400 leading-relaxed font-light">{service.desc}</p>
-              </div>
+              <span className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border border-white/15 bg-white/5 mb-3 md:mb-4">
+                <block.icon className="w-5 h-5 text-red-500" />
+              </span>
+              <h3 className="text-lg font-display font-bold uppercase tracking-tight mb-1">{block.label}</h3>
+              <p className="text-xs md:text-sm text-zinc-300 font-light leading-relaxed">{block.desc}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
