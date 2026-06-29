@@ -26,20 +26,27 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
   const bgOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
-  // Text visible dès le chargement, effet parallax léger au scroll
-  const subTitleOpacity = useTransform(scrollYProgress, [0.7, 0.9], [1, 0]);
-  const subTitleX = useTransform(scrollYProgress, [0, 0.5], [0, -10]);
+  // Chorégraphie de sortie progressive et fluide, pilotée par le scroll lissé :
+  // les éléments du hero se révèlent/s'effacent en couches successives (sous-titre,
+  // puis description, puis boutons, puis titres, la carte dérivant en parallax).
+  const subTitleOpacity = useTransform(smoothProgress, [0.16, 0.3], [1, 0]);
+  const subTitleX = useTransform(smoothProgress, [0, 0.4], [0, -24]);
 
-  const title1Y = useTransform(scrollYProgress, [0, 0.6], ["0%", "-8%"]);
-  const title2Y = useTransform(scrollYProgress, [0, 0.6], ["0%", "-6%"]);
+  const title1Y = useTransform(smoothProgress, [0, 0.7], ["0%", "-14%"]);
+  const title2Y = useTransform(smoothProgress, [0, 0.7], ["0%", "-9%"]);
+  const titleOpacity = useTransform(smoothProgress, [0.6, 0.8], [1, 0]);
 
-  const descOpacity = useTransform(scrollYProgress, [0.7, 0.9], [1, 0]);
-  const descY = useTransform(scrollYProgress, [0, 0.5], [0, -15]);
+  const descOpacity = useTransform(smoothProgress, [0.28, 0.44], [1, 0]);
+  const descY = useTransform(smoothProgress, [0, 0.5], [0, -40]);
 
-  const buttonsOpacity = useTransform(scrollYProgress, [0.7, 0.9], [1, 0]);
-  const buttonsY = useTransform(scrollYProgress, [0, 0.5], [0, -10]);
-  
-  const contentOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
+  const buttonsOpacity = useTransform(smoothProgress, [0.4, 0.56], [1, 0]);
+  const buttonsY = useTransform(smoothProgress, [0, 0.5], [0, -30]);
+
+  // La carte du Japon dérive doucement et s'efface avant le fondu final.
+  const mapY = useTransform(smoothProgress, [0, 0.7], ["0%", "-12%"]);
+  const mapOpacity = useTransform(smoothProgress, [0.5, 0.72], [1, 0]);
+
+  const contentOpacity = useTransform(smoothProgress, [0.84, 1], [1, 0]);
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
 
   // Pilote la position de la vidéo dans une boucle requestAnimationFrame :
@@ -75,7 +82,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
           <div className="absolute inset-0 z-10 bg-zinc-950">
             <video
               ref={videoRef}
-              src="/hero-0629-rev.mp4"
+              src="/hero-carvolant.mp4"
               muted
               playsInline
               preload="auto"
@@ -87,15 +94,20 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
 
         {/* Content */}
         <motion.div style={{ opacity: contentOpacity }} className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-20">
-        {/* Carte du Japon avec pôles d'enchères clignotants */}
+        {/* Carte du Japon avec pôles d'enchères clignotants — parallax + fondu au scroll */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: introDone ? 1 : 0, scale: introDone ? 1 : 0.95 }}
-          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{ opacity: mapOpacity }}
           className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[320px] xl:w-[380px] pointer-events-none"
           aria-hidden="true"
         >
-          <JapanMap />
+          <motion.div
+            style={{ y: mapY }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: introDone ? 1 : 0, scale: introDone ? 1 : 0.95 }}
+            transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <JapanMap />
+          </motion.div>
         </motion.div>
 
         <div className="flex flex-col items-start max-w-4xl relative z-10">
@@ -119,7 +131,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
             </motion.div>
           </motion.div>
           
-          <motion.div style={{ y: title1Y }} className="mb-4 pb-2">
+          <motion.div style={{ y: title1Y, opacity: titleOpacity }} className="mb-4 pb-2">
             <RevealText
               as="h1"
               start={introDone}
@@ -129,7 +141,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
               className="text-6xl md:text-8xl lg:text-9xl font-display font-bold uppercase tracking-tighter leading-[0.85]"
             />
           </motion.div>
-          <motion.div style={{ y: title2Y }} className="mb-10 pb-2">
+          <motion.div style={{ y: title2Y, opacity: titleOpacity }} className="mb-10 pb-2">
             <RevealText
               as="h1"
               start={introDone}

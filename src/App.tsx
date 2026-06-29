@@ -6,10 +6,10 @@ import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { Backstage } from './components/Backstage';
 import { Process } from './components/Process';
-import { JourneyVideo } from './components/JourneyVideo';
 import { RouteMap } from './components/RouteMap';
 import { WhyAksu } from './components/WhyAksu';
 import { Stats } from './components/Stats';
+import { CarCare } from './components/CarCare';
 import { Inventory } from './components/Inventory';
 import { Transparency } from './components/Transparency';
 import { About } from './components/About';
@@ -90,10 +90,10 @@ export default function App() {
         <Services />
         <Backstage />
         <Process />
-        <JourneyVideo />
         <RouteMap />
         <WhyAksu />
         <Stats />
+        <CarCare />
         <Inventory />
         <Transparency />
         <About />

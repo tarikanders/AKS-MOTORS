@@ -1,8 +1,7 @@
-import { useRef } from 'react';
-import { motion, useScroll, useSpring } from 'motion/react';
-import { Anchor, Flag, MapPin, Home } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Anchor, Flag, MapPin, Home, Navigation } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
-import { usePrefersReducedMotion } from '../lib/useReducedMotion';
+import { JourneyMap } from './fx/JourneyMap';
 
 const waypoints = [
   { icon: Flag, title: 'Départ du Japon', desc: 'Enchères & chargement portuaire' },
@@ -11,25 +10,14 @@ const waypoints = [
   { icon: Home, title: 'Livraison', desc: 'Homologation puis remise des clés' },
 ];
 
-const ROUTE = 'M120,200 Q500,30 880,140';
-
 /**
- * Infographie "Du Japon jusqu'à votre garage" : un tracé animé entre le Japon
- * et Rotterdam, suivi des grandes étapes du trajet.
+ * Section unique « Du Japon jusqu'à votre garage » : présente le trajet complet
+ * (anciennement scindé en deux sections). Carte Japon → Pays-Bas / Rotterdam avec
+ * ports illuminés et cargo animé, suivi quotidien, puis les grandes étapes.
  */
 export function RouteMap() {
-  const reduced = usePrefersReducedMotion();
-  const mapRef = useRef<HTMLDivElement>(null);
-
-  // Le tracé rouge se dessine du Japon (A) vers Rotterdam (B) au fil du scroll.
-  const { scrollYProgress } = useScroll({
-    target: mapRef,
-    offset: ['start 0.85', 'end 0.55'],
-  });
-  const drawn = useSpring(scrollYProgress, { stiffness: 80, damping: 26, mass: 0.4 });
-
   return (
-    <section id="route" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="parcours" className="py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-2/3 h-1/2 bg-red-900/5 blur-[140px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -41,7 +29,7 @@ export function RouteMap() {
             className="flex items-center gap-4 mb-6"
           >
             <div className="h-[1px] w-8 bg-red-600" />
-            <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">Itinéraire</span>
+            <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">Le trajet</span>
             <div className="h-[1px] w-8 bg-red-600" />
           </motion.div>
           <ScrollGlowText
@@ -59,40 +47,28 @@ export function RouteMap() {
             Un trajet maîtrisé de bout en bout : des salles d'enchères japonaises au port de Rotterdam,
             jusqu'à la livraison de votre véhicule homologué.
           </motion.p>
+
+          {/* Suivi quotidien de la position du bateau */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-7 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-zinc-900/70 border border-white/10 backdrop-blur-sm"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-red-500/70 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
+            </span>
+            <Navigation className="w-4 h-4 text-red-500" />
+            <span className="text-sm text-zinc-200 font-light">
+              Suivez la position de votre véhicule au quotidien, du départ jusqu'au port de Rotterdam.
+            </span>
+          </motion.div>
         </div>
 
-        {/* Tracé animé */}
-        <div className="relative" ref={mapRef}>
-          <svg viewBox="0 0 1000 240" className="w-full h-auto" role="img" aria-label="Tracé Japon vers Rotterdam">
-            <path d={ROUTE} fill="none" stroke="rgb(63 63 70 / 0.5)" strokeWidth="2" />
-            <motion.path
-              d={ROUTE}
-              fill="none"
-              stroke="rgb(248 113 113)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              style={{ pathLength: reduced ? 1 : drawn, filter: 'drop-shadow(0 0 6px rgb(248 113 113 / 0.6))' }}
-            />
-
-            {/* Point Japon */}
-            <g>
-              <circle cx="120" cy="200" r="7" fill="rgb(248 113 113)" />
-              <circle cx="120" cy="200" r="3" fill="rgb(254 226 226)" />
-              <text x="120" y="228" textAnchor="middle" fontSize="15" fill="rgb(212 212 216)" className="font-display" fontWeight="700">
-                日本 Japon
-              </text>
-            </g>
-
-            {/* Point Rotterdam */}
-            <g>
-              <circle cx="880" cy="140" r="7" fill="rgb(228 228 231)" />
-              <circle cx="880" cy="140" r="3" fill="rgb(24 24 27)" />
-              <text x="880" y="118" textAnchor="middle" fontSize="15" fill="rgb(212 212 216)" className="font-display" fontWeight="700">
-                Rotterdam
-              </text>
-            </g>
-          </svg>
-        </div>
+        {/* Carte animée Japon → Pays-Bas (Rotterdam) */}
+        <JourneyMap />
 
         {/* Étapes */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">

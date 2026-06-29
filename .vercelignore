@@ -1,0 +1,8 @@
+# Environnement Python local et build local → inutiles pour Vercel (build distant)
+.venv
+dist
+
+# Médias présents localement mais non référencés par le site → exclus du déploiement
+public/carwash.mp4
+public/carvolant.mp4
+public/canvaport.png

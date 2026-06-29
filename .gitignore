@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+.vercel
+.venv/
+
+# Vidéos sources non utilisées par le site (conservées en local uniquement)
+public/carwash.mp4
+public/carvolant.mp4
