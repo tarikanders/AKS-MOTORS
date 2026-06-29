@@ -1,0 +1,6 @@
+{
+  "name": "JDM Prestige",
+  "description": "Spécialiste de l'importation de véhicules japonais (JDM)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
