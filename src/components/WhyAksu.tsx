@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, type ReactNode } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue, type Variants } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Logo } from './Logo';
-import { usePrefersReducedMotion } from '../lib/useReducedMotion';
+import { usePrefersReducedMotion, useIsMobile } from '../lib/useReducedMotion';
 
 const GOLD = '#9d895c';
 const FINAL_PHRASE =
@@ -146,6 +146,10 @@ export function WhyAksu() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const durationRef = useRef(0);
   const reduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
+  // Sur mobile : on garde TOUTE la chorégraphie (scènes de texte, phrase qui s'écrit,
+  // signature) — pilotée au scroll — mais la vidéo joue en autoplay/loop au lieu d'être
+  // déroulée image par image (seeking saccadé). Seul reduced-motion bascule sur l'allégé.
 
   const [typed, setTyped] = useState(0);
   // La signature s'affiche en surimpression à la fin de la vidéo (déclenchée par
@@ -168,7 +172,8 @@ export function WhyAksu() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reduced) return;
+    // Sur mobile la vidéo est en autoplay/loop : on ne la met pas en pause.
+    if (!video || reduced || isMobile) return;
     const onMeta = () => {
       durationRef.current = video.duration || 0;
       video.pause();
@@ -176,7 +181,7 @@ export function WhyAksu() {
     if (video.readyState >= 1) onMeta();
     video.addEventListener('loadedmetadata', onMeta);
     return () => video.removeEventListener('loadedmetadata', onMeta);
-  }, [reduced]);
+  }, [reduced, isMobile]);
 
   // Vidéo pilotée directement par le scroll (couplage 1:1, sans ressort qui
   // « traîne » : elle avance tant qu'on défile et s'arrête net quand on stoppe).
@@ -184,7 +189,8 @@ export function WhyAksu() {
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     const video = videoRef.current;
     const duration = durationRef.current;
-    if (!video || !duration || reduced) return;
+    // Pas de seeking au scroll sur mobile (ni en reduced) : la vidéo tourne seule.
+    if (!video || !duration || reduced || isMobile) return;
     const t = Math.min(Math.max(v, 0), 1) * duration;
     if (!Number.isFinite(t) || Math.abs(t - lastSeek.current) < 1 / 48) return;
     lastSeek.current = t;
@@ -210,14 +216,15 @@ export function WhyAksu() {
     });
   });
 
-  // Fallback réduit : pas d'épinglage, vidéo en lecture simple + message + signature.
+  // Fallback réduit (reduced-motion uniquement) : pas d'épinglage, vidéo en lecture
+  // simple + message + signature.
   if (reduced) {
     return (
       <>
-        <section id="pourquoi" className="py-32 bg-black relative overflow-hidden">
+        <section id="pourquoi" className="py-24 md:py-32 bg-black relative overflow-hidden">
           <div className="max-w-5xl mx-auto px-6 text-center">
-            <div className="rounded-3xl overflow-hidden border border-white/10 mb-12">
-              <video src="/inspection.mp4" muted loop autoPlay playsInline className="w-full aspect-video object-cover" />
+            <div className="rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 mb-10 md:mb-12">
+              <video src="/inspection.mp4" muted loop autoPlay playsInline preload="metadata" className="w-full aspect-video object-cover" />
             </div>
             <p className="font-serif italic font-medium text-3xl md:text-4xl leading-snug" style={{ color: GOLD }}>
               {FINAL_PHRASE}
@@ -239,6 +246,8 @@ export function WhyAksu() {
             src="/inspection-scroll.mp4"
             muted
             playsInline
+            autoPlay={isMobile}
+            loop={isMobile}
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
           />

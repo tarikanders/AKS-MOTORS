@@ -1,19 +1,13 @@
 import { motion } from 'motion/react';
-import { Anchor, Flag, MapPin, Home, Navigation } from 'lucide-react';
+import { Navigation } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
 import { JourneyMap } from './fx/JourneyMap';
 
-const waypoints = [
-  { icon: Flag, title: 'Départ du Japon', desc: 'Enchères & chargement portuaire' },
-  { icon: Anchor, title: 'Traversée maritime', desc: 'Env. 30 à 45 jours en mer' },
-  { icon: MapPin, title: 'Port de Rotterdam', desc: 'Débarquement & dédouanement' },
-  { icon: Home, title: 'Livraison', desc: 'Homologation puis remise des clés' },
-];
-
 /**
- * Section unique « Du Japon jusqu'à votre garage » : présente le trajet complet
- * (anciennement scindé en deux sections). Carte Japon → Pays-Bas / Rotterdam avec
- * ports illuminés et cargo animé, suivi quotidien, puis les grandes étapes.
+ * Section unique « Du Japon jusqu'à votre garage » : carte Japon → Pays-Bas /
+ * Rotterdam avec ports illuminés et cargo animé, et suivi quotidien. Le détail
+ * des étapes du trajet est désormais raconté dans la timeline du Processus,
+ * pour ne pas expliquer deux fois le même parcours.
  */
 export function RouteMap() {
   return (
@@ -69,26 +63,6 @@ export function RouteMap() {
 
         {/* Carte animée Japon → Pays-Bas (Rotterdam) */}
         <JourneyMap />
-
-        {/* Étapes */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-          {waypoints.map((w, idx) => (
-            <motion.div
-              key={w.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center md:text-left"
-            >
-              <span className="inline-flex w-11 h-11 rounded-full border border-white/10 bg-zinc-900 items-center justify-center mb-4">
-                <w.icon className="w-5 h-5 text-red-500" />
-              </span>
-              <h3 className="font-display font-bold mb-1">{w.title}</h3>
-              <p className="text-sm text-zinc-400 font-light leading-relaxed">{w.desc}</p>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );

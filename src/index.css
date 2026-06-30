@@ -18,8 +18,24 @@
   font-family: var(--font-jp);
 }
 
+html {
+  /* Empêche iOS de redimensionner automatiquement le texte en paysage. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   @apply bg-zinc-950 text-zinc-50 antialiased overflow-x-hidden;
+}
+
+/* Contrôles de formulaire : police >= 16px sur mobile pour éviter le zoom
+   automatique d'iOS au focus. */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* Typographie display un peu plus "couture" */

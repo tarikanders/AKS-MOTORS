@@ -51,9 +51,9 @@ export function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: (idx % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-black hover:bg-zinc-950 transition-colors p-8 md:p-12 flex flex-col items-center md:items-start text-center md:text-left"
+              className="bg-black hover:bg-zinc-950 transition-colors p-6 sm:p-8 md:p-12 flex flex-col items-center md:items-start text-center md:text-left"
             >
-              <p className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-3 tracking-tighter">
+              <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-3 tracking-tighter">
                 <CountUp value={stat.num} suffix={stat.suffix} separator={stat.separator} />
               </p>
               <p className="text-xs md:text-sm text-zinc-500 uppercase tracking-[0.2em]">{stat.label}</p>

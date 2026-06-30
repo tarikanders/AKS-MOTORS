@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import Lenis from 'lenis';
-import { usePrefersReducedMotion } from '../../lib/useReducedMotion';
+import { usePrefersReducedMotion, useCoarsePointer } from '../../lib/useReducedMotion';
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -17,11 +17,15 @@ export function useLenis(): Lenis | null {
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
+  const coarse = useCoarsePointer();
+  // Sur tactile, le scroll natif est déjà fluide : Lenis ne ferait que tourner en
+  // RAF (CPU/batterie gaspillés). On le désactive aussi en reduced-motion.
+  const disabled = reduced || coarse;
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    if (reduced) return;
+    if (disabled) return;
 
     const instance = new Lenis({
       lerp: 0.1,
@@ -41,7 +45,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       instance.destroy();
       setLenis(null);
     };
-  }, [reduced]);
+  }, [disabled]);
 
   // Interception des ancres internes (#...) pour un scroll inertiel maîtrisé.
   useEffect(() => {

@@ -30,6 +30,7 @@ export function Transparency() {
               <img
                 src="/enchereSurPC.png"
                 alt="Écran d'enchères en ligne"
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
               />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none" />

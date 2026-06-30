@@ -40,6 +40,7 @@ export function About() {
               <img
                 src="/auteur/serdaraksu.png"
                 alt="Serdar Aksu, fondateur d'AKS Motors"
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
@@ -68,6 +69,7 @@ export function About() {
               <img
                 src="/auteur/mustafaksu.png"
                 alt="Mustafa Aksu, co-fondateur d'AKS Motors"
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />

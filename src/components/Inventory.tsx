@@ -78,6 +78,7 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
             style={{ y: imageY }}
             src={car.image}
             alt={car.name}
+            loading="lazy"
             className="absolute inset-0 w-full h-[116%] object-cover origin-center transition-transform duration-[1.1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
           />
 

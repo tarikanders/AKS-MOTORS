@@ -4,10 +4,12 @@ import { useRef, useEffect } from 'react';
 import { RevealText } from './fx/Reveal';
 import { Magnetic } from './fx/Magnetic';
 import { JapanMap } from './fx/JapanMap';
+import { useIsMobile } from '../lib/useReducedMotion';
 
 export function Hero({ introDone = true }: { introDone?: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isMobile = useIsMobile();
   
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -52,7 +54,10 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
   // Pilote la position de la vidéo dans une boucle requestAnimationFrame :
   // la valeur lissée par le spring est appliquée au plus une fois par frame,
   // ce qui évite les à-coups de seek et donne un scrub fluide.
+  // Sur mobile, on NE pilote PAS la vidéo au scroll (seeking saccadé) : elle joue
+  // en autoplay/loop. Toute la chorégraphie de texte/parallax reste, elle, active.
   useEffect(() => {
+    if (isMobile) return;
     const video = videoRef.current;
     if (!video) return;
     let rafId = 0;
@@ -71,7 +76,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
 
     rafId = requestAnimationFrame(update);
     return () => cancelAnimationFrame(rafId);
-  }, [smoothProgress]);
+  }, [smoothProgress, isMobile]);
 
   return (
     <section ref={ref} className="relative h-[300vh] bg-zinc-950">
@@ -82,9 +87,11 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
           <div className="absolute inset-0 z-10 bg-zinc-950">
             <video
               ref={videoRef}
-              src="/hero-carvolant.mp4"
+              src={isMobile ? '/phoneHero.mp4' : '/hero-carvolant.mp4'}
               muted
               playsInline
+              autoPlay={isMobile}
+              loop={isMobile}
               preload="auto"
               className="w-full h-full object-cover object-center scale-[1.05] pointer-events-none"
               style={{ imageRendering: 'high-quality' }}

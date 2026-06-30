@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: 'Processus', href: '#processus' },
   { label: 'Stock', href: '#stock' },
   { label: 'Notre histoire', href: '#histoire' },
+  { label: 'Offres', href: '#offres' },
 ];
 
 export function Navbar({ introDone = true }: { introDone?: boolean }) {
@@ -50,7 +51,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
             <Logo
               priority
               className={`w-auto transition-all duration-500 group-hover:scale-[1.04] drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] ${
-                isScrolled ? 'h-14' : 'h-20'
+                isScrolled ? 'h-12 md:h-14' : 'h-16 md:h-20'
               }`}
             />
           </a>

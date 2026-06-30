@@ -5,7 +5,7 @@ import { usePrefersReducedMotion } from '../lib/useReducedMotion';
 
 /** Phrases affichées au fil de la vidéo (fractions de sa durée). */
 const PHRASES: { text: string; start: number; end: number }[] = [
-  { text: 'On prend soin de votre voiture', start: 0.05, end: 0.3 },
+  { text: 'Nous prenons soin de votre voiture', start: 0.05, end: 0.3 },
   { text: 'Chaque véhicule est inspecté et nettoyé', start: 0.33, end: 0.58 },
   { text: 'Remis en mains propres, par nos soins', start: 0.6, end: 0.82 },
 ];
@@ -82,7 +82,7 @@ export function CarCare() {
         <div className="absolute inset-0 bg-black/55" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <h2 className="font-display font-bold uppercase tracking-tight text-4xl md:text-6xl text-white leading-tight max-w-4xl">
-            On prend soin de votre voiture
+            Nous prenons soin de votre voiture
           </h2>
           <p className="mt-5 text-zinc-300 max-w-xl font-light text-lg">
             Chaque véhicule inspecté et nettoyé, remis en mains propres par nos soins.
@@ -99,8 +99,9 @@ export function CarCare() {
         ref={videoRef}
         src="/carwash-web.mp4"
         muted
+        autoPlay
         playsInline
-        preload="auto"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
@@ -147,7 +148,7 @@ export function CarCare() {
                 initial={{ clipPath: 'inset(0 100% 0 0)' }}
                 animate={{ clipPath: 'inset(0 0% 0 0)' }}
                 transition={{ duration: 3, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-                className="font-display font-bold uppercase tracking-tight text-4xl md:text-6xl lg:text-7xl text-center leading-[0.95] whitespace-nowrap"
+                className="font-display font-bold uppercase tracking-tight text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center leading-[0.95] whitespace-normal md:whitespace-nowrap"
               >
                 <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
                   Jusqu'au moindre{' '}

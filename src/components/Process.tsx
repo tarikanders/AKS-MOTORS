@@ -14,7 +14,7 @@ const steps: Step[] = [
   { icon: Flag, flag: true, title: 'Recherche', desc: 'Définition de votre projet et sourcing du véhicule idéal au Japon selon vos critères.' },
   { icon: Gavel, title: 'Enchères', desc: 'Nous enchérissons en direct dans les salles japonaises (USS, CAA, HAA) pour vous.' },
   { icon: ScanLine, title: 'Inspection', desc: 'Examen complet sur place : carrosserie, mécanique, châssis. Photos HD et relevé d’état.' },
-  { icon: Ship, title: 'Transport maritime', desc: 'Chargement portuaire puis traversée en RORO ou conteneur, suivi du navire en temps réel.' },
+  { icon: Ship, title: 'Transport maritime', desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, navire suivi au quotidien.' },
   { icon: Anchor, title: 'Rotterdam', desc: 'Débarquement au port de Rotterdam, dédouanement et formalités d’import européennes.' },
   { icon: FileCheck, title: 'Homologation', desc: 'Mise aux normes, passage UTAC et dossier DREAL pour la carte grise française définitive.' },
   { icon: Key, title: 'Livraison', desc: 'Remise des clés de votre véhicule immatriculé, prêt à prendre la route.' },
