@@ -18,6 +18,13 @@ const NAV_ITEMS = [
 
 const hrefFor = (id: string) => `/#${id}`;
 
+// Liens vers les pages dédiées (SEO) — toujours actifs depuis n'importe quelle page.
+const PAGE_ITEMS = [
+  { label: 'Modèles', href: '/modeles' },
+  { label: 'Guides', href: '/importer-une-voiture-du-japon' },
+  { label: 'Blog', href: '/blog' },
+];
+
 export function Navbar({ introDone = true }: { introDone?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +84,12 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
                 </a>
               );
             })}
+            {PAGE_ITEMS.map(({ label, href }) => (
+              <a key={label} href={href} className="relative group overflow-hidden">
+                <span className="text-zinc-400 group-hover:text-white transition-colors duration-300">{label}</span>
+                <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+              </a>
+            ))}
             <a href="tel:+33769945732" className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors">
               <Phone className="w-3 h-3" />
               +33 7 69 94 57 32
@@ -109,13 +122,17 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
             className="fixed inset-0 z-40 bg-zinc-950 px-6 pt-32 pb-12 flex flex-col justify-between md:hidden"
           >
             <div className="flex flex-col gap-8">
-              {[...NAV_ITEMS, { label: 'Contact', id: 'contact' }].map(({ label, id }, i) => (
+              {[
+                ...NAV_ITEMS.map((n) => ({ label: n.label, href: hrefFor(n.id) })),
+                ...PAGE_ITEMS,
+                { label: 'Contact', href: '/#contact' },
+              ].map(({ label, href }, i) => (
                 <motion.a
                   key={label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-                  href={hrefFor(id)}
+                  href={href}
                   onClick={() => setIsOpen(false)}
                   className={`text-4xl font-display font-bold uppercase tracking-tighter ${label === 'Contact' ? 'text-red-600 mt-8' : 'text-white'}`}
                 >

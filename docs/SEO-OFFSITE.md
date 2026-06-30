@@ -1,4 +1,4 @@
-# Guide SEO off-site — AKS Motors
+ # Guide SEO off-site — AKS Motors
 
 > Le code (Next.js, contenu, sitemap, données structurées) pose la **fondation**.
 > Ce qui fait réellement grimper sur Google pour des requêtes comme « importation
