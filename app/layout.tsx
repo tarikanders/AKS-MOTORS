@@ -77,8 +77,8 @@ const businessJsonLd = {
   email: 'contact@aksmotors.com',
   address: {
     '@type': 'PostalAddress',
-    postalCode: '75008',
-    addressLocality: 'Paris',
+    postalCode: '67000',
+    addressLocality: 'Strasbourg',
     addressCountry: 'FR',
   },
   areaServed: 'FR',

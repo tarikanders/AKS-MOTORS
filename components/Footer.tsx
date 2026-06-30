@@ -27,8 +27,8 @@ export function Footer() {
               Spécialiste de l'importation de véhicules de sport et de collection du marché japonais.
             </p>
             <Magnetic strength={0.2}>
-              <a href="mailto:contact@aksmotors.fr" className="inline-flex items-center gap-2 text-xl md:text-2xl font-display font-light hover:text-red-500 transition-colors group">
-                contact@aksmotors.fr
+              <a href="mailto:contact@aksmotors.com" className="inline-flex items-center gap-2 text-xl md:text-2xl font-display font-light hover:text-red-500 transition-colors group">
+                contact@aksmotors.com
                 <ArrowUpRight className="w-6 h-6 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
               </a>
             </Magnetic>
@@ -55,7 +55,7 @@ export function Footer() {
               <li><a href="#" className="text-zinc-300 hover:text-white transition-colors flex justify-between items-center group">YouTube <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
             </ul>
             <div className="text-sm text-zinc-400 font-light leading-relaxed">
-              75008 Paris, France<br />
+              67000 Strasbourg, France<br />
               Visite sur rendez-vous
             </div>
           </div>
