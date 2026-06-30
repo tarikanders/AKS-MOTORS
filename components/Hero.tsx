@@ -94,7 +94,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
               loop={isMobile}
               preload="auto"
               className="w-full h-full object-cover object-center scale-[1.05] pointer-events-none"
-              style={{ imageRendering: 'high-quality' }}
+              style={{ imageRendering: 'high-quality' } as unknown as React.CSSProperties}
             />
           </div>
         </motion.div>
