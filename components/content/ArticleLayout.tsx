@@ -13,6 +13,7 @@ export function ArticleLayout({
   eyebrow,
   title,
   lede,
+  meta,
   children,
   faq,
   related,
@@ -22,6 +23,7 @@ export function ArticleLayout({
   eyebrow: string;
   title: string;
   lede: string;
+  meta?: ReactNode;
   children: ReactNode;
   faq?: { q: string; a: string }[];
   related?: Related[];
@@ -69,6 +71,7 @@ export function ArticleLayout({
             {title}
           </h1>
           <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">{lede}</p>
+          {meta && <div className="mt-6 text-xs uppercase tracking-widest text-zinc-600">{meta}</div>}
         </div>
       </header>
 

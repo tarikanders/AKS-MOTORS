@@ -20,7 +20,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid md:grid-cols-12 gap-12 mb-32">
           <div className="md:col-span-5">
-            <a href="#" aria-label="AKS Motors — Accueil" className="inline-block mb-8 group">
+            <a href="/" aria-label="AKS Motors — Accueil" className="inline-block mb-8 group">
               <Logo className="h-16 md:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.03]" />
             </a>
             <p className="text-zinc-400 max-w-sm text-lg font-light leading-relaxed mb-10">
@@ -41,10 +41,14 @@ export function Footer() {
           <div className="md:col-span-2 md:col-start-8">
             <h4 className="font-semibold uppercase tracking-[0.2em] text-xs mb-8 text-zinc-500">Navigation</h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li><a href="#services" className="text-zinc-300 hover:text-white transition-colors">Services</a></li>
-              <li><a href="#processus" className="text-zinc-300 hover:text-white transition-colors">Processus</a></li>
-              <li><a href="#stock" className="text-zinc-300 hover:text-white transition-colors">Stock</a></li>
-              <li><a href="#contact" className="text-zinc-300 hover:text-white transition-colors">Sur mesure</a></li>
+              <li><a href="/#services" className="text-zinc-300 hover:text-white transition-colors">Services</a></li>
+              <li><a href="/#processus" className="text-zinc-300 hover:text-white transition-colors">Processus</a></li>
+              <li><a href="/#stock" className="text-zinc-300 hover:text-white transition-colors">Stock</a></li>
+              <li><a href="/importer-une-voiture-du-japon" className="text-zinc-300 hover:text-white transition-colors">Importer du Japon</a></li>
+              <li><a href="/homologation-vehicule-japonais" className="text-zinc-300 hover:text-white transition-colors">Homologation</a></li>
+              <li><a href="/modeles" className="text-zinc-300 hover:text-white transition-colors">Modèles JDM</a></li>
+              <li><a href="/blog" className="text-zinc-300 hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/#contact" className="text-zinc-300 hover:text-white transition-colors">Sur mesure</a></li>
             </ul>
           </div>
           
@@ -64,8 +68,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 text-xs font-medium uppercase tracking-widest text-zinc-500">
           <p>© {new Date().getFullYear()} AKS Motors. Tous droits réservés.</p>
           <div className="flex gap-8 mt-6 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Légal</a>
-            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
+            <a href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</a>
+            <a href="/politique-de-confidentialite" className="hover:text-white transition-colors">Confidentialité</a>
           </div>
         </div>
         
