@@ -1,26 +1,28 @@
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, ChevronUp } from 'lucide-react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { Services } from './components/Services';
-import { Process } from './components/Process';
-import { RouteMap } from './components/RouteMap';
-import { WhyAksu } from './components/WhyAksu';
-import { Stats } from './components/Stats';
-import { CarCare } from './components/CarCare';
-import { Inventory } from './components/Inventory';
-import { Transparency } from './components/Transparency';
-import { About } from './components/About';
-import { Testimonials } from './components/Testimonials';
-import { Offers } from './components/Offers';
-import { Contact } from './components/Contact';
-import { FAQ } from './components/FAQ';
-import { Footer } from './components/Footer';
-import { SmoothScroll, useLenis } from './components/fx/SmoothScroll';
-import { Preloader } from './components/fx/Preloader';
-import { Cursor } from './components/fx/Cursor';
-import { Grain } from './components/fx/Grain';
+import { Navbar } from './Navbar';
+import { Hero } from './Hero';
+import { Services } from './Services';
+import { Process } from './Process';
+import { RouteMap } from './RouteMap';
+import { WhyAksu } from './WhyAksu';
+import { Stats } from './Stats';
+import { CarCare } from './CarCare';
+import { Inventory } from './Inventory';
+import { Transparency } from './Transparency';
+import { About } from './About';
+import { Testimonials } from './Testimonials';
+import { Offers } from './Offers';
+import { Contact } from './Contact';
+import { FAQ } from './FAQ';
+import { Footer } from './Footer';
+import { SmoothScroll, useLenis } from './fx/SmoothScroll';
+import { Preloader } from './fx/Preloader';
+import { Cursor } from './fx/Cursor';
+import { Grain } from './fx/Grain';
 
 /** Boutons flottants (WhatsApp + retour haut). Sous le provider → accès Lenis. */
 function FloatingActions() {
@@ -77,7 +79,7 @@ function FloatingActions() {
   );
 }
 
-export default function App() {
+export function HomeClient() {
   const [introDone, setIntroDone] = useState(false);
   const handleIntroComplete = useCallback(() => setIntroDone(true), []);
 

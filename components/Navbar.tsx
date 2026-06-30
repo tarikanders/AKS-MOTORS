@@ -1,15 +1,28 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Logo } from './Logo';
 import { Magnetic } from './fx/Magnetic';
 
+// id = ancre de section sur la home ; href = lien cross-page (fonctionne depuis
+// n'importe quelle page : navigue vers la home puis scrolle vers la section).
 const NAV_ITEMS = [
-  { label: 'Services', href: '#services' },
-  { label: 'Processus', href: '#processus' },
-  { label: 'Stock', href: '#stock' },
-  { label: 'Notre histoire', href: '#histoire' },
-  { label: 'Offres', href: '#offres' },
+  { label: 'Services', id: 'services' },
+  { label: 'Processus', id: 'processus' },
+  { label: 'Stock', id: 'stock' },
+  { label: 'Notre histoire', id: 'histoire' },
+  { label: 'Offres', id: 'offres' },
+];
+
+const hrefFor = (id: string) => `/#${id}`;
+
+// Liens vers les pages dédiées (SEO) — toujours actifs depuis n'importe quelle page.
+const PAGE_ITEMS = [
+  { label: 'Modèles', href: '/modeles' },
+  { label: 'Guides', href: '/importer-une-voiture-du-japon' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export function Navbar({ introDone = true }: { introDone?: boolean }) {
@@ -22,7 +35,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
       setIsScrolled(window.scrollY > 50);
 
       // Active section tracking
-      const sections = NAV_ITEMS.map(i => i.href.slice(1));
+      const sections = NAV_ITEMS.map(i => i.id);
       let current = '';
       for (const id of sections) {
         const el = document.getElementById(id);
@@ -47,7 +60,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <a href="#" aria-label="AKS Motors — Accueil" className="flex items-center group">
+          <a href="/" aria-label="AKS Motors — Accueil" className="flex items-center group">
             <Logo
               priority
               className={`w-auto transition-all duration-500 group-hover:scale-[1.04] drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] ${
@@ -58,11 +71,10 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-widest uppercase">
-            {NAV_ITEMS.map(({ label, href }) => {
-              const id = href.slice(1);
+            {NAV_ITEMS.map(({ label, id }) => {
               const isActive = activeSection === id;
               return (
-                <a key={label} href={href} className="relative group overflow-hidden">
+                <a key={label} href={hrefFor(id)} className="relative group overflow-hidden">
                   <span className={`transition-colors duration-300 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
                     {label}
                   </span>
@@ -72,12 +84,18 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
                 </a>
               );
             })}
+            {PAGE_ITEMS.map(({ label, href }) => (
+              <a key={label} href={href} className="relative group overflow-hidden">
+                <span className="text-zinc-400 group-hover:text-white transition-colors duration-300">{label}</span>
+                <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+              </a>
+            ))}
             <a href="tel:+33769945732" className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors">
               <Phone className="w-3 h-3" />
               +33 7 69 94 57 32
             </a>
             <Magnetic>
-              <a href="#contact" className="inline-block px-6 py-3 bg-white text-black hover:bg-zinc-200 transition-colors duration-300 rounded-sm">
+              <a href="/#contact" className="inline-block px-6 py-3 bg-white text-black hover:bg-zinc-200 transition-colors duration-300 rounded-sm">
                 Contact
               </a>
             </Magnetic>
@@ -104,7 +122,11 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
             className="fixed inset-0 z-40 bg-zinc-950 px-6 pt-32 pb-12 flex flex-col justify-between md:hidden"
           >
             <div className="flex flex-col gap-8">
-              {[...NAV_ITEMS, { label: 'Contact', href: '#contact' }].map(({ label, href }, i) => (
+              {[
+                ...NAV_ITEMS.map((n) => ({ label: n.label, href: hrefFor(n.id) })),
+                ...PAGE_ITEMS,
+                { label: 'Contact', href: '/#contact' },
+              ].map(({ label, href }, i) => (
                 <motion.a
                   key={label}
                   initial={{ opacity: 0, x: -20 }}

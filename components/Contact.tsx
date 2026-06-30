@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, MessageCircle, CheckCircle } from 'lucide-react';
@@ -6,19 +8,50 @@ import { Magnetic } from './fx/Magnetic';
 
 const BUDGETS = ['< 30 000 €', '30 000 – 60 000 €', '60 000 – 100 000 €', '> 100 000 €', 'À définir'];
 
+const WHATSAPP_NUMBER = '33769945732';
+
 export function Contact() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '', car: '', budget: '', message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setSending(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error('send_failed');
+      setSubmitted(true);
+    } catch {
+      // Message volontairement non technique : on oriente vers WhatsApp.
+      setError("L'envoi par e-mail a échoué. Réessayez, ou contactez-nous directement via WhatsApp ci-dessous.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // Compose un message WhatsApp pré-rempli à partir des champs déjà saisis.
+  const whatsappHref = () => {
+    const lines = [
+      'Bonjour, je souhaite importer un véhicule JDM.',
+      form.firstName || form.lastName ? `Nom : ${form.firstName} ${form.lastName}`.trim() : '',
+      form.car ? `Véhicule recherché : ${form.car}` : '',
+      form.budget ? `Budget : ${form.budget}` : '',
+      form.message ? `Message : ${form.message}` : '',
+    ].filter(Boolean);
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
   };
 
   return (
@@ -176,15 +209,36 @@ export function Contact() {
                   />
                 </div>
 
+                {error && (
+                  <p className="text-sm text-red-400" role="alert">{error}</p>
+                )}
+
                 <Magnetic className="w-full" strength={0.25}>
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-3 py-4 bg-white text-black font-semibold hover:bg-zinc-200 transition-colors duration-300 rounded-sm"
+                    disabled={sending}
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-white text-black font-semibold hover:bg-zinc-200 transition-colors duration-300 rounded-sm disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <Send className="w-4 h-4" />
-                    Envoyer ma demande
+                    {sending ? 'Envoi en cours…' : 'Envoyer ma demande'}
                   </button>
                 </Magnetic>
+
+                {/* Seconde option : WhatsApp pré-rempli avec les champs saisis */}
+                <div className="flex items-center gap-3 text-xs text-zinc-600 uppercase tracking-widest">
+                  <div className="h-[1px] flex-1 bg-white/10" />
+                  ou
+                  <div className="h-[1px] flex-1 bg-white/10" />
+                </div>
+                <a
+                  href={whatsappHref()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-3 py-4 border border-green-600/40 text-green-400 hover:bg-green-600 hover:text-white font-semibold rounded-sm transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Envoyer via WhatsApp
+                </a>
               </motion.form>
             )}
             </AnimatePresence>

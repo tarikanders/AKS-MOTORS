@@ -9,6 +9,12 @@ coverage/
 .vercel
 .venv/
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
 # Vidéos sources non utilisées par le site (conservées en local uniquement)
 public/carwash.mp4
 public/carvolant.mp4
