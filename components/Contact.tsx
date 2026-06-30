@@ -32,13 +32,11 @@ export function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error ?? "L'envoi a échoué.");
-      }
+      if (!res.ok) throw new Error('send_failed');
       setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue. Réessayez ou contactez-nous sur WhatsApp.");
+    } catch {
+      // Message volontairement non technique : on oriente vers WhatsApp.
+      setError("L'envoi par e-mail a échoué. Réessayez, ou contactez-nous directement via WhatsApp ci-dessous.");
     } finally {
       setSending(false);
     }
