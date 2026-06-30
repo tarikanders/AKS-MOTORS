@@ -80,10 +80,12 @@ export async function POST(req: Request) {
     });
 
     if (error) {
+      console.error('[contact] Resend error:', error);
       return NextResponse.json({ error: "L'envoi a échoué." }, { status: 502 });
     }
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error('[contact] Exception:', err);
     return NextResponse.json({ error: 'Erreur serveur lors de l’envoi.' }, { status: 500 });
   }
 }

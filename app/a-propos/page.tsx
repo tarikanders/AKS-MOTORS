@@ -65,6 +65,7 @@ export default function Page() {
           <figcaption className="mt-4">
             <span className="block font-display font-bold text-lg">Mustafa Aksu</span>
             <span className="block text-xs uppercase tracking-widest text-zinc-500 mt-1">Cofondateur</span>
+            <span className="block text-sm text-zinc-400 font-light mt-3">[Bio à compléter — parcours, expertise, passion JDM]</span>
           </figcaption>
         </figure>
         <figure className="border border-white/5 rounded-xl bg-zinc-900/60 p-6 text-center">
@@ -78,6 +79,7 @@ export default function Page() {
           <figcaption className="mt-4">
             <span className="block font-display font-bold text-lg">Serdar Aksu</span>
             <span className="block text-xs uppercase tracking-widest text-zinc-500 mt-1">Cofondateur</span>
+            <span className="block text-sm text-zinc-400 font-light mt-3">[Bio à compléter — parcours, expertise, passion JDM]</span>
           </figcaption>
         </figure>
       </div>
