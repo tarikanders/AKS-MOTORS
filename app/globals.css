@@ -45,6 +45,73 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* --- Typographie des pages de contenu (piliers, blog, légal) --- */
+.prose-aks {
+  color: var(--color-zinc-300);
+  font-weight: 300;
+  line-height: 1.75;
+  font-size: 1.0625rem;
+}
+.prose-aks > * + * {
+  margin-top: 1.25rem;
+}
+.prose-aks h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  line-height: 1.05;
+  margin-top: 3rem;
+  color: var(--color-white);
+  scroll-margin-top: 6rem;
+}
+.prose-aks h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-top: 2.25rem;
+  color: var(--color-zinc-100);
+}
+.prose-aks p { color: var(--color-zinc-400); }
+.prose-aks strong { color: var(--color-zinc-100); font-weight: 600; }
+.prose-aks a {
+  color: var(--color-red-400);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.prose-aks a:hover { color: var(--color-red-300); }
+.prose-aks ul,
+.prose-aks ol {
+  padding-left: 1.25rem;
+  color: var(--color-zinc-400);
+}
+.prose-aks ul { list-style: none; padding-left: 0; }
+.prose-aks ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-top: 0.6rem;
+}
+.prose-aks ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  background: var(--color-red-600);
+  border-radius: 1px;
+}
+.prose-aks ol { list-style: decimal; }
+.prose-aks ol > li { margin-top: 0.6rem; padding-left: 0.25rem; }
+.prose-aks blockquote {
+  border-left: 2px solid var(--color-red-600);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: var(--color-zinc-300);
+}
+
 /* --- Lenis smooth scroll --- */
 html.lenis,
 html.lenis body {

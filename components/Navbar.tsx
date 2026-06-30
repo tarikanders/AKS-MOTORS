@@ -1,16 +1,22 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Logo } from './Logo';
 import { Magnetic } from './fx/Magnetic';
 
+// id = ancre de section sur la home ; href = lien cross-page (fonctionne depuis
+// n'importe quelle page : navigue vers la home puis scrolle vers la section).
 const NAV_ITEMS = [
-  { label: 'Services', href: '#services' },
-  { label: 'Processus', href: '#processus' },
-  { label: 'Stock', href: '#stock' },
-  { label: 'Notre histoire', href: '#histoire' },
-  { label: 'Offres', href: '#offres' },
+  { label: 'Services', id: 'services' },
+  { label: 'Processus', id: 'processus' },
+  { label: 'Stock', id: 'stock' },
+  { label: 'Notre histoire', id: 'histoire' },
+  { label: 'Offres', id: 'offres' },
 ];
+
+const hrefFor = (id: string) => `/#${id}`;
 
 export function Navbar({ introDone = true }: { introDone?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,7 +28,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
       setIsScrolled(window.scrollY > 50);
 
       // Active section tracking
-      const sections = NAV_ITEMS.map(i => i.href.slice(1));
+      const sections = NAV_ITEMS.map(i => i.id);
       let current = '';
       for (const id of sections) {
         const el = document.getElementById(id);
@@ -47,7 +53,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <a href="#" aria-label="AKS Motors — Accueil" className="flex items-center group">
+          <a href="/" aria-label="AKS Motors — Accueil" className="flex items-center group">
             <Logo
               priority
               className={`w-auto transition-all duration-500 group-hover:scale-[1.04] drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] ${
@@ -58,11 +64,10 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
 
           {/* Desktop */}
           <div className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-widest uppercase">
-            {NAV_ITEMS.map(({ label, href }) => {
-              const id = href.slice(1);
+            {NAV_ITEMS.map(({ label, id }) => {
               const isActive = activeSection === id;
               return (
-                <a key={label} href={href} className="relative group overflow-hidden">
+                <a key={label} href={hrefFor(id)} className="relative group overflow-hidden">
                   <span className={`transition-colors duration-300 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
                     {label}
                   </span>
@@ -77,7 +82,7 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
               +33 7 69 94 57 32
             </a>
             <Magnetic>
-              <a href="#contact" className="inline-block px-6 py-3 bg-white text-black hover:bg-zinc-200 transition-colors duration-300 rounded-sm">
+              <a href="/#contact" className="inline-block px-6 py-3 bg-white text-black hover:bg-zinc-200 transition-colors duration-300 rounded-sm">
                 Contact
               </a>
             </Magnetic>
@@ -104,13 +109,13 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
             className="fixed inset-0 z-40 bg-zinc-950 px-6 pt-32 pb-12 flex flex-col justify-between md:hidden"
           >
             <div className="flex flex-col gap-8">
-              {[...NAV_ITEMS, { label: 'Contact', href: '#contact' }].map(({ label, href }, i) => (
+              {[...NAV_ITEMS, { label: 'Contact', id: 'contact' }].map(({ label, id }, i) => (
                 <motion.a
                   key={label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-                  href={href}
+                  href={hrefFor(id)}
                   onClick={() => setIsOpen(false)}
                   className={`text-4xl font-display font-bold uppercase tracking-tighter ${label === 'Contact' ? 'text-red-600 mt-8' : 'text-white'}`}
                 >
