@@ -23,7 +23,7 @@ const steps: Step[] = [
     icon: ParkingSquare,
     title: 'Parking export',
     desc: "Stationnement sécurisé sur les terre-pleins d'export en attendant le départ. Le véhicule est protégé et suivi.",
-    image: '/packingIndu.png',
+    image: '/packaging.jpg',
   },
   {
     icon: Ship,
