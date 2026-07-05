@@ -82,7 +82,7 @@ function Signature({ play = 'view', overlay = false }: { play?: boolean | 'view'
         href="#stock"
         {...trig}
         variants={sigCta}
-        className="relative pointer-events-auto inline-flex items-center gap-2 mt-12 px-8 py-4 bg-white text-black rounded-sm font-semibold uppercase tracking-widest text-sm hover:bg-zinc-200 transition-colors"
+        className="relative pointer-events-auto inline-flex items-center gap-2 mt-8 md:mt-12 px-8 py-4 bg-white text-black rounded-sm font-semibold uppercase tracking-widest text-sm hover:bg-zinc-200 transition-colors"
       >
         Découvrir nos véhicules
         <ArrowUpRight className="w-4 h-4" />
@@ -238,12 +238,15 @@ export function WhyAksu() {
 
   return (
     <>
-      <section id="pourquoi" ref={sectionRef} className="relative h-[380vh] bg-black">
+      {/* Pinning raccourci sur mobile ; h-svh contre le saut de barre d'URL. */}
+      <section id="pourquoi" ref={sectionRef} className="relative h-[300vh] md:h-[380vh] bg-black">
         {/* Conteneur épinglé : reste fixe pendant que la page défile */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="sticky top-0 h-svh md:h-screen w-full overflow-hidden">
+          {/* Mobile : la vidéo joue en boucle (pas de scrubbing) → on sert
+              l'encodage classique (2,4 Mo) au lieu du tout-keyframe (9,8 Mo). */}
           <video
             ref={videoRef}
-            src="/inspection-scroll.mp4"
+            src={isMobile ? '/inspection.mp4' : '/inspection-scroll.mp4'}
             muted
             playsInline
             autoPlay={isMobile}
@@ -264,7 +267,7 @@ export function WhyAksu() {
               <span className="text-zinc-300 font-medium tracking-[0.2em] uppercase text-xs">Nos engagements</span>
               <div className="h-[1px] w-12 bg-red-600" />
             </div>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.9]">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold uppercase tracking-tighter leading-[0.9]">
               Pourquoi
               <br />
               <span style={{ color: GOLD }}>AKS Motors</span>
@@ -293,7 +296,7 @@ export function WhyAksu() {
             style={{ opacity: phraseOpacity }}
             className="absolute inset-0 flex items-center justify-center text-center px-6 pointer-events-none"
           >
-            <p className="max-w-3xl font-serif italic font-medium text-3xl md:text-5xl leading-snug" style={{ color: GOLD }}>
+            <p className="max-w-3xl font-serif italic font-medium text-2xl sm:text-3xl md:text-5xl leading-snug" style={{ color: GOLD }}>
               {FINAL_PHRASE.slice(0, typed)}
               {typed > 0 && typed < FINAL_PHRASE.length && (
                 <motion.span

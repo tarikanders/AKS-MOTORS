@@ -1,4 +1,4 @@
-import { useRef, useState, Fragment, type ElementType, type MouseEvent } from 'react';
+import { useRef, type ElementType, type MouseEvent } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
 import { Search, Gavel, Ship, FileCheck, ScanLine, Sparkles, Key, Check, Minus, ArrowUpRight } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
@@ -32,39 +32,40 @@ type Offer = {
   includes: StepKey[];
   icon: ElementType;
   featured?: boolean;
-  /** Active le toggle « +2 000 € homologation » (offre Import uniquement). */
-  homologationOption?: boolean;
+  /** Mention complémentaire affichée sous la description (ex. acompte enchères). */
+  notaBene?: string;
 };
 
 const OFFERS: Offer[] = [
   {
-    id: 'homologation',
-    name: 'Homologation',
-    tagline: 'Vous avez déjà importé',
-    price: '2 000 €',
-    priceNote: 'Forfait',
-    description:
-      "Votre véhicule est déjà en France (Japon ou Corée) ? Nous prenons en charge l'intégralité des démarches d'homologation jusqu'à la carte grise française.",
-    includes: ['homologation'],
-    icon: FileCheck,
-  },
-  {
-    id: 'import',
-    name: 'Import',
+    id: 'recherche',
+    name: 'Recherche personnalisée',
     tagline: 'Du Japon à Rotterdam',
-    price: 'À partir de 3 500 €',
-    priceNote: 'Hors prix du véhicule',
+    price: '800 €',
+    priceNote: 'Hors prix du véhicule et hors frais de livraison',
     description:
       "Nous recherchons le véhicule selon vos critères, l'achetons aux enchères, gérons l'export et l'acheminement jusqu'au port de Rotterdam, où vous récupérez votre véhicule.",
     includes: ['recherche', 'achat', 'export'],
     icon: Ship,
-    homologationOption: true,
+    notaBene:
+      "La participation aux enchères est conditionnée à un acompte de 2 500 €, déduit du prix d'achat final du véhicule.",
+  },
+  {
+    id: 'homologation',
+    name: 'Homologation',
+    tagline: 'Vous avez déjà importé',
+    price: '1 900 €',
+    priceNote: 'Forfait',
+    description:
+      "Vous avez déjà importé votre véhicule (Japon ou Corée) et besoin d'accompagnement ? Nous prenons en charge l'intégralité des démarches jusqu'à la carte grise française, en simplifiant vos démarches DREAL/UTAC. Délai moyen pour la CG définitive : 1 mois.",
+    includes: ['homologation'],
+    icon: FileCheck,
   },
   {
     id: 'cle-en-main',
     name: 'Clé en main',
     tagline: 'Vous ne gérez rien',
-    price: 'À partir de 5 900 €',
+    price: 'À partir de 3 500 €',
     priceNote: 'Hors prix du véhicule',
     description:
       "Recherche, achat, importation, homologation et livraison finale à domicile. Nous orchestrons l'intégralité du parcours — vous n'avez plus qu'à prendre la route.",
@@ -76,14 +77,12 @@ const OFFERS: Offer[] = [
 
 /** Carte d'une offre, avec sa check-list de parcours et son CTA. */
 function OfferCard({ offer, index }: { offer: Offer; index: number }) {
-  const [withHomologation, setWithHomologation] = useState(false);
   const { featured } = offer;
 
-  // Étapes allumées : base + homologation si l'option est activée (carte Import).
+  // Étapes du parcours allumées pour cette offre.
   const litSteps = new Set<StepKey>(offer.includes);
-  if (offer.homologationOption && withHomologation) litSteps.add('homologation');
 
-  const price = offer.homologationOption && withHomologation ? 'À partir de 5 500 €' : offer.price;
+  const price = offer.price;
 
   // Inclinaison 3D pilotée par le curseur — réservée à la carte « Sérénité
   // totale », et seulement sur pointeur fin hors reduced-motion (comme Magnetic).
@@ -123,7 +122,7 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.8, delay: index * 0.12, ease: EASE }}
       style={tilt ? { rotateX, rotateY, transformPerspective: 1200, transformStyle: 'preserve-3d' } : undefined}
-      className={`relative flex flex-col p-8 rounded-2xl bg-zinc-900/50 transition-colors ${
+      className={`relative flex flex-col p-6 md:p-8 rounded-2xl bg-zinc-900/50 transition-colors ${
         featured
           ? 'border border-[#9d895c]/50 shadow-2xl shadow-black/60 will-change-transform'
           : 'border border-white/5 hover:border-white/15'
@@ -161,7 +160,13 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
         <div className="text-[11px] text-zinc-500 uppercase tracking-widest mt-1">{offer.priceNote}</div>
       </div>
 
-      <p className="text-zinc-400 font-light text-sm leading-relaxed mb-8">{offer.description}</p>
+      <p className={`text-zinc-400 font-light text-sm leading-relaxed ${offer.notaBene ? 'mb-4' : 'mb-8'}`}>{offer.description}</p>
+
+      {offer.notaBene && (
+        <p className="text-xs text-zinc-500 font-light leading-relaxed mb-8 pl-3 border-l-2 border-red-600/40">
+          {offer.notaBene}
+        </p>
+      )}
 
       {/* Check-list du parcours */}
       <div className="border-t border-white/5 pt-6 mb-8">
@@ -187,35 +192,6 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
             );
           })}
         </ul>
-
-        {/* Option homologation (carte Import) */}
-        {offer.homologationOption && (
-          <button
-            type="button"
-            role="switch"
-            aria-checked={withHomologation}
-            onClick={() => setWithHomologation((v) => !v)}
-            className="mt-5 w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/[0.03] hover:border-white/20 transition-colors text-left"
-          >
-            <span>
-              <span className="block text-sm text-zinc-200">Ajouter l'homologation</span>
-              <span className="block text-xs text-red-500 font-medium">+2 000 €</span>
-            </span>
-            <span
-              className={`relative flex-shrink-0 w-11 h-6 rounded-full transition-colors ${
-                withHomologation ? 'bg-red-600' : 'bg-zinc-700'
-              }`}
-            >
-              <motion.span
-                layout
-                transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white ${
-                  withHomologation ? 'left-[22px]' : 'left-0.5'
-                }`}
-              />
-            </span>
-          </button>
-        )}
       </div>
 
       {/* CTA — poussé en bas de carte */}
@@ -255,12 +231,12 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
  */
 export function Offers() {
   return (
-    <section id="offres" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="offres" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-red-900/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* En-tête centré */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -281,21 +257,25 @@ export function Offers() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.2 }}
-            className="max-w-xl text-zinc-400 text-lg font-light"
+            className="max-w-xl text-zinc-400 text-base md:text-lg font-light"
           >
             Trois niveaux d'accompagnement pour un même parcours. Choisissez jusqu'où nous prenons
             la main — de la simple homologation au service entièrement clé en main.
           </motion.p>
         </div>
 
-        {/* Grille des offres */}
-        <div className="grid lg:grid-cols-3 gap-6 items-stretch">
+        {/* Mobile : carrousel horizontal snap. Desktop (lg+) : grille 3 colonnes.
+            `lg:contents` dissout le wrapper en grille pour préserver l'égalité de hauteur. */}
+        <div className="flex lg:grid lg:grid-cols-3 gap-6 items-stretch overflow-x-auto lg:overflow-visible snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 pt-3 pb-4 lg:pt-0 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {OFFERS.map((offer, idx) => (
-            <Fragment key={offer.id}>
+            <div key={offer.id} className="lg:contents shrink-0 w-[85%] sm:w-[65%] snap-center flex flex-col">
               <OfferCard offer={offer} index={idx} />
-            </Fragment>
+            </div>
           ))}
         </div>
+        <p className="lg:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
+          Glissez pour comparer les offres →
+        </p>
       </div>
     </section>
   );

@@ -28,7 +28,7 @@ const steps: Step[] = [
   {
     icon: Ship,
     title: 'Chargement sur navire',
-    desc: 'Mise à bord au terminal portuaire (RORO ou conteneur), puis traversée jusqu’aux ports européens.',
+    desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, avec un suivi au quotidien.',
     image: '/terminalport.png',
   },
 ];
@@ -43,12 +43,12 @@ export function Services() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <section id="services" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="services" className="pt-14 pb-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-red-900/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* En-tête */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-8 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -69,10 +69,24 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ delay: 0.2 }}
-            className="max-w-xl text-zinc-400 text-lg font-light"
+            className="max-w-xl text-zinc-400 text-base md:text-lg font-light"
           >
             Importer un véhicule depuis le Japon, c'est maîtriser toute une chaîne. Des salles d'enchères
             au chargement sur navire, nous gérons chaque maillon en direct, sur place.
+          </motion.p>
+
+          {/* Valeur ajoutée : pourquoi acheter au Japon plutôt qu'en France */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ delay: 0.3 }}
+            className="max-w-2xl mt-6 text-zinc-300 text-base md:text-lg font-light leading-relaxed"
+          >
+            Pourquoi le Japon ? Parce que la même voiture y coûte souvent{' '}
+            <strong className="text-white font-medium">30 à 50 % de moins qu'en France</strong> — parfois
+            plus de <strong className="text-white font-medium">10 000 € d'écart</strong>. Vous accédez à la
+            voiture de vos rêves à moindre coût, sans compromis sur l'état.
           </motion.p>
         </div>
 
@@ -82,7 +96,7 @@ export function Services() {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             data-cursor="Enchères"
-            className="relative aspect-[16/10] md:aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60"
+            className="relative aspect-[3/2] sm:aspect-[16/10] md:aspect-[21/9] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60"
           >
             <img
               src="/enchere.png"
@@ -93,12 +107,12 @@ export function Services() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
 
-            <div className="absolute bottom-0 left-0 p-8 md:p-12 max-w-xl">
+            <div className="absolute bottom-0 left-0 p-6 md:p-12 max-w-xl">
               <p className="text-xs text-red-500 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
                 <Gavel className="w-4 h-4" /> USS · CAA · HAA
               </p>
               <h3 className="text-2xl md:text-4xl font-display font-bold mb-3">Au cœur des enchères</h3>
-              <p className="text-zinc-300 font-light leading-relaxed">
+              <p className="text-sm md:text-base text-zinc-300 font-light leading-relaxed">
                 Des milliers de véhicules adjugés chaque semaine dans les plus grandes salles japonaises.
                 Nous y enchérissons en direct pour vous, cote et historique à l'appui.
               </p>
@@ -106,8 +120,9 @@ export function Services() {
           </motion.div>
         </Reveal>
 
-        {/* Le travail de terrain, après l'adjudication */}
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Le travail de terrain, après l'adjudication.
+            Mobile : carrousel horizontal snap (compact). Desktop : grille 3 colonnes. */}
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {steps.map((step, idx) => (
             <motion.div
               key={step.title}
@@ -117,7 +132,7 @@ export function Services() {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               data-cursor="Process"
-              className="group relative rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors aspect-[4/5]"
+              className="snap-center shrink-0 w-[72%] sm:w-[48%] md:w-auto group relative rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors aspect-[3/4] md:aspect-[4/5]"
             >
               <img
                 src={step.image}
@@ -127,7 +142,7 @@ export function Services() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
 
-              <div className="relative z-10 h-full flex flex-col justify-between p-8">
+              <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-8">
                 <span className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-colors duration-500">
                   <step.icon className="w-5 h-5 text-white" />
                 </span>
@@ -142,6 +157,9 @@ export function Services() {
             </motion.div>
           ))}
         </div>
+        <p className="md:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-5">
+          Glissez pour parcourir →
+        </p>
       </div>
     </section>
   );

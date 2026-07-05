@@ -35,7 +35,7 @@ export default function Page() {
         ])}
       />
 
-      <header className="relative pt-40 pb-16 border-b border-white/5 overflow-hidden">
+      <header className="relative pt-28 md:pt-40 pb-12 md:pb-16 border-b border-white/5 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-red-900/5 blur-[160px] rounded-full pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <nav aria-label="Fil d'Ariane" className="mb-8">
@@ -51,10 +51,10 @@ export default function Page() {
             <div className="h-[1px] w-12 bg-red-600" />
             <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">Le Journal</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase tracking-tighter leading-[0.95] mb-8">
+          <h1 className="text-[2rem] sm:text-4xl md:text-6xl font-display font-bold uppercase tracking-tighter leading-[0.95] mb-6 md:mb-8">
             Conseils & guides JDM
           </h1>
-          <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+          <p className="text-zinc-400 text-base md:text-xl font-light leading-relaxed max-w-2xl">
             Tout ce qu'il faut savoir pour importer une voiture du Japon sereinement : coûts,
             homologation, légalité et modèles cultes.
           </p>

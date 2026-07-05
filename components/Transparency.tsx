@@ -4,13 +4,12 @@ import { ScrollGlowText } from './fx/ScrollGlowText';
 import { Reveal } from './fx/Reveal';
 
 const items = [
-  'Fiche d’enchère originale',
-  'Diagramme carrosserie',
+  'Fiche d’enchère par inspecteurs qualifiés',
   'Kilométrage certifié',
+  'Diagramme carrosserie',
   'Rapport d’inspection',
   'Photos HD',
-  'Historique du véhicule',
-  'Prix réel, sans surprise',
+  'Prix réel, sans surcôut',
 ];
 
 /**
@@ -19,19 +18,19 @@ const items = [
  */
 export function Transparency() {
   return (
-    <section id="transparence" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="transparence" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-1/3 h-2/3 bg-red-900/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Écran d'enchères */}
           <Reveal variant="clip">
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 group shadow-2xl shadow-black/50">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 group shadow-2xl shadow-black/50">
               <img
                 src="/enchereSurPC.png"
                 alt="Écran d'enchères en ligne"
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
               />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none" />
             </div>
@@ -55,9 +54,11 @@ export function Transparency() {
               segments={[{ text: 'Transparence\n' }, { text: 'totale', className: 'text-zinc-500' }]}
             />
 
-            <p className="text-zinc-400 font-light text-lg mb-10 max-w-lg">
-              Pour chaque véhicule, vous recevez l'intégralité du dossier d'origine. Aucune zone d'ombre,
-              aucun coût caché — vous achetez en toute connaissance de cause.
+            <p className="text-zinc-400 font-light text-base md:text-lg mb-8 md:mb-10 max-w-lg">
+              Au Japon, le contrôle technique (Shaken) pousse à revendre tôt : les véhicules sont
+              peu kilométrés et entretenus avec un soin méticuleux. Pour chaque voiture, vous recevez
+              une fiche d'enchère réalisée par des inspecteurs qualifiés — état détaillé, kilométrage
+              certifié et diagramme carrosserie à l'appui. Aucun coût caché, un prix réel sans surcôut.
             </p>
 
             <ul className="grid sm:grid-cols-2 gap-4">

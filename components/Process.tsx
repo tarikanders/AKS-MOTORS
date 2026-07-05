@@ -14,9 +14,9 @@ const steps: Step[] = [
   { icon: Flag, flag: true, title: 'Recherche', desc: 'Définition de votre projet et sourcing du véhicule idéal au Japon selon vos critères.' },
   { icon: Gavel, title: 'Enchères', desc: 'Nous enchérissons en direct dans les salles japonaises (USS, CAA, HAA) pour vous.' },
   { icon: ScanLine, title: 'Inspection', desc: 'Examen complet sur place : carrosserie, mécanique, châssis. Photos HD et relevé d’état.' },
-  { icon: Ship, title: 'Transport maritime', desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, navire suivi au quotidien.' },
+  { icon: Ship, title: 'Transport maritime', desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, avec un suivi au quotidien.' },
   { icon: Anchor, title: 'Rotterdam', desc: 'Débarquement au port de Rotterdam, dédouanement et formalités d’import européennes.' },
-  { icon: FileCheck, title: 'Homologation', desc: 'Mise aux normes, passage UTAC et dossier DREAL pour la carte grise française définitive.' },
+  { icon: FileCheck, title: 'Homologation', desc: 'Mise aux normes, accompagnement sur les démarches administratives et préparation pour la carte grise française définitive.' },
   { icon: Key, title: 'Livraison', desc: 'Remise des clés de votre véhicule immatriculé, prêt à prendre la route.' },
 ];
 
@@ -30,7 +30,7 @@ export function Process() {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section id="processus" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="processus" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-zinc-900/40" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
@@ -38,7 +38,7 @@ export function Process() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col items-center text-center mb-24"
+          className="flex flex-col items-center text-center mb-14 md:mb-24"
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="h-[1px] w-8 bg-red-600" />
@@ -50,12 +50,47 @@ export function Process() {
             className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9] mb-6"
             segments={[{ text: 'Le\n' }, { text: 'Processus', className: 'text-zinc-500' }]}
           />
-          <p className="text-zinc-400 max-w-lg font-light text-lg">
+          <p className="text-zinc-400 max-w-lg font-light text-base md:text-lg">
             De Tokyo à votre garage. Sept étapes maîtrisées de bout en bout pour une tranquillité d'esprit totale.
           </p>
         </motion.div>
 
-        <div className="relative" ref={containerRef}>
+        {/* Mobile : carrousel horizontal — une étape à la fois, aérée. */}
+        <div className="md:hidden">
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="snap-center shrink-0 w-[76%] p-6 rounded-2xl border border-white/5 bg-zinc-900/50 flex flex-col gap-5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="relative w-12 h-12 rounded-full border border-white/10 bg-zinc-950 flex items-center justify-center">
+                    <step.icon className="w-5 h-5 text-red-500" />
+                    {step.flag && (
+                      <span className="absolute -top-1 -right-1 text-xs" aria-hidden="true">🇯🇵</span>
+                    )}
+                  </span>
+                  <span className="text-4xl font-display font-bold text-zinc-800 leading-none">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-display font-bold mb-2 tracking-tight">{step.title}</h3>
+                  <p className="text-zinc-400 leading-relaxed font-light text-sm">{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-zinc-600 uppercase tracking-widest mt-5">
+            Glissez pour suivre les 7 étapes →
+          </p>
+        </div>
+
+        <div className="relative hidden md:block" ref={containerRef}>
           {/* Ligne verticale + progression */}
           <div className="absolute left-[27px] md:left-1/2 md:-translate-x-1/2 top-2 bottom-2 w-[2px] bg-white/10">
             <motion.div
@@ -64,13 +99,13 @@ export function Process() {
             />
           </div>
 
-          <div className="flex flex-col gap-12 md:gap-4">
+          <div className="flex flex-col gap-8 md:gap-4">
             {steps.map((step, idx) => {
               const left = idx % 2 === 0;
               return (
                 <div
                   key={step.title}
-                  className={`relative flex items-start md:items-center gap-6 md:gap-0 ${
+                  className={`relative flex items-start md:items-center gap-4 md:gap-0 ${
                     left ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
                 >
@@ -94,7 +129,7 @@ export function Process() {
                     whileInView={{ opacity: 1, x: 0, y: 0 }}
                     viewport={{ once: true, margin: '-80px' }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className={`md:w-[calc(50%-3rem)] p-6 rounded-2xl border border-white/5 bg-zinc-900/50 hover:border-white/15 transition-colors ${
+                    className={`flex-1 md:flex-none md:w-[calc(50%-3rem)] p-5 md:p-6 rounded-2xl border border-white/5 bg-zinc-900/50 hover:border-white/15 transition-colors ${
                       left ? 'md:text-right' : 'md:text-left'
                     }`}
                   >

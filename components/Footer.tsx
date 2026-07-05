@@ -13,17 +13,17 @@ export function Footer() {
   const bgTextX = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
 
   return (
-    <footer ref={ref} className="bg-zinc-950 pt-32 pb-12 relative overflow-hidden border-t border-white/5">
+    <footer ref={ref} className="bg-zinc-950 pt-20 md:pt-32 pb-[max(3rem,env(safe-area-inset-bottom))] relative overflow-hidden border-t border-white/5">
       {/* Divider */}
       <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid md:grid-cols-12 gap-12 mb-32">
+        <div className="grid md:grid-cols-12 gap-10 md:gap-12 mb-16 md:mb-32">
           <div className="md:col-span-5">
             <a href="/" aria-label="AKS Motors — Accueil" className="inline-block mb-8 group">
               <Logo className="h-16 md:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.03]" />
             </a>
-            <p className="text-zinc-400 max-w-sm text-lg font-light leading-relaxed mb-10">
+            <p className="text-zinc-400 max-w-sm text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10">
               Spécialiste de l'importation de véhicules de sport et de collection du marché japonais.
             </p>
             <Magnetic strength={0.2}>
@@ -65,9 +65,9 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 text-xs font-medium uppercase tracking-widest text-zinc-500">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-[11px] md:text-xs font-medium uppercase tracking-widest text-zinc-500 text-center">
           <p>© {new Date().getFullYear()} AKS Motors. Tous droits réservés.</p>
-          <div className="flex gap-8 mt-6 md:mt-0">
+          <div className="flex gap-6 md:gap-8">
             <a href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</a>
             <a href="/politique-de-confidentialite" className="hover:text-white transition-colors">Confidentialité</a>
           </div>

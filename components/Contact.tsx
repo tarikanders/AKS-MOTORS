@@ -55,11 +55,11 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-32 bg-zinc-900/50 relative overflow-hidden">
+    <section id="contact" className="py-20 md:py-32 bg-zinc-900/50 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-red-900/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-20 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Left */}
           <div>
             <motion.div
@@ -83,9 +83,9 @@ export function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-zinc-400 text-lg font-light leading-relaxed mb-10"
+              className="text-zinc-400 text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10"
             >
-              Décrivez votre projet — modèle recherché, budget, délai — et nous vous répondons sous 24h avec une analyse personnalisée.
+              Décrivez votre projet — modèle, options et couleurs recherchées — et nous vous répondons sous 24h avec une analyse personnalisée.
             </motion.p>
 
             <motion.div
@@ -205,7 +205,7 @@ export function Contact() {
                   <textarea
                     required name="message" value={form.message} onChange={handleChange} rows={4}
                     className="w-full bg-zinc-900 border border-white/10 rounded-sm px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-600 transition-colors resize-none"
-                    placeholder="Décrivez votre projet, vos critères, votre délai…"
+                    placeholder="Décrivez votre projet : modèle, options, couleurs recherchées…"
                   />
                 </div>
 

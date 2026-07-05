@@ -41,7 +41,7 @@ export function ArticleLayout({
       <JsonLd data={allJsonLd} />
 
       {/* Hero */}
-      <header className="relative pt-40 pb-16 border-b border-white/5 overflow-hidden">
+      <header className="relative pt-28 md:pt-40 pb-12 md:pb-16 border-b border-white/5 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-red-900/5 blur-[160px] rounded-full pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           {/* Fil d'Ariane */}
@@ -67,16 +67,16 @@ export function ArticleLayout({
             <div className="h-[1px] w-12 bg-red-600" />
             <span className="text-zinc-400 font-medium tracking-[0.2em] uppercase text-xs">{eyebrow}</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase tracking-tighter leading-[0.95] mb-8">
+          <h1 className="text-[2rem] sm:text-4xl md:text-6xl font-display font-bold uppercase tracking-tighter leading-[0.95] mb-6 md:mb-8">
             {title}
           </h1>
-          <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">{lede}</p>
+          <p className="text-zinc-400 text-base md:text-xl font-light leading-relaxed max-w-2xl">{lede}</p>
           {meta && <div className="mt-6 text-xs uppercase tracking-widest text-zinc-600">{meta}</div>}
         </div>
       </header>
 
       {/* Corps */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="max-w-4xl mx-auto px-6 py-12 md:py-16">
         <article className="prose-aks">{children}</article>
 
         {/* FAQ */}
@@ -127,7 +127,7 @@ export function ArticleLayout({
         )}
 
         {/* CTA */}
-        <section className="mt-20 p-8 md:p-12 rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900 to-zinc-950 text-center">
+        <section className="mt-16 md:mt-20 p-6 md:p-12 rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900 to-zinc-950 text-center">
           <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tighter mb-4">
             Un projet d'importation ?
           </h2>

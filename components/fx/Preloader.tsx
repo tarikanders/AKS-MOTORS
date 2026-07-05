@@ -27,14 +27,20 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  // Décide d'emblée s'il faut jouer l'intro.
-  const [shouldPlay] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    if (window.sessionStorage.getItem(SESSION_KEY)) return false;
-    return true;
-  });
+  // Décide s'il faut jouer l'intro. Reste `false` (comme le rendu serveur)
+  // jusqu'à ce que l'effet de montage lise sessionStorage, pour éviter un
+  // mismatch d'hydratation (le serveur n'a pas accès à `window`).
+  const [shouldPlay, setShouldPlay] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    setShouldPlay(!window.sessionStorage.getItem(SESSION_KEY));
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
     if (!shouldPlay || reduced) {
       setDone(true);
       onCompleteRef.current();
@@ -67,11 +73,11 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       lenisRef.current?.start();
       document.body.style.overflow = '';
     };
-    // Effet volontairement mount-only : voir refs ci-dessus.
+    // onComplete/lenis lus via refs pour ne relancer l'effet que sur ready/shouldPlay/reduced.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ready, shouldPlay, reduced]);
 
-  if (reduced || !shouldPlay) return null;
+  if (!ready || reduced || !shouldPlay) return null;
 
   return (
     <AnimatePresence>

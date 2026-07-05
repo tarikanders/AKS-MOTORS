@@ -28,9 +28,10 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-32 bg-zinc-900/30 relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-zinc-900/30 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        {/* items-start en mobile : items-end alignait tout le header à droite. */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-6 md:gap-8">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -58,7 +59,8 @@ export function Testimonials() {
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Mobile : carrousel horizontal snap. Desktop : grille 3 colonnes. */}
+        <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {testimonials.map((t, idx) => (
             <motion.div
               key={idx}
@@ -68,7 +70,7 @@ export function Testimonials() {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, delay: idx * 0.12 }}
               data-cursor="Avis"
-              className="bg-zinc-900 border border-white/5 rounded-2xl p-8 flex flex-col gap-6 hover:border-white/15 transition-colors"
+              className="snap-center shrink-0 w-[85%] sm:w-[60%] md:w-auto bg-zinc-900 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 md:gap-6 hover:border-white/15 transition-colors"
             >
               <div className="flex gap-1">
                 {Array.from({ length: t.rating }).map((_, i) => (
@@ -88,6 +90,9 @@ export function Testimonials() {
             </motion.div>
           ))}
         </div>
+        <p className="md:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
+          Glissez pour parcourir →
+        </p>
       </div>
     </section>
   );

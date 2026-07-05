@@ -13,21 +13,24 @@ type Car = {
   grade: string;
   mileage: string;
   price: string;
+  /** Écart de prix vs marché français (ex. "-20%"). Optionnel. */
+  economy?: string;
   image: string;
   status: string;
 };
 
 const cars: Car[] = [
   {
-    name: "Skyline GT-R V-Spec II",
-    brand: "Nissan",
-    chassis: "BNR34",
-    year: "2001",
-    grade: "4.5 B",
-    mileage: "62,000 km",
-    price: "Sur demande",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
-    status: "En transit"
+    name: "911 Carrera 4S",
+    brand: "Porsche",
+    chassis: "Type 997",
+    year: "2010",
+    grade: "5 A",
+    mileage: "48,000 km",
+    price: "48 000 €",
+    economy: "-20%",
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
+    status: "Disponible"
   },
   {
     name: "Supra RZ Twin Turbo",
@@ -36,20 +39,22 @@ const cars: Car[] = [
     year: "1997",
     grade: "4 C",
     mileage: "98,000 km",
-    price: "78,500 €",
+    price: "78 500 €",
+    economy: "-25%",
     image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
     status: "Disponible"
   },
   {
-    name: "RX-7 Type R Bathurst R",
-    brand: "Mazda",
-    chassis: "FD3S",
+    name: "Skyline GT-R V-Spec II",
+    brand: "Nissan",
+    chassis: "BNR34",
     year: "2001",
-    grade: "5 A",
-    mileage: "34,000 km",
-    price: "Sur demande",
-    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80",
-    status: "Vendu"
+    grade: "4.5 B",
+    mileage: "62,000 km",
+    price: "112 000 €",
+    economy: "-20%",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80",
+    status: "En transit"
   }
 ];
 
@@ -72,7 +77,7 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
         data-cursor="Voir"
         className="group cursor-pointer block"
       >
-        <div className="relative overflow-hidden aspect-[4/5] rounded-2xl mb-8 ring-1 ring-white/5 group-hover:ring-white/20 shadow-lg shadow-black/30 group-hover:shadow-2xl group-hover:shadow-black/60 transition-all duration-700">
+        <div className="relative overflow-hidden aspect-[4/5] rounded-2xl mb-6 md:mb-8 ring-1 ring-white/5 group-hover:ring-white/20 shadow-lg shadow-black/30 group-hover:shadow-2xl group-hover:shadow-black/60 transition-all duration-700">
           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-700 z-10" />
           <motion.img
             style={{ y: imageY }}
@@ -92,6 +97,14 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
             </span>
           </div>
 
+          {car.economy && (
+            <div className="absolute top-6 right-6 z-20">
+              <span className="px-4 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full backdrop-blur-md border bg-emerald-500/15 text-emerald-300 border-emerald-500/40">
+                {car.economy} vs marché FR
+              </span>
+            </div>
+          )}
+
           <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end">
             <div className="text-white">
               <p className="text-sm font-medium tracking-widest uppercase mb-1 opacity-80">{car.brand} • {car.chassis}</p>
@@ -103,23 +116,28 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 px-2">
+        <div className="grid grid-cols-3 gap-3 md:gap-4 px-2">
           <div>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest mb-1">Année</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-wider md:tracking-widest mb-1">Année</p>
             <p className="font-medium text-zinc-200">{car.year}</p>
           </div>
           <div>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest mb-1">Grade</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-wider md:tracking-widest mb-1">Grade</p>
             <p className="font-medium text-zinc-200">{car.grade}</p>
           </div>
           <div>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest mb-1">Kilométrage</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-wider md:tracking-widest mb-1">Kilométrage</p>
             <p className="font-medium text-zinc-200">{car.mileage}</p>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-white/5 px-2 flex justify-between items-center">
-          <span className="text-sm text-zinc-400 font-medium">Prix TTC hors CG</span>
+        <div className="mt-5 pt-5 md:mt-6 md:pt-6 border-t border-white/5 px-2 flex justify-between items-end">
+          <div>
+            <span className="block text-sm text-zinc-400 font-medium">Prix tout compris</span>
+            {car.economy && (
+              <span className="text-xs text-emerald-400 font-medium">{car.economy} vs marché français</span>
+            )}
+          </div>
           <span className="text-xl font-display font-bold text-white">{car.price}</span>
         </div>
       </motion.a>
@@ -129,9 +147,9 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
 
 export function Inventory() {
   return (
-    <section id="stock" className="py-32 bg-zinc-950">
+    <section id="stock" className="py-20 md:py-32 bg-zinc-950">
       <div className="max-w-[1400px] mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-8">
           <div className="md:w-1/2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -147,6 +165,10 @@ export function Inventory() {
               className="text-4xl md:text-6xl font-display font-bold uppercase tracking-tighter leading-[0.9]"
               segments={[{ text: 'Sélection\n' }, { text: 'Premium', className: 'text-zinc-500' }]}
             />
+            <p className="mt-6 text-zinc-400 font-light text-base md:text-lg max-w-md">
+              Prix tout compris, économies réelles face au marché français. Un aperçu de ce que
+              vous pouvez viser — Porsche, JDM d'exception et bien d'autres.
+            </p>
           </div>
 
           <motion.div
@@ -166,13 +188,19 @@ export function Inventory() {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        {/* Mobile/tablette : carrousel horizontal à défilement snap.
+            Desktop (lg+) : grille 3 colonnes. */}
+        <div className="flex lg:grid lg:grid-cols-3 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 pb-4 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {cars.map((car, idx) => (
-            <motion.div key={idx} className="contents">
+            <div key={idx} className="snap-center shrink-0 w-[82%] sm:w-[55%] lg:w-auto">
               <CarCard car={car} idx={idx} />
-            </motion.div>
+            </div>
           ))}
         </div>
+        {/* Indice de défilement (mobile uniquement) */}
+        <p className="lg:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
+          Glissez pour parcourir →
+        </p>
       </div>
     </section>
   );

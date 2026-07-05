@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
-import { usePrefersReducedMotion } from '../lib/useReducedMotion';
+import { usePrefersReducedMotion, useIsMobile } from '../lib/useReducedMotion';
 
 /** Phrases affichées au fil de la vidéo (fractions de sa durée). */
 const PHRASES: { text: string; start: number; end: number }[] = [
@@ -21,6 +21,8 @@ export function CarCare() {
   const ref = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduced = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
+  const carwashSrc = isMobile ? '/carwash_Mobile.mp4' : '/carwash-web.mp4';
   const [active, setActive] = useState(-1);
   const [ending, setEnding] = useState(false);
 
@@ -77,8 +79,8 @@ export function CarCare() {
   // Variante réduite : vidéo en boucle + message statique, sans chorégraphie.
   if (reduced) {
     return (
-      <section className="relative h-screen w-full overflow-hidden bg-black">
-        <video src="/carwash-web.mp4" muted loop autoPlay playsInline className="absolute inset-0 w-full h-full object-cover" />
+      <section className="relative h-svh md:h-screen w-full overflow-hidden bg-black">
+        <video src={carwashSrc} muted loop autoPlay playsInline className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/55" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <h2 className="font-display font-bold uppercase tracking-tight text-4xl md:text-6xl text-white leading-tight max-w-4xl">
@@ -94,10 +96,10 @@ export function CarCare() {
   }
 
   return (
-    <section ref={ref} className="relative h-screen w-full overflow-hidden bg-black">
+    <section ref={ref} className="relative h-svh md:h-screen w-full overflow-hidden bg-black">
       <video
         ref={videoRef}
-        src="/carwash-web.mp4"
+        src={carwashSrc}
         muted
         autoPlay
         playsInline

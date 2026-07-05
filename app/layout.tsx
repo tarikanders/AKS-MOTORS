@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Space_Grotesk, Cormorant_Garamond, Yuji_Boku } from 'next/font/google';
 import './globals.css';
 
@@ -29,6 +29,13 @@ const yuji = Yuji_Boku({
 });
 
 const SITE_URL = 'https://aksmotors.com';
+
+// Mobile-first : couleur de la barre système assortie au fond, et rendu
+// bord-à-bord sur les écrans à encoche (safe-area gérée via env() dans l'UI).
+export const viewport: Viewport = {
+  themeColor: '#09090b',
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

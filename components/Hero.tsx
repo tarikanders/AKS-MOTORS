@@ -79,15 +79,18 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
   }, [smoothProgress, isMobile]);
 
   return (
-    <section ref={ref} className="relative h-[300vh] bg-zinc-950">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+    // Sur mobile : pas de pinning ni de scrubbing — un hero plein écran (h-svh)
+    // avec la vidéo qui tourne en boucle. Sur desktop : pinning long (300vh) qui
+    // pilote le scrub vidéo et la chorégraphie du texte au scroll.
+    <section ref={ref} className="relative h-svh md:h-[300vh] bg-zinc-950">
+      <div className="sticky top-0 h-svh md:h-screen w-full flex items-center justify-center overflow-hidden">
         {/* Background Video with Scroll Animations */}
-        <motion.div style={{ y: bgY, opacity: bgOpacity, scale: bgScale }} className="absolute inset-0 z-0 origin-top overflow-hidden">
+        <motion.div style={isMobile ? undefined : { y: bgY, opacity: bgOpacity, scale: bgScale }} className="absolute inset-0 z-0 origin-top overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 via-zinc-950/10 to-zinc-950 z-20" />
           <div className="absolute inset-0 z-10 bg-zinc-950">
             <video
               ref={videoRef}
-              src={isMobile ? '/phoneHero.mp4' : '/hero-carvolant.mp4'}
+              src={isMobile ? '/HEROmobile.mp4' : '/hero-carvolant.mp4'}
               muted
               playsInline
               autoPlay={isMobile}
@@ -100,7 +103,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
         </motion.div>
 
         {/* Content */}
-        <motion.div style={{ opacity: contentOpacity }} className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-20">
+        <motion.div style={isMobile ? undefined : { opacity: contentOpacity }} className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 w-full mt-14 md:mt-20">
         {/* Carte du Japon avec pôles d'enchères clignotants — parallax + fondu au scroll */}
         <motion.div
           style={{ opacity: mapOpacity }}
@@ -128,34 +131,34 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
             transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.div
-              style={{ opacity: subTitleOpacity, x: subTitleX }}
-              className="flex items-center gap-4 mb-8"
+              style={isMobile ? undefined : { opacity: subTitleOpacity, x: subTitleX }}
+              className="flex items-center gap-4 mb-5 md:mb-8"
             >
               <div className="h-[1px] w-12 bg-red-600" />
               <h2 className="text-red-500 font-medium tracking-[0.2em] uppercase text-xs sm:text-sm">
-                Importation Directe du Japon
+                Importez votre véhicule du Japon !
               </h2>
             </motion.div>
           </motion.div>
           
-          <motion.div style={{ y: title1Y, opacity: titleOpacity }} className="mb-4 pb-2">
+          <motion.div style={isMobile ? undefined : { y: title1Y, opacity: titleOpacity }} className="mb-4 pb-2">
             <RevealText
               as="h1"
               start={introDone}
               delay={0.25}
               stagger={0.06}
               text="L'Excellence"
-              className="text-6xl md:text-8xl lg:text-9xl font-display font-bold uppercase tracking-tighter leading-[0.85]"
+              className="text-[clamp(2.5rem,12.5vw,3.75rem)] md:text-8xl lg:text-9xl font-display font-bold uppercase tracking-tighter leading-[0.85]"
             />
           </motion.div>
-          <motion.div style={{ y: title2Y, opacity: titleOpacity }} className="mb-10 pb-2">
+          <motion.div style={isMobile ? undefined : { y: title2Y, opacity: titleOpacity }} className="mb-7 md:mb-10 pb-2">
             <RevealText
               as="h1"
               start={introDone}
               delay={0.42}
               stagger={0.06}
               text="Nippone"
-              className="text-6xl md:text-8xl lg:text-9xl font-display font-bold uppercase tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-300"
+              className="text-[clamp(2.5rem,12.5vw,3.75rem)] md:text-8xl lg:text-9xl font-display font-bold uppercase tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-300"
             />
           </motion.div>
 
@@ -169,11 +172,12 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
             transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.p
-              style={{ opacity: descOpacity, y: descY }}
-              className="text-zinc-400 max-w-xl text-lg md:text-xl mb-12 font-light leading-relaxed"
+              style={isMobile ? undefined : { opacity: descOpacity, y: descY }}
+              className="text-zinc-400 max-w-xl text-base md:text-xl mb-8 md:mb-12 font-light leading-relaxed"
             >
-              De la recherche aux enchères japonaises jusqu'à l'homologation française.
-              Nous réalisons votre rêve automobile avec une transparence absolue.
+              Porsche, Mercedes, BMW, Audi… de la recherche aux enchères japonaises
+              jusqu'à l'homologation française. Nous réalisons votre rêve automobile
+              en important vos modèles préférés.
             </motion.p>
           </motion.div>
           
@@ -187,8 +191,8 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
             transition={{ duration: 0.9, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.div
-              style={{ opacity: buttonsOpacity, y: buttonsY }}
-              className="flex flex-col sm:flex-row items-center gap-6"
+              style={isMobile ? undefined : { opacity: buttonsOpacity, y: buttonsY }}
+              className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 w-full sm:w-auto"
             >
             <Magnetic className="w-full sm:w-auto">
               <a href="#stock" className="group relative px-8 py-4 bg-white text-black overflow-hidden rounded-sm font-semibold flex items-center justify-center gap-3 w-full sm:w-auto">
@@ -199,7 +203,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
                 <div className="absolute inset-0 bg-zinc-200 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
               </a>
             </Magnetic>
-            <a href="#processus" className="group px-8 py-4 text-white flex items-center gap-3 w-full sm:w-auto font-medium">
+            <a href="#processus" className="group px-8 py-3 sm:py-4 text-white flex items-center justify-center sm:justify-start gap-3 w-full sm:w-auto font-medium">
               <span className="relative">
                 Comment ça marche ?
                 <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white/30" />
@@ -211,11 +215,12 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
         </div>
       </motion.div>
 
-      {/* Skip intro button */}
+      {/* Skip intro button — en bas à droite sur mobile (le haut est occupé par
+          le burger de la navbar), en haut à droite sur desktop. */}
       <motion.a
         href="#services"
         style={{ opacity: scrollIndicatorOpacity }}
-        className="absolute top-6 right-6 sm:right-10 z-20 text-xs text-zinc-500 hover:text-white transition-colors uppercase tracking-widest border border-white/10 hover:border-white/30 px-4 py-2 rounded-full backdrop-blur-sm"
+        className="absolute bottom-10 right-5 sm:top-6 sm:bottom-auto sm:right-10 z-20 text-xs text-zinc-500 hover:text-white transition-colors uppercase tracking-widest border border-white/10 hover:border-white/30 px-4 py-2 rounded-full backdrop-blur-sm"
       >
         Passer →
       </motion.a>

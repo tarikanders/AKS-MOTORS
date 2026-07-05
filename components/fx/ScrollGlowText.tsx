@@ -45,16 +45,35 @@ function GlowChar({
   );
 }
 
-/** Découpe `text`/`segments` en lignes de lettres (gère les `\n`). */
-function buildLines(text?: string, segments?: Segment[]): Token[][] {
+/**
+ * Découpe `text`/`segments` en lignes → mots → lettres (gère les `\n`).
+ * Le regroupement par mot permet de rendre chaque mot insécable : sans lui,
+ * les lettres en inline-block autorisent une césure en plein milieu d'un mot
+ * quand la ligne est trop étroite (mobile).
+ */
+function buildLines(text?: string, segments?: Segment[]): Token[][][] {
   const src: Segment[] = segments ?? [{ text: text ?? '' }];
-  const lines: Token[][] = [[]];
+  const lines: Token[][][] = [[]];
+  let newWord = true;
   for (const seg of src) {
     const parts = seg.text.split('\n');
     parts.forEach((part, pi) => {
-      if (pi > 0) lines.push([]);
-      const cur = lines[lines.length - 1];
-      for (const ch of part) cur.push({ ch, cls: seg.className });
+      if (pi > 0) {
+        lines.push([]);
+        newWord = true;
+      }
+      const line = lines[lines.length - 1];
+      for (const ch of part) {
+        if (ch === ' ') {
+          newWord = true;
+          continue;
+        }
+        if (newWord) {
+          line.push([]);
+          newWord = false;
+        }
+        line[line.length - 1].push({ ch, cls: seg.className });
+      }
     });
   }
   return lines;
@@ -86,7 +105,7 @@ export function ScrollGlowText({ text, segments, as: Tag = 'span', className }: 
 
   const lines = buildLines(text, segments);
   const total = Math.max(
-    lines.reduce((n, l) => n + l.length, 0),
+    lines.reduce((n, l) => n + l.reduce((m, w) => m + w.length, 0), 0),
     1,
   );
 
@@ -97,10 +116,17 @@ export function ScrollGlowText({ text, segments, as: Tag = 'span', className }: 
       <Comp ref={ref} className={className}>
         {lines.map((line, li) => (
           <span key={li} style={{ display: 'block' }}>
-            {line.map((t, i) => (
-              <span key={i} style={{ color: t.cls ? GOLD_LIT : undefined }}>
-                {t.ch === ' ' ? ' ' : t.ch}
-              </span>
+            {line.map((word, wi) => (
+              <Fragment key={wi}>
+                {wi > 0 && ' '}
+                <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+                  {word.map((t, i) => (
+                    <span key={i} style={{ color: t.cls ? GOLD_LIT : undefined }}>
+                      {t.ch}
+                    </span>
+                  ))}
+                </span>
+              </Fragment>
             ))}
           </span>
         ))}
@@ -113,18 +139,23 @@ export function ScrollGlowText({ text, segments, as: Tag = 'span', className }: 
     <Comp ref={ref} className={className}>
       {lines.map((line, li) => (
         <span key={li} style={{ display: 'block' }}>
-          {line.map((t, i) => {
-            idx++;
-            const start = idx / total;
-            // Léger chevauchement pour un fondu plus doux entre lettres.
-            const end = Math.min((idx + 1.6) / total, 1);
-            if (t.ch === ' ') return <span key={i}>{' '}</span>;
-            return (
-              <Fragment key={i}>
-                <GlowChar char={t.ch} range={[start, end]} progress={latched} secondary={!!t.cls} />
-              </Fragment>
-            );
-          })}
+          {line.map((word, wi) => (
+            <Fragment key={wi}>
+              {wi > 0 && ' '}
+              {/* Mot insécable : la ligne ne casse qu'entre les mots. */}
+              <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+                {word.map((t, i) => {
+                  idx++;
+                  const start = idx / total;
+                  // Léger chevauchement pour un fondu plus doux entre lettres.
+                  const end = Math.min((idx + 1.6) / total, 1);
+                  return (
+                    <GlowChar key={i} char={t.ch} range={[start, end]} progress={latched} secondary={!!t.cls} />
+                  );
+                })}
+              </span>
+            </Fragment>
+          ))}
         </span>
       ))}
     </Comp>

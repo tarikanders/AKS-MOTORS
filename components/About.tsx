@@ -3,12 +3,12 @@ import { ScrollGlowText } from './fx/ScrollGlowText';
 
 export function About() {
   return (
-    <section id="histoire" className="py-32 bg-zinc-950 relative overflow-hidden">
+    <section id="histoire" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-1/2 right-0 w-1/3 h-2/3 bg-red-900/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="mb-24">
+        <div className="mb-12 md:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +27,7 @@ export function About() {
         </div>
 
         {/* Founders */}
-        <div className="grid md:grid-cols-2 gap-16 mb-28">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 mb-0 md:mb-28">
           {/* Serdar */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -49,8 +49,8 @@ export function About() {
                 <h3 className="text-3xl font-display font-bold">Serdar Aksu</h3>
               </div>
             </div>
-            <p className="text-zinc-400 leading-relaxed font-light text-lg">
-              Après plus de <strong className="text-white font-medium">10 ans à arpenter les enchères japonaises</strong> — USS Nagoya, CAA Tokyo, HAA Kobe — Serdar a développé un réseau unique au Japon. Chaque lot inspecté, chaque feuille d'enchère traduite. Une connaissance du marché JDM qu'on ne s'improvise pas.
+            <p className="text-zinc-400 leading-relaxed font-light text-base md:text-lg">
+              Après de <strong className="text-white font-medium">multiples commandes &amp; acquisitions sur les enchères japonaises</strong> — USS Nagoya, CAA Tokyo, HAA Kobe — Serdar a développé un réseau unique au Japon. Chaque lot inspecté, chaque feuille d'enchère traduite. Une connaissance du marché automobile qu'on ne s'improvise pas.
             </p>
             <p className="text-zinc-500 leading-relaxed font-light mt-4">
               AKS Motors est né de cette conviction : les collectionneurs français méritent d'accéder aux meilleures machines japonaises avec une transparence absolue, sans intermédiaires inutiles.
@@ -78,7 +78,7 @@ export function About() {
                 <h3 className="text-3xl font-display font-bold">Mustafa Aksu</h3>
               </div>
             </div>
-            <p className="text-zinc-400 leading-relaxed font-light text-lg">
+            <p className="text-zinc-400 leading-relaxed font-light text-base md:text-lg">
               Mustafa apporte la rigueur opérationnelle et la vision digitale d'AKS Motors. Sa mission : <strong className="text-white font-medium">rendre chaque étape du processus lisible et traçable</strong> pour le client, de l'enchère à la remise des clés.
             </p>
             <p className="text-zinc-500 leading-relaxed font-light mt-4">

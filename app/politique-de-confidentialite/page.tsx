@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <PageShell>
-      <header className="pt-40 pb-12 border-b border-white/5">
+      <header className="pt-28 md:pt-40 pb-10 md:pb-12 border-b border-white/5">
         <div className="max-w-3xl mx-auto px-6">
           <nav aria-label="Fil d'Ariane" className="mb-8">
             <ol className="flex items-center gap-1 text-xs text-zinc-500">

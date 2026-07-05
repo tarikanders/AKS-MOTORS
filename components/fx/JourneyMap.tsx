@@ -118,7 +118,9 @@ export function JourneyMap({ className = '' }: { className?: string }) {
           {!reduced && <Pulse x={START.x} y={START.y} delay={0.2} />}
           <circle cx={START.x} cy={START.y} r="6" fill="rgb(248 113 113)" />
           <circle cx={START.x} cy={START.y} r="2.6" fill="rgb(254 226 226)" />
-          <text x={START.x} y={START.y + 34} textAnchor="middle" fontSize="24" fill="rgb(212 212 216)" className="font-display" fontWeight="700">
+          {/* max-md : le SVG rétréci rend un texte de 24 unités à ~8px, illisible.
+              La font-size CSS prime sur l'attribut → labels agrandis sur mobile. */}
+          <text x={START.x} y={START.y + 34} textAnchor="middle" fontSize="24" fill="rgb(212 212 216)" className="font-display max-md:[font-size:40px]" fontWeight="700">
             日本 Japon
           </text>
         </g>
@@ -128,10 +130,10 @@ export function JourneyMap({ className = '' }: { className?: string }) {
           {!reduced && <Pulse x={ROTTERDAM.x} y={ROTTERDAM.y} color="rgb(203 183 137)" delay={0.9} />}
           <circle cx={ROTTERDAM.x} cy={ROTTERDAM.y} r="6" fill="rgb(203 183 137)" />
           <circle cx={ROTTERDAM.x} cy={ROTTERDAM.y} r="2.6" fill="rgb(24 24 27)" />
-          <text x={ROTTERDAM.x} y={ROTTERDAM.y - 20} textAnchor="middle" fontSize="24" fill="rgb(212 212 216)" className="font-display" fontWeight="700">
+          <text x={ROTTERDAM.x} y={ROTTERDAM.y - 20} textAnchor="middle" fontSize="24" fill="rgb(212 212 216)" className="font-display max-md:[font-size:36px]" fontWeight="700">
             Rotterdam
           </text>
-          <text x={ROTTERDAM.x} y={ROTTERDAM.y - 42} textAnchor="middle" fontSize="14" fill="rgb(157 137 92)" className="font-sans" letterSpacing="2">
+          <text x={ROTTERDAM.x} y={ROTTERDAM.y - 54} textAnchor="middle" fontSize="14" fill="rgb(157 137 92)" className="font-sans max-md:[font-size:20px]" letterSpacing="2">
             PAYS-BAS
           </text>
         </g>

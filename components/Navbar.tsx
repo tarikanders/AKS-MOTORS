@@ -49,6 +49,16 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Verrouille le scroll de la page derrière le menu mobile plein écran.
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen]);
+
   return (
     <>
       <motion.nav
@@ -56,15 +66,15 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
         animate={{ y: introDone ? 0 : -100 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled ? 'bg-zinc-950/80 backdrop-blur-xl py-4 border-b border-white/5' : 'bg-transparent py-8'
+          isScrolled ? 'bg-zinc-950/80 backdrop-blur-xl py-3 md:py-4 border-b border-white/5' : 'bg-transparent py-4 md:py-8'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between">
           <a href="/" aria-label="AKS Motors — Accueil" className="flex items-center group">
             <Logo
               priority
               className={`w-auto transition-all duration-500 group-hover:scale-[1.04] drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] ${
-                isScrolled ? 'h-12 md:h-14' : 'h-16 md:h-20'
+                isScrolled ? 'h-10 md:h-14' : 'h-12 md:h-20'
               }`}
             />
           </a>
@@ -103,8 +113,10 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden relative z-50 p-2 -mr-2 text-white"
+            className="md:hidden relative z-50 p-3 -mr-2 text-white"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -119,9 +131,9 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-zinc-950 px-6 pt-32 pb-12 flex flex-col justify-between md:hidden"
+            className="fixed inset-0 z-40 bg-zinc-950 px-6 pt-24 pb-[max(2rem,env(safe-area-inset-bottom))] flex flex-col justify-between gap-8 overflow-y-auto overscroll-contain md:hidden"
           >
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5">
               {[
                 ...NAV_ITEMS.map((n) => ({ label: n.label, href: hrefFor(n.id) })),
                 ...PAGE_ITEMS,
@@ -131,10 +143,10 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
                   key={label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
+                  transition={{ delay: 0.15 + i * 0.06, duration: 0.5 }}
                   href={href}
                   onClick={() => setIsOpen(false)}
-                  className={`text-4xl font-display font-bold uppercase tracking-tighter ${label === 'Contact' ? 'text-red-600 mt-8' : 'text-white'}`}
+                  className={`py-1 text-3xl font-display font-bold uppercase tracking-tighter ${label === 'Contact' ? 'text-red-600 mt-4' : 'text-white'}`}
                 >
                   {label}
                 </motion.a>
