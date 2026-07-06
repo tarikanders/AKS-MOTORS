@@ -125,7 +125,7 @@ export function Services() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ y: -6 }}
-              viewport={{ once: true, margin: '-50px' }}
+              viewport={{ once: true, margin: '-50px 0px' }}
               transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               data-cursor="Process"
               className="group relative rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors aspect-[3/4] md:aspect-[4/5]"

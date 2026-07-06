@@ -76,7 +76,7 @@ export function RevealText({
   // Props d'animation communes : mode manuel (animate) vs scroll (whileInView).
   const trigger = manual
     ? { animate: start ? 'visible' : 'hidden' }
-    : { whileInView: 'visible', viewport: { once: true, margin: '-80px' } };
+    : { whileInView: 'visible', viewport: { once: true, margin: '-80px 0px' } };
 
   if (reduced) {
     return (
@@ -191,7 +191,9 @@ export function Reveal({
       className={className}
       initial={initial}
       whileInView={animate}
-      viewport={{ once: true, margin: '-80px' }}
+      // Marge verticale uniquement : une marge horizontale négative empêcherait
+      // les slides en « peek » des carrousels (bord droit) de se révéler.
+      viewport={{ once: true, margin: '-80px 0px' }}
       transition={{ duration, delay, ease: EASE }}
     >
       {children}

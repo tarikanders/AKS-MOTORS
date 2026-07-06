@@ -43,20 +43,13 @@ const sigCta: Variants = {
 
 /**
  * Bloc signature : « C'EST ÇA, LA SIGNATURE AKS », logo, calligraphie japonaise, bouton.
- *
- * - `play === 'view'` : se déclenche quand le bloc entre dans le viewport (section normale).
- * - `play` booléen     : animation pilotée de l'extérieur (overlay au-dessus de la vidéo).
- * - `overlay`          : rendu en surimpression plein écran (au lieu d'une section).
- *
- * En mode overlay, la signature apparaît par-dessus la vidéo d'inspection au moment
- * où celle-ci finit en fondu noir, et reste affichée (elle ne disparaît pas).
+ * Section autonome, déclenchée quand elle entre dans le viewport (stagger temporel).
+ * Utilisée par le fallback reduced-motion ; la version épinglée passe par
+ * `SignatureOverlay` (pilotée au scroll).
  */
-function Signature({ play = 'view', overlay = false }: { play?: boolean | 'view'; overlay?: boolean }) {
+function Signature() {
   // Déclencheur commun à tous les éléments animés.
-  const trig =
-    play === 'view'
-      ? { initial: 'hidden', whileInView: 'show', viewport: { once: true, amount: 0.6 } }
-      : { initial: 'hidden', animate: play ? 'show' : 'hidden' };
+  const trig = { initial: 'hidden', whileInView: 'show', viewport: { once: true, amount: 0.6 } } as const;
 
   const content = (
     <>
@@ -90,23 +83,66 @@ function Signature({ play = 'view', overlay = false }: { play?: boolean | 'view'
     </>
   );
 
-  // Overlay : surimpression plein écran, sans fond ni pointer-events (la vidéo
-  // reste pilotée par le scroll). Le bouton reste cliquable depuis la section
-  // de repos identique placée juste en dessous.
-  if (overlay) {
-    return (
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
-        {content}
-      </div>
-    );
-  }
-
   return (
     <section className="relative bg-black min-h-screen flex flex-col items-center justify-center text-center px-6 py-32 overflow-hidden">
       {/* Halo doré discret */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-1/2 bg-[#9d895c]/10 blur-[160px] rounded-full pointer-events-none" />
       {content}
     </section>
+  );
+}
+
+/** Opacité + remontée mappées sur une plage de la progression du scroll. */
+function useRise(progress: MotionValue<number>, from: number, to: number) {
+  const opacity = useTransform(progress, [from, to], [0, 1]);
+  const y = useTransform(progress, [from, to], [22, 0]);
+  return { opacity, y };
+}
+
+/**
+ * Signature en surimpression de la section épinglée, PILOTÉE AU SCROLL.
+ *
+ * Version temporelle abandonnée : l'animation (~2,9 s) courait pendant que le
+ * pin, lui, se libérait à la vitesse du scroll — en défilant vite, la section
+ * se dépinnait avant la calligraphie et le bouton. Ici chaque élément est mappé
+ * sur la progression, tout est entièrement révélé à 97,5 % : quoi qu'il arrive,
+ * la signature complète (mots, logo, calligraphie, CTA) est affichée AVANT que
+ * le scroll ne reprenne, et elle reste en place.
+ */
+function SignatureOverlay({ progress }: { progress: MotionValue<number> }) {
+  // La phrase finale s'efface à 0,78 → la signature enchaîne juste derrière.
+  const word1 = useRise(progress, 0.78, 0.83);
+  const word2 = useRise(progress, 0.805, 0.85);
+  const comma = useRise(progress, 0.84, 0.87);
+  const wordLast = useRise(progress, 0.865, 0.905);
+  const mark = useRise(progress, 0.9, 0.945);
+  const cta = useRise(progress, 0.94, 0.975);
+
+  return (
+    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
+      <h3 className="relative font-display font-bold uppercase tracking-tight text-3xl md:text-5xl lg:text-6xl drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)]">
+        <motion.span style={word1} className={`inline-block ${GRAD}`}>C'EST</motion.span>{' '}
+        <motion.span style={word2} className={`inline-block ${GRAD}`}>ÇA</motion.span>
+        <motion.span style={comma} className={`inline-block ${GRAD}`}>,</motion.span>{' '}
+        <motion.span style={wordLast} className="inline-block text-white">LA SIGNATURE AKS</motion.span>
+      </h3>
+
+      <motion.div style={mark} className="relative flex flex-col items-center">
+        <Logo className="h-12 md:h-16 w-auto mt-8 opacity-95 drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)]" />
+        <span className="font-jp text-3xl md:text-5xl mt-5 tracking-[0.15em]" style={{ color: GOLD }}>
+          {JP_BRAND}
+        </span>
+      </motion.div>
+
+      <motion.a
+        href="#stock"
+        style={cta}
+        className="relative pointer-events-auto inline-flex items-center gap-2 mt-8 md:mt-12 px-8 py-4 bg-white text-black rounded-sm font-semibold uppercase tracking-widest text-sm hover:bg-zinc-200 transition-colors"
+      >
+        Découvrir nos véhicules
+        <ArrowUpRight className="w-4 h-4" />
+      </motion.a>
+    </div>
   );
 }
 
@@ -152,9 +188,6 @@ export function WhyAksu() {
   // déroulée image par image (seeking saccadé). Seul reduced-motion bascule sur l'allégé.
 
   const [typed, setTyped] = useState(0);
-  // La signature s'affiche en surimpression à la fin de la vidéo (déclenchée par
-  // le scroll), puis joue son animation dans le temps et reste en place.
-  const [sigShown, setSigShown] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -205,15 +238,6 @@ export function WhyAksu() {
     const t = Math.min(Math.max((v - 0.5) / (0.68 - 0.5), 0), 1);
     const n = Math.round(t * FINAL_PHRASE.length);
     setTyped((prev) => (prev === n ? prev : n));
-  });
-
-  // Une fois la phrase effacée, la signature se déclenche et se rejoue si l'on
-  // remonte au-dessus du seuil.
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    setSigShown((prev) => {
-      const next = v >= 0.8;
-      return prev === next ? prev : next;
-    });
   });
 
   // Fallback réduit (reduced-motion uniquement) : pas d'épinglage, vidéo en lecture
@@ -311,9 +335,9 @@ export function WhyAksu() {
             </p>
           </motion.div>
 
-          {/* Signature en surimpression : se révèle par-dessus la vidéo pendant
-              son fondu noir final, et reste affichée. */}
-          <Signature play={sigShown} overlay />
+          {/* Signature en surimpression : révélée AU SCROLL par-dessus le fondu
+              noir de la vidéo — entièrement affichée avant la fin du pin. */}
+          <SignatureOverlay progress={scrollYProgress} />
 
           {/* Indice de scroll au tout début */}
           <motion.div
