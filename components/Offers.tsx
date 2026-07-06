@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent } from 'react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
 import { Search, Gavel, Ship, FileCheck, ScanLine, Sparkles, Key, Check, Minus, ArrowUpRight, ChevronDown, type LucideIcon } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
@@ -240,13 +240,33 @@ function OfferAccordionItem({
   const { featured } = offer;
   const litSteps = new Set<StepKey>(offer.includes);
 
+  // Au tap sur une offre, on la ramène en haut du viewport (sous la navbar,
+  // via scroll-mt) une fois l'animation d'ouverture terminée — sinon l'offre
+  // dépliée peut se retrouver à moitié hors écran quand celle du dessus se
+  // referme. Le garde `mounted` évite de scroller au chargement de la page
+  // (l'offre vedette est ouverte par défaut).
+  const rootRef = useRef<HTMLDivElement>(null);
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    if (!open) return;
+    const t = setTimeout(() => {
+      rootRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 480);
+    return () => clearTimeout(t);
+  }, [open]);
+
   return (
     <motion.div
+      ref={rootRef}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: true, margin: '-40px 0px' }}
       transition={{ duration: 0.6, ease: EASE }}
-      className={`relative rounded-2xl bg-zinc-900/50 border ${
+      className={`relative scroll-mt-24 rounded-2xl bg-zinc-900/50 border ${
         featured ? 'border-[#9d895c]/50' : 'border-white/5'
       }`}
     >

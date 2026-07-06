@@ -74,7 +74,7 @@ export function Testimonials() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ y: -6 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: true, margin: '-80px 0px' }}
               transition={{ duration: 0.7, delay: idx * 0.12 }}
               data-cursor="Avis"
               className="h-full bg-zinc-900 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 md:gap-6 hover:border-white/15 transition-colors"

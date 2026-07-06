@@ -16,6 +16,10 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const reduced = usePrefersReducedMotion();
   const lenis = useLenis();
   const [done, setDone] = useState(false);
+  // Démontage forcé du rideau : la sortie AnimatePresence dépend de rAF, qui
+  // peut être affamé (onglet en arrière-plan, hydratation lourde). `gone`
+  // retire le rideau du DOM quoi qu'il arrive, peu après la libération.
+  const [gone, setGone] = useState(false);
 
   const count = useMotionValue(0);
   const rounded = useTransform(count, (v) => Math.round(v));
@@ -67,10 +71,20 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       onCompleteRef.current();
       lenisRef.current?.start();
       document.body.style.overflow = '';
+      // La sortie animée dure 1 s ; à 1,4 s on retire le rideau du DOM même
+      // si rAF n'a jamais joué l'animation (sinon : écran noir bloqué).
+      goneTimer = setTimeout(() => setGone(true), 1400);
     };
     releaseRef.current = release;
 
+    // Toute intention de scroll (molette, geste tactile) passe l'intro : le
+    // visiteur ne doit JAMAIS se retrouver face à un scroll qui ne répond pas.
+    const onScrollIntent = () => releaseRef.current?.();
+    window.addEventListener('wheel', onScrollIntent, { passive: true });
+    window.addEventListener('touchmove', onScrollIntent, { passive: true });
+
     let timeout: ReturnType<typeof setTimeout>;
+    let goneTimer: ReturnType<typeof setTimeout>;
     // Garde-fou : si la fin d'animation n'arrive jamais (rAF affamé pendant
     // l'hydratation sur mobile, exception en aval…), on libère au plus tard
     // après 4 s. Un scroll définitivement bloqué est pire qu'une intro écourtée.
@@ -89,6 +103,9 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       controls.stop();
       clearTimeout(timeout);
       clearTimeout(failSafe);
+      clearTimeout(goneTimer);
+      window.removeEventListener('wheel', onScrollIntent);
+      window.removeEventListener('touchmove', onScrollIntent);
       releaseRef.current = null;
       lenisRef.current?.start();
       document.body.style.overflow = '';
@@ -97,7 +114,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, shouldPlay, reduced]);
 
-  if (!ready || reduced || !shouldPlay) return null;
+  if (!ready || reduced || !shouldPlay || gone) return null;
 
   return (
     <AnimatePresence>
