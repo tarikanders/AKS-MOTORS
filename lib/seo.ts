@@ -52,6 +52,26 @@ export function faqJsonLd(items: { q: string; a: string }[]) {
   };
 }
 
+export function itemListJsonLd(params: {
+  name: string;
+  path: string;
+  items: { name: string; path: string }[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: params.name,
+    url: absoluteUrl(params.path),
+    numberOfItems: params.items.length,
+    itemListElement: params.items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      url: absoluteUrl(item.path),
+    })),
+  };
+}
+
 export function articleJsonLd(params: {
   title: string;
   description: string;

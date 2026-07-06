@@ -88,6 +88,11 @@ const businessJsonLd = {
     addressLocality: 'Strasbourg',
     addressCountry: 'FR',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 48.5734,
+    longitude: 7.7521,
+  },
   areaServed: 'FR',
   priceRange: '€€€',
 };

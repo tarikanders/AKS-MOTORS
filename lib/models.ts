@@ -9,6 +9,10 @@ export type CarModel = {
   intro: string;
   highlights: string[];
   considerations: string[];
+  /** Fourchettes de prix marché/enchères — estimations 2026, rédigées. */
+  marketPrice: string;
+  /** Spécificités d'homologation en France pour ce modèle précis. */
+  homologation: string;
   closing: string;
 };
 
@@ -36,6 +40,10 @@ export const MODELS: CarModel[] = [
       'Homologation possible en France ; les modèles de +30 ans ouvriront le régime collection.',
       'Budget à anticiper : prix d’achat élevé + douane, TVA et homologation.',
     ],
+    marketPrice:
+      "Aux enchères japonaises, une R34 GT-R saine se négocie autour de 10 à 20 millions de yens selon grade, kilométrage et version — soit généralement un budget final de 90 000 à 160 000 € tout compris pour un bel exemplaire standard (estimation 2026, à affiner lot par lot). Les V-Spec, V-Spec II et M-Spec se paient nettement plus cher, et les séries rares (Nür) atteignent des sommets. La cote progresse d'année en année : un exemplaire au bon grade, acheté au juste prix, est aussi un placement.",
+    homologation:
+      "La R34 GT-R n'a jamais été homologuée en Europe : l'immatriculation passe par une réception à titre isolé (RTI) auprès de la DREAL, avec les adaptations classiques (éclairage, antibrouillard arrière, support de plaque). Produite de 1999 à 2002, elle ouvrira la carte grise de collection (30 ans) à partir de 2029 pour les premiers millésimes — avec, pour les exemplaires éligibles, un dédouanement au régime « véhicule de collection » bien plus avantageux.",
     closing:
       "Nous identifions pour vous des R34 GT-R à l'historique vérifié, analysons chaque feuille d'enchère et orchestrons tout jusqu'à la carte grise française.",
   },
@@ -62,6 +70,10 @@ export const MODELS: CarModel[] = [
       'Vérifier la corrosion et l’historique d’entretien via la feuille d’enchère.',
       'Prévoir douane, TVA et homologation dans le budget global.',
     ],
+    marketPrice:
+      "L'écart est énorme entre une SZ atmosphérique (2JZ-GE) et une vraie RZ biturbo (2JZ-GTE) en boîte manuelle 6 : comptez grossièrement 35 000 à 60 000 € tout compris pour une atmosphérique soignée, et 70 000 à 120 000 € pour une RZ Twin Turbo d'origine au bon grade (estimation 2026). Les exemplaires stock à faible kilométrage sont en forte hausse et partent vite aux enchères.",
+    homologation:
+      "Le parcours standard est la réception à titre isolé (DREAL/UTAC) avec les adaptations d'usage. Gros avantage de la MK4 : les premiers millésimes (1993-1996) ont dépassé les 30 ans — ils peuvent prétendre à la carte grise de collection et, à l'import, au régime douanier « véhicule de collection » (droits de douane 0 %, TVA réduite à 5,5 %) si l'état d'origine le justifie.",
     closing:
       "AKS Motors recherche pour vous la Supra MK4 correspondant à vos critères, feuille d'enchère traduite à l'appui, et gère l'intégralité de l'import.",
   },
@@ -88,6 +100,10 @@ export const MODELS: CarModel[] = [
       'Méfiance envers les préparations mal réalisées.',
       'Anticiper douane, TVA et homologation.',
     ],
+    marketPrice:
+      "Comptez environ 30 000 à 55 000 € tout compris pour une FD saine au grade 4 ou plus ; les dernières séries (Spirit R de 2002 notamment) dépassent largement les 60 000 € (estimation 2026). Sur ce modèle, le critère n° 1 n'est pas le prix mais l'historique moteur : un rotatif refait dans les règles vaut mieux qu'un exemplaire « pas cher » à l'historique flou.",
+    homologation:
+      "RTI classique via DREAL/UTAC, avec adaptations d'éclairage et de plaque. Les FD produites entre 1992 et 1996 ont plus de 30 ans : carte grise de collection possible, et dédouanement au régime « véhicule de collection » (droits 0 %, TVA 5,5 %) pour les exemplaires restés proches de l'origine.",
     closing:
       "Nous sélectionnons des RX-7 FD à l'historique vérifié et vous accompagnons jusqu'à l'immatriculation française.",
   },
@@ -114,6 +130,10 @@ export const MODELS: CarModel[] = [
       'Les versions Type R sont rares et très valorisées.',
       'Prévoir le coût global import + homologation.',
     ],
+    marketPrice:
+      "Une NA1 saine se négocie généralement entre 70 000 et 110 000 € tout compris selon kilométrage et boîte ; les NA2 et les rares Type R / Type S se valorisent bien au-delà (estimation 2026). Les exemplaires japonais peu kilométrés, carnet d'entretien à l'appui, tirent la cote vers le haut — c'est précisément ceux que le sourcing aux enchères permet d'atteindre.",
+    homologation:
+      "Réception à titre isolé (DREAL/UTAC) avec adaptations mineures. Les NSX de 1990 à 1996 ont franchi le cap des 30 ans : elles ouvrent droit à la carte grise de collection et au dédouanement en régime « véhicule de collection » (droits 0 %, TVA 5,5 %) si l'exemplaire est resté conforme à l'origine.",
     closing:
       "AKS Motors déniche pour vous la NSX au juste grade et orchestre l'import de bout en bout.",
   },
@@ -140,6 +160,10 @@ export const MODELS: CarModel[] = [
       'Choisir le millésime selon les évolutions techniques.',
       'Intégrer douane, TVA et homologation au budget.',
     ],
+    marketPrice:
+      "Le marché japonais regorge de R35 : comptez environ 55 000 à 80 000 € tout compris pour un millésime 2008-2012 sain, davantage pour les phases récentes, les Nismo et les séries spéciales (estimation 2026). À performances égales, l'économie face au marché français reste substantielle — c'est l'un des meilleurs rapports performances/prix de l'import JDM.",
+    homologation:
+      "Véhicule récent oblige, pas de régime de collection : c'est la réception à titre isolé classique. La R35 ayant été commercialisée en Europe, les écarts techniques entre version JDM et version européenne sont limités, ce qui simplifie les mises en conformité (éclairage, affichages). Nous validons la faisabilité millésime par millésime avant tout achat.",
     closing:
       "Nous vous aidons à choisir le bon millésime de R35 et gérons l'import jusqu'à la carte grise.",
   },
@@ -166,6 +190,10 @@ export const MODELS: CarModel[] = [
       'Éviter les exemplaires malmenés en compétition amateur.',
       'Prévoir douane, TVA et homologation.',
     ],
+    marketPrice:
+      "La fourchette est large selon la génération : de 20 000 à 35 000 € tout compris pour une Evo VII à IX correcte, jusqu'à 50 000 € et au-delà pour les séries recherchées — Evo VI Tommi Mäkinen en tête (estimation 2026). Les exemplaires d'origine, jamais préparés, deviennent rares : ce sont eux qu'il faut viser aux enchères.",
+    homologation:
+      "RTI via DREAL/UTAC pour toutes les générations, avec les adaptations d'usage. Les Evo I à III (1992-1995) ont dépassé les 30 ans : carte grise de collection et régime douanier de collection possibles. Pour les générations récentes, le parcours standard s'applique sans difficulté particulière.",
     closing:
       "AKS Motors recherche l'Evo correspondant à vos critères et sécurise l'ensemble de l'importation.",
   },
@@ -192,6 +220,10 @@ export const MODELS: CarModel[] = [
       'Privilégier les exemplaires d’origine et suivis.',
       'Anticiper le coût global import + homologation.',
     ],
+    marketPrice:
+      "Comptez environ 18 000 à 35 000 € tout compris pour une GDB/GRB saine, 25 000 à 45 000 € pour une belle GC8 STI, et des sommets pour les séries limitées — Type RA, S-séries, l'inaccessible 22B (estimation 2026). Comme pour l'Evo, l'état d'origine et l'historique priment sur tout le reste.",
+    homologation:
+      "Réception à titre isolé classique (DREAL/UTAC). Les premières GC8 (1992-1995) ont plus de 30 ans et ouvrent le régime de collection — carte grise dédiée et dédouanement à taux réduit. Pour le reste de la gamme, le parcours standard s'applique avec les adaptations habituelles d'éclairage et de plaque.",
     closing:
       "Nous trouvons l'Impreza STI qui vous correspond et orchestrons l'import jusqu'à l'immatriculation.",
   },

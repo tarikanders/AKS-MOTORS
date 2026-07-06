@@ -135,15 +135,17 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
               className="flex items-center gap-4 mb-5 md:mb-8"
             >
               <div className="h-[1px] w-12 bg-red-600" />
-              <h2 className="text-red-500 font-medium tracking-[0.2em] uppercase text-xs sm:text-sm">
+              {/* Unique H1 de la home : c'est lui qui porte le mot-clé principal.
+                  Les grands titres « L'Excellence Nippone » sont décoratifs (p). */}
+              <h1 className="text-red-500 font-medium tracking-[0.2em] uppercase text-xs sm:text-sm">
                 Importez votre véhicule du Japon !
-              </h2>
+              </h1>
             </motion.div>
           </motion.div>
           
           <motion.div style={isMobile ? undefined : { y: title1Y, opacity: titleOpacity }} className="mb-4 pb-2">
             <RevealText
-              as="h1"
+              as="p"
               start={introDone}
               delay={0.25}
               stagger={0.06}
@@ -153,7 +155,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
           </motion.div>
           <motion.div style={isMobile ? undefined : { y: title2Y, opacity: titleOpacity }} className="mb-7 md:mb-10 pb-2">
             <RevealText
-              as="h1"
+              as="p"
               start={introDone}
               delay={0.42}
               stagger={0.06}

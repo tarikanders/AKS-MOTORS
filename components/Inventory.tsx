@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { Reveal } from './fx/Reveal';
@@ -80,13 +81,17 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
       >
         <div className="relative overflow-hidden aspect-[4/5] rounded-2xl mb-6 md:mb-8 ring-1 ring-white/5 group-hover:ring-white/20 shadow-lg shadow-black/30 group-hover:shadow-2xl group-hover:shadow-black/60 transition-all duration-700">
           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-700 z-10" />
-          <motion.img
-            style={{ y: imageY }}
-            src={car.image}
-            alt={car.name}
-            loading="lazy"
-            className="absolute inset-0 w-full h-[116%] object-cover origin-center transition-transform duration-[1.1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-          />
+          {/* Parallax sur le wrapper, next/image en fill à l'intérieur
+              (optimisation format/dimensions impossible sur un <img> brut). */}
+          <motion.div style={{ y: imageY }} className="absolute inset-0 h-[116%]">
+            <Image
+              src={car.image}
+              alt={`${car.brand} ${car.name} ${car.chassis} (${car.year}) importée du Japon par AKS Motors`}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 55vw, 78vw"
+              className="object-cover origin-center transition-transform duration-[1.1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+            />
+          </motion.div>
 
           {/* Badges en flux flex (jamais en chevauchement, quelle que soit la largeur).
               Le détail « vs marché FR » n'apparaît qu'à partir de sm — il reste
