@@ -46,8 +46,11 @@ export function Footer() {
               <li><a href="/#stock" className="text-zinc-300 hover:text-white transition-colors">Stock</a></li>
               <li><a href="/importer-une-voiture-du-japon" className="text-zinc-300 hover:text-white transition-colors">Importer du Japon</a></li>
               <li><a href="/homologation-vehicule-japonais" className="text-zinc-300 hover:text-white transition-colors">Homologation</a></li>
+              <li><a href="/dedouanement-frais-import-japon" className="text-zinc-300 hover:text-white transition-colors">Dédouanement & frais</a></li>
+              <li><a href="/encheres-japonaises" className="text-zinc-300 hover:text-white transition-colors">Enchères japonaises</a></li>
               <li><a href="/modeles" className="text-zinc-300 hover:text-white transition-colors">Modèles JDM</a></li>
               <li><a href="/blog" className="text-zinc-300 hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/a-propos" className="text-zinc-300 hover:text-white transition-colors">À propos</a></li>
               <li><a href="/#contact" className="text-zinc-300 hover:text-white transition-colors">Sur mesure</a></li>
             </ul>
           </div>

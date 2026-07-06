@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { PageShell } from '@/components/PageShell';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbJsonLd } from '@/lib/seo';
+import { breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo';
 import { MODELS } from '@/lib/models';
 
 const PATH = '/modeles';
@@ -29,6 +29,13 @@ export default function Page() {
           { name: 'Accueil', path: '/' },
           { name: 'Modèles', path: PATH },
         ])}
+      />
+      <JsonLd
+        data={itemListJsonLd({
+          name: 'Modèles JDM à importer du Japon',
+          path: PATH,
+          items: MODELS.map((m) => ({ name: m.name, path: `/modeles/${m.slug}` })),
+        })}
       />
 
       <header className="relative pt-28 md:pt-40 pb-12 md:pb-16 border-b border-white/5 overflow-hidden">

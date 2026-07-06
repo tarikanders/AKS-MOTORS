@@ -87,6 +87,16 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         ))}
       </ul>
 
+      <h2>Prix marché & enchères : combien coûte une {model.model} ?</h2>
+      <p>{model.marketPrice}</p>
+      <p>
+        Le détail des taxes et frais est expliqué sur notre page{' '}
+        <a href="/dedouanement-frais-import-japon">dédouanement et frais d'import</a>.
+      </p>
+
+      <h2>Homologation de la {model.model} en France</h2>
+      <p>{model.homologation}</p>
+
       <h2>À vérifier avant d'importer</h2>
       <ul>
         {model.considerations.map((c) => (

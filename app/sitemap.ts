@@ -3,9 +3,12 @@ import { SITE_URL } from '@/lib/seo';
 import { MODELS } from '@/lib/models';
 import { ARTICLES } from '@/lib/blog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+// Date de dernière évolution réelle du contenu des pages statiques et des
+// fiches modèles — à mettre à jour à chaque modification éditoriale (un
+// `new Date()` recalculé à chaque build serait un faux signal de fraîcheur).
+const CONTENT_UPDATED = new Date('2026-07-06');
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
     { path: '/', priority: 1, freq: 'weekly' },
     { path: '/importer-une-voiture-du-japon', priority: 0.9, freq: 'monthly' },
@@ -21,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const entries: MetadataRoute.Sitemap = staticPages.map((p) => ({
     url: `${SITE_URL}${p.path}`,
-    lastModified: now,
+    lastModified: CONTENT_UPDATED,
     changeFrequency: p.freq,
     priority: p.priority,
   }));
@@ -29,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const m of MODELS) {
     entries.push({
       url: `${SITE_URL}/modeles/${m.slug}`,
-      lastModified: now,
+      lastModified: CONTENT_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     });

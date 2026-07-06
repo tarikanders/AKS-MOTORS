@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { PageShell } from '@/components/PageShell';
+import { JsonLd } from '@/components/JsonLd';
+import { breadcrumbJsonLd } from '@/lib/seo';
 
 const PATH = '/mentions-legales';
 
@@ -15,6 +17,12 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <PageShell>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: 'Accueil', path: '/' },
+          { name: 'Mentions légales', path: PATH },
+        ])}
+      />
       <header className="pt-28 md:pt-40 pb-10 md:pb-12 border-b border-white/5">
         <div className="max-w-3xl mx-auto px-6">
           <nav aria-label="Fil d'Ariane" className="mb-8">

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { PageShell } from '@/components/PageShell';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbJsonLd } from '@/lib/seo';
+import { breadcrumbJsonLd, itemListJsonLd } from '@/lib/seo';
 import { ARTICLES, formatDateFr } from '@/lib/blog';
 
 const PATH = '/blog';
@@ -33,6 +33,13 @@ export default function Page() {
           { name: 'Accueil', path: '/' },
           { name: 'Blog', path: PATH },
         ])}
+      />
+      <JsonLd
+        data={itemListJsonLd({
+          name: 'Blog AKS Motors — Importer une voiture du Japon',
+          path: PATH,
+          items: articles.map((a) => ({ name: a.title, path: `/blog/${a.slug}` })),
+        })}
       />
 
       <header className="relative pt-28 md:pt-40 pb-12 md:pb-16 border-b border-white/5 overflow-hidden">
