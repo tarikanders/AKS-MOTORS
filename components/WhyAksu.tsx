@@ -43,9 +43,9 @@ const sigCta: Variants = {
 
 /**
  * Bloc signature : « C'EST ÇA, LA SIGNATURE AKS », logo, calligraphie japonaise, bouton.
- * Section autonome, déclenchée quand elle entre dans le viewport (stagger temporel).
- * Utilisée par le fallback reduced-motion ; la version épinglée passe par
- * `SignatureOverlay` (pilotée au scroll).
+ * Section autonome, déclenchée quand elle entre dans le viewport (stagger temporel)
+ * puis affichée en permanence (once) : c'est l'écran de repos qui suit la vidéo
+ * épinglée — il ne disparaît pas avec le dépin.
  */
 function Signature() {
   // Déclencheur commun à tous les éléments animés.
@@ -92,59 +92,6 @@ function Signature() {
   );
 }
 
-/** Opacité + remontée mappées sur une plage de la progression du scroll. */
-function useRise(progress: MotionValue<number>, from: number, to: number) {
-  const opacity = useTransform(progress, [from, to], [0, 1]);
-  const y = useTransform(progress, [from, to], [22, 0]);
-  return { opacity, y };
-}
-
-/**
- * Signature en surimpression de la section épinglée, PILOTÉE AU SCROLL.
- *
- * Version temporelle abandonnée : l'animation (~2,9 s) courait pendant que le
- * pin, lui, se libérait à la vitesse du scroll — en défilant vite, la section
- * se dépinnait avant la calligraphie et le bouton. Ici chaque élément est mappé
- * sur la progression, tout est entièrement révélé à 97,5 % : quoi qu'il arrive,
- * la signature complète (mots, logo, calligraphie, CTA) est affichée AVANT que
- * le scroll ne reprenne, et elle reste en place.
- */
-function SignatureOverlay({ progress }: { progress: MotionValue<number> }) {
-  // La phrase finale s'efface à 0,78 → la signature enchaîne juste derrière.
-  const word1 = useRise(progress, 0.78, 0.83);
-  const word2 = useRise(progress, 0.805, 0.85);
-  const comma = useRise(progress, 0.84, 0.87);
-  const wordLast = useRise(progress, 0.865, 0.905);
-  const mark = useRise(progress, 0.9, 0.945);
-  const cta = useRise(progress, 0.94, 0.975);
-
-  return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none">
-      <h3 className="relative font-display font-bold uppercase tracking-tight text-3xl md:text-5xl lg:text-6xl drop-shadow-[0_2px_24px_rgba(0,0,0,0.6)]">
-        <motion.span style={word1} className={`inline-block ${GRAD}`}>C'EST</motion.span>{' '}
-        <motion.span style={word2} className={`inline-block ${GRAD}`}>ÇA</motion.span>
-        <motion.span style={comma} className={`inline-block ${GRAD}`}>,</motion.span>{' '}
-        <motion.span style={wordLast} className="inline-block text-white">LA SIGNATURE AKS</motion.span>
-      </h3>
-
-      <motion.div style={mark} className="relative flex flex-col items-center">
-        <Logo className="h-12 md:h-16 w-auto mt-8 opacity-95 drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)]" />
-        <span className="font-jp text-3xl md:text-5xl mt-5 tracking-[0.15em]" style={{ color: GOLD }}>
-          {JP_BRAND}
-        </span>
-      </motion.div>
-
-      <motion.a
-        href="#stock"
-        style={cta}
-        className="relative pointer-events-auto inline-flex items-center gap-2 mt-8 md:mt-12 px-8 py-4 bg-white text-black rounded-sm font-semibold uppercase tracking-widest text-sm hover:bg-zinc-200 transition-colors"
-      >
-        Découvrir nos véhicules
-        <ArrowUpRight className="w-4 h-4" />
-      </motion.a>
-    </div>
-  );
-}
 
 /** Un « écran » de texte en surimpression, qui apparaît puis disparaît selon le scroll. */
 function Scene({
@@ -194,14 +141,14 @@ export function WhyAksu() {
     offset: ['start start', 'end end'],
   });
 
-  // Fondu progressif : la vidéo s'assombrit pendant les messages, puis pendant la
-  // révélation de la signature — sans aller jusqu'au noir : elle reste légèrement
-  // sombre en fin de scroll pour garder l'image visible derrière le texte.
-  const darken = useTransform(scrollYProgress, [0.5, 0.72, 0.97], [0.15, 0.4, 0.6]);
+  // Fondu progressif : la vidéo s'assombrit pendant les messages, puis finit
+  // quasi noire en fin de pin — raccord discret avec la section signature
+  // (fond noir) qui arrive juste derrière.
+  const darken = useTransform(scrollYProgress, [0.5, 0.75, 1], [0.15, 0.45, 0.95]);
   // Indice « défilez » qui disparaît dès les premiers pixels.
   const hintOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
-  // La phrase apparaît, s'écrit, puis s'efface avant l'arrivée de la signature.
-  const phraseOpacity = useTransform(scrollYProgress, [0.5, 0.54, 0.72, 0.78], [0, 1, 1, 0]);
+  // La phrase apparaît, s'écrit, puis s'efface dans le fondu noir final.
+  const phraseOpacity = useTransform(scrollYProgress, [0.5, 0.54, 0.84, 0.92], [0, 1, 1, 0]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -235,7 +182,7 @@ export function WhyAksu() {
 
   // Frappe « clavier » de la phrase, pilotée par le scroll.
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const t = Math.min(Math.max((v - 0.5) / (0.68 - 0.5), 0), 1);
+    const t = Math.min(Math.max((v - 0.5) / (0.8 - 0.5), 0), 1);
     const n = Math.round(t * FINAL_PHRASE.length);
     setTyped((prev) => (prev === n ? prev : n));
   });
@@ -335,10 +282,6 @@ export function WhyAksu() {
             </p>
           </motion.div>
 
-          {/* Signature en surimpression : révélée AU SCROLL par-dessus le fondu
-              noir de la vidéo — entièrement affichée avant la fin du pin. */}
-          <SignatureOverlay progress={scrollYProgress} />
-
           {/* Indice de scroll au tout début */}
           <motion.div
             style={{ opacity: hintOpacity }}
@@ -348,6 +291,10 @@ export function WhyAksu() {
           </motion.div>
         </div>
       </section>
+
+      {/* Section de repos : la signature s'anime à son arrivée dans le viewport
+          et RESTE affichée — elle ne part plus avec le dépin de la vidéo. */}
+      <Signature />
     </>
   );
 }
