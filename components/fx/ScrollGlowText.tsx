@@ -1,15 +1,27 @@
-import { type ElementType, Fragment, useRef } from 'react';
+import { Fragment, useRef, type ReactNode, type Ref } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent, type MotionValue } from 'motion/react';
 import { usePrefersReducedMotion } from '../../lib/useReducedMotion';
 
 type Segment = { text: string; className?: string };
+
+/** Balises acceptées par `as` (toujours un tag HTML texte). */
+type TextTag = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'div';
+
+/** Signature JSX explicite d'un tag HTML : immunise contre la pollution des
+    types JSX globaux par @react-three/fiber (qui rend `ElementType` inutilisable
+    en composant polymorphe — props réduites à `never`). */
+type PolymorphicTag = (props: {
+  ref?: Ref<HTMLElement>;
+  className?: string;
+  children?: ReactNode;
+}) => ReactNode;
 
 type ScrollGlowTextProps = {
   /** Texte à révéler. Les `\n` créent des lignes distinctes. */
   text?: string;
   /** Segments stylés alternatifs à `text` (ex. titre deux tons). */
   segments?: Segment[];
-  as?: ElementType;
+  as?: TextTag;
   className?: string;
 };
 
@@ -109,7 +121,7 @@ export function ScrollGlowText({ text, segments, as: Tag = 'span', className }: 
     1,
   );
 
-  const Comp = Tag as ElementType;
+  const Comp = Tag as unknown as PolymorphicTag;
 
   if (reduced) {
     return (

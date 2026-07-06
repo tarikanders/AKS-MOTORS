@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { Reveal } from './fx/Reveal';
 import { ScrollGlowText } from './fx/ScrollGlowText';
 import { Magnetic } from './fx/Magnetic';
+import { SnapCarousel } from './fx/SnapCarousel';
 
 type Car = {
   name: string;
@@ -87,23 +88,24 @@ function CarCard({ car, idx }: { car: Car; idx: number }) {
             className="absolute inset-0 w-full h-[116%] object-cover origin-center transition-transform duration-[1.1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
           />
 
-          <div className="absolute top-6 left-6 z-20">
-            <span className={`px-4 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full backdrop-blur-md border ${
+          {/* Badges en flux flex (jamais en chevauchement, quelle que soit la largeur).
+              Le détail « vs marché FR » n'apparaît qu'à partir de sm — il reste
+              affiché en toutes lettres sous le prix de la carte. */}
+          <div className="absolute top-4 inset-x-4 md:top-6 md:inset-x-6 z-20 flex flex-wrap items-start justify-between gap-2">
+            <span className={`px-3 md:px-4 py-1.5 text-[11px] md:text-xs font-bold uppercase tracking-widest rounded-full backdrop-blur-md border whitespace-nowrap ${
               car.status === 'Vendu' ? 'bg-zinc-950/80 text-zinc-400 border-zinc-800' :
               car.status === 'En transit' ? 'bg-blue-950/80 text-blue-400 border-blue-900/50' :
               'bg-zinc-100 text-zinc-900 border-white'
             }`}>
               {car.status}
             </span>
-          </div>
-
-          {car.economy && (
-            <div className="absolute top-6 right-6 z-20">
-              <span className="px-4 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full backdrop-blur-md border bg-emerald-500/15 text-emerald-300 border-emerald-500/40">
-                {car.economy} vs marché FR
+            {car.economy && (
+              <span className="px-3 md:px-4 py-1.5 text-[11px] md:text-xs font-bold uppercase tracking-widest rounded-full backdrop-blur-md border bg-emerald-500/15 text-emerald-300 border-emerald-500/40 whitespace-nowrap">
+                {car.economy}
+                <span className="hidden sm:inline"> vs marché FR</span>
               </span>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end">
             <div className="text-white">
@@ -188,19 +190,18 @@ export function Inventory() {
           </motion.div>
         </div>
 
-        {/* Mobile/tablette : carrousel horizontal à défilement snap.
-            Desktop (lg+) : grille 3 colonnes. */}
-        <div className="flex lg:grid lg:grid-cols-3 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 pb-4 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Mobile/tablette : carrousel Embla (scroll vertical prioritaire, carte
+            suivante en aperçu, points de pagination). Desktop (lg+) : grille 3 colonnes. */}
+        <SnapCarousel
+          breakpoint="lg"
+          ariaLabel="Véhicules en stock"
+          containerClassName="gap-4 sm:gap-6 lg:grid lg:grid-cols-3 lg:gap-8"
+          slideClassName="flex-[0_0_78%] sm:flex-[0_0_55%]"
+        >
           {cars.map((car, idx) => (
-            <div key={idx} className="snap-center shrink-0 w-[82%] sm:w-[55%] lg:w-auto">
-              <CarCard car={car} idx={idx} />
-            </div>
+            <CarCard key={car.name} car={car} idx={idx} />
           ))}
-        </div>
-        {/* Indice de défilement (mobile uniquement) */}
-        <p className="lg:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
-          Glissez pour parcourir →
-        </p>
+        </SnapCarousel>
       </div>
     </section>
   );

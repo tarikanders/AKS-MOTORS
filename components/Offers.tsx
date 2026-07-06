@@ -1,6 +1,6 @@
-import { useRef, type ElementType, type MouseEvent } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
-import { Search, Gavel, Ship, FileCheck, ScanLine, Sparkles, Key, Check, Minus, ArrowUpRight } from 'lucide-react';
+import { useRef, useState, type MouseEvent } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'motion/react';
+import { Search, Gavel, Ship, FileCheck, ScanLine, Sparkles, Key, Check, Minus, ArrowUpRight, ChevronDown, type LucideIcon } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
 import { Magnetic } from './fx/Magnetic';
 import { usePrefersReducedMotion, useFinePointer } from '../lib/useReducedMotion';
@@ -30,7 +30,7 @@ type Offer = {
   priceNote: string;
   description: string;
   includes: StepKey[];
-  icon: ElementType;
+  icon: LucideIcon;
   featured?: boolean;
   /** Mention complémentaire affichée sous la description (ex. acompte enchères). */
   notaBene?: string;
@@ -224,12 +224,147 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
 }
 
 /**
+ * Version mobile d'une offre : ligne d'accordéon. L'essentiel (icône, nom,
+ * tagline, prix) reste visible en permanence — les trois offres se comparent
+ * d'un seul regard — et le détail (description, check-list, CTA) s'ouvre au tap.
+ */
+function OfferAccordionItem({
+  offer,
+  open,
+  onToggle,
+}: {
+  offer: Offer;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  const { featured } = offer;
+  const litSteps = new Set<StepKey>(offer.includes);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.6, ease: EASE }}
+      className={`relative rounded-2xl bg-zinc-900/50 border ${
+        featured ? 'border-[#9d895c]/50' : 'border-white/5'
+      }`}
+    >
+      {featured && (
+        <span className="absolute -top-2.5 right-5 px-3 py-0.5 rounded-full bg-zinc-950 border border-[#9d895c]/40 text-[#cbb789] text-[9px] font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
+          Sérénité totale
+        </span>
+      )}
+
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className="w-full flex items-center gap-4 p-5 text-left"
+      >
+        <span className="flex-shrink-0 w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center">
+          <offer.icon className={`w-5 h-5 ${featured ? 'text-[#cbb789]' : 'text-red-500'}`} />
+        </span>
+        <span className="flex-1 min-w-0">
+          <span
+            className={`block font-display font-bold uppercase tracking-tight leading-tight ${
+              featured ? GOLD_GRAD : 'text-white'
+            }`}
+          >
+            {offer.name}
+          </span>
+          <span className="block text-xs text-zinc-500 font-light mt-0.5">{offer.tagline}</span>
+        </span>
+        <span className="flex-shrink-0 max-w-[100px] text-right font-display font-bold text-sm leading-tight">
+          {/* Espace insécable dans les nombres pour éviter « 3 / 500 € ». */}
+          {offer.price.replace(/(\d)\s(\d)/g, '$1 $2')}
+        </span>
+        <ChevronDown
+          className={`flex-shrink-0 w-4 h-4 text-zinc-500 transition-transform duration-300 ${
+            open ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5">
+              <div className="border-t border-white/5 pt-4">
+                <p className="text-[11px] text-zinc-500 uppercase tracking-widest mb-3">
+                  {offer.priceNote}
+                </p>
+                <p className="text-zinc-400 font-light text-sm leading-relaxed mb-4">
+                  {offer.description}
+                </p>
+                {offer.notaBene && (
+                  <p className="text-xs text-zinc-500 font-light leading-relaxed mb-4 pl-3 border-l-2 border-red-600/40">
+                    {offer.notaBene}
+                  </p>
+                )}
+
+                <p className="text-[11px] text-zinc-500 uppercase tracking-widest mb-3">
+                  Ce que nous gérons
+                </p>
+                <ul className="space-y-2.5 mb-6">
+                  {JOURNEY.map((step) => {
+                    const included = litSteps.has(step.key);
+                    return (
+                      <li key={step.key} className="flex items-center gap-3">
+                        {included ? (
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-600/15 border border-red-600/40 flex items-center justify-center">
+                            <Check className="w-3 h-3 text-red-500" />
+                          </span>
+                        ) : (
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center">
+                            <Minus className="w-3 h-3 text-zinc-600" />
+                          </span>
+                        )}
+                        <span className={`text-sm font-light ${included ? 'text-zinc-200' : 'text-zinc-600'}`}>
+                          {step.label}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <a
+                  href="#contact"
+                  className={`w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-sm font-semibold uppercase tracking-widest text-xs transition-colors ${
+                    featured
+                      ? 'bg-white text-black hover:bg-zinc-200'
+                      : 'border border-white/15 text-white hover:border-white/40'
+                  }`}
+                >
+                  Demander un devis
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+/**
  * Section « Nos Offres » : trois prestations présentées comme des sous-ensembles
  * du même parcours d'import. Chaque carte allume une partie croissante du trajet
  * (Recherche → Achat → Export → Homologation → Livraison), rendant les
  * différences immédiatement lisibles. L'offre Clé en main est mise en avant.
  */
 export function Offers() {
+  // Accordéon mobile : l'offre vedette (Clé en main) est ouverte par défaut.
+  const [openId, setOpenId] = useState<string | null>('cle-en-main');
+
   return (
     <section id="offres" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-red-900/5 blur-[150px] rounded-full pointer-events-none" />
@@ -264,18 +399,25 @@ export function Offers() {
           </motion.p>
         </div>
 
-        {/* Mobile : carrousel horizontal snap. Desktop (lg+) : grille 3 colonnes.
-            `lg:contents` dissout le wrapper en grille pour préserver l'égalité de hauteur. */}
-        <div className="flex lg:grid lg:grid-cols-3 gap-6 items-stretch overflow-x-auto lg:overflow-visible snap-x snap-mandatory -mx-6 px-6 lg:mx-0 lg:px-0 pt-3 pb-4 lg:pt-0 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {OFFERS.map((offer, idx) => (
-            <div key={offer.id} className="lg:contents shrink-0 w-[85%] sm:w-[65%] snap-center flex flex-col">
-              <OfferCard offer={offer} index={idx} />
-            </div>
+        {/* Mobile : accordéon vertical — les trois offres et leurs prix se
+            comparent d'un regard, le détail s'ouvre au tap, aucun geste
+            horizontal. Desktop (lg+) : grille 3 colonnes inchangée. */}
+        <div className="lg:hidden flex flex-col gap-3">
+          {OFFERS.map((offer) => (
+            <OfferAccordionItem
+              key={offer.id}
+              offer={offer}
+              open={openId === offer.id}
+              onToggle={() => setOpenId(openId === offer.id ? null : offer.id)}
+            />
           ))}
         </div>
-        <p className="lg:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
-          Glissez pour comparer les offres →
-        </p>
+
+        <div className="hidden lg:grid lg:grid-cols-3 gap-6 items-stretch">
+          {OFFERS.map((offer, idx) => (
+            <OfferCard key={offer.id} offer={offer} index={idx} />
+          ))}
+        </div>
       </div>
     </section>
   );
