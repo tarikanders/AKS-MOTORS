@@ -18,3 +18,6 @@ next-env.d.ts
 # Vidéos sources non utilisées par le site (conservées en local uniquement)
 public/carwash.mp4
 public/carvolant.mp4
+
+# Sources 3D brutes (versions optimisees dans public/)
+assets-src/

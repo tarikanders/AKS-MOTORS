@@ -54,20 +54,23 @@ function Pulse({ x, y, color = 'rgb(248 113 113)', delay = 0 }: { x: number; y: 
   );
 }
 
-export function JourneyMap({ className = '' }: { className?: string }) {
+export function JourneyMap({ className = '', delayed = false }: { className?: string; delayed?: boolean }) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
 
-  // Le tracé se dessine du Japon vers Rotterdam au fil du scroll.
+  // Le tracé se dessine du Japon vers Rotterdam au fil du scroll. En mode
+  // `delayed` (mobile, ligne continue depuis le Processus), il ne démarre que
+  // plus tard dans le scroll — une fois que la ligne de raccord a atteint le
+  // point Japon — au lieu de se dessiner en même temps qu'elle.
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 0.85', 'end 0.55'],
+    offset: delayed ? ['start 0.55', 'end 0.5'] : ['start 0.85', 'end 0.55'],
   });
   const drawn = useSpring(scrollYProgress, { stiffness: 80, damping: 26, mass: 0.4 });
 
   return (
     <div ref={ref} className={`relative ${className}`}>
-      <svg viewBox="0 0 1000 380" className="w-full h-auto" role="img" aria-label="Trajet maritime du Japon jusqu'au port de Rotterdam">
+      <svg data-journey-map viewBox="0 0 1000 380" className="w-full h-auto" role="img" aria-label="Trajet maritime du Japon jusqu'au port de Rotterdam">
         <defs>
           <radialGradient id="jm-glow-jp" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="rgb(248 113 113)" stopOpacity="0.45" />

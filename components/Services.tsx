@@ -1,11 +1,12 @@
-import { useState, type ElementType } from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Gavel, ScanLine, ParkingSquare, Ship } from 'lucide-react';
+import { Gavel, ScanLine, ParkingSquare, Ship, type LucideIcon } from 'lucide-react';
 import { ScrollGlowText } from './fx/ScrollGlowText';
 import { Reveal } from './fx/Reveal';
+import { SnapCarousel } from './fx/SnapCarousel';
 
 type Step = {
-  icon: ElementType;
+  icon: LucideIcon;
   title: string;
   desc: string;
   image: string;
@@ -16,19 +17,19 @@ const steps: Step[] = [
   {
     icon: ScanLine,
     title: 'Inspection véhicule',
-    desc: "Chaque lot est examiné sur place : carrosserie, châssis, mécanique. Photos HD et relevé d'état avant la mise en conteneur.",
+    desc: 'Carrosserie, châssis, mécanique : examen sur place, photos HD à l’appui.',
     image: '/inspection.png',
   },
   {
     icon: ParkingSquare,
     title: 'Parking export',
-    desc: "Stationnement sécurisé sur les terre-pleins d'export en attendant le départ. Le véhicule est protégé et suivi.",
+    desc: 'Stationnement sécurisé et suivi jusqu’au départ du navire.',
     image: '/packaging.jpg',
   },
   {
     icon: Ship,
     title: 'Chargement sur navire',
-    desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, avec un suivi au quotidien.',
+    desc: 'Traversée en RORO ou conteneur, 30 à 45 jours de mer, suivi quotidien.',
     image: '/terminalport.png',
   },
 ];
@@ -64,24 +65,13 @@ export function Services() {
             className="text-4xl md:text-6xl lg:text-7xl font-display font-bold uppercase tracking-tighter leading-[0.9] mb-6"
             segments={[{ text: 'Notre\n' }, { text: 'Savoir-faire', className: 'text-zinc-500' }]}
           />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ delay: 0.2 }}
-            className="max-w-xl text-zinc-400 text-base md:text-lg font-light"
-          >
-            Importer un véhicule depuis le Japon, c'est maîtriser toute une chaîne. Des salles d'enchères
-            au chargement sur navire, nous gérons chaque maillon en direct, sur place.
-          </motion.p>
-
           {/* Valeur ajoutée : pourquoi acheter au Japon plutôt qu'en France */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ delay: 0.3 }}
-            className="max-w-2xl mt-6 text-zinc-300 text-base md:text-lg font-light leading-relaxed"
+            transition={{ delay: 0.2 }}
+            className="max-w-2xl text-zinc-300 text-base md:text-lg font-light leading-relaxed"
           >
             Pourquoi le Japon ? Parce que la même voiture y coûte souvent{' '}
             <strong className="text-white font-medium">30 à 50 % de moins qu'en France</strong> — parfois
@@ -113,16 +103,22 @@ export function Services() {
               </p>
               <h3 className="text-2xl md:text-4xl font-display font-bold mb-3">Au cœur des enchères</h3>
               <p className="text-sm md:text-base text-zinc-300 font-light leading-relaxed">
-                Des milliers de véhicules adjugés chaque semaine dans les plus grandes salles japonaises.
-                Nous y enchérissons en direct pour vous, cote et historique à l'appui.
+                Nous enchérissons en direct pour vous dans les plus grandes salles du Japon,
+                cote et historique à l'appui.
               </p>
             </div>
           </motion.div>
         </Reveal>
 
         {/* Le travail de terrain, après l'adjudication.
-            Mobile : carrousel horizontal snap (compact). Desktop : grille 3 colonnes. */}
-        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            Mobile : carrousel Embla (scroll vertical prioritaire, carte suivante en
+            aperçu, points de pagination). Desktop : grille 3 colonnes. */}
+        <SnapCarousel
+          breakpoint="md"
+          ariaLabel="Le travail de terrain"
+          containerClassName="gap-4 md:grid md:grid-cols-3 md:gap-6"
+          slideClassName="flex-[0_0_72%] sm:flex-[0_0_48%]"
+        >
           {steps.map((step, idx) => (
             <motion.div
               key={step.title}
@@ -132,7 +128,7 @@ export function Services() {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               data-cursor="Process"
-              className="snap-center shrink-0 w-[72%] sm:w-[48%] md:w-auto group relative rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors aspect-[3/4] md:aspect-[4/5]"
+              className="group relative rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors aspect-[3/4] md:aspect-[4/5]"
             >
               <img
                 src={step.image}
@@ -156,10 +152,7 @@ export function Services() {
               </div>
             </motion.div>
           ))}
-        </div>
-        <p className="md:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-5">
-          Glissez pour parcourir →
-        </p>
+        </SnapCarousel>
       </div>
     </section>
   );

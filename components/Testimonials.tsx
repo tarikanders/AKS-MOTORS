@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Star } from 'lucide-react';
 import { RevealText } from './fx/Reveal';
+import { SnapCarousel } from './fx/SnapCarousel';
 
 const testimonials = [
   {
@@ -59,8 +60,14 @@ export function Testimonials() {
           </motion.p>
         </div>
 
-        {/* Mobile : carrousel horizontal snap. Desktop : grille 3 colonnes. */}
-        <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Mobile : carrousel Embla (scroll vertical prioritaire, avis suivant en
+            aperçu, points de pagination). Desktop : grille 3 colonnes. */}
+        <SnapCarousel
+          breakpoint="md"
+          ariaLabel="Témoignages clients"
+          containerClassName="gap-4 md:grid md:grid-cols-3 md:gap-8"
+          slideClassName="flex-[0_0_80%] sm:flex-[0_0_55%]"
+        >
           {testimonials.map((t, idx) => (
             <motion.div
               key={idx}
@@ -70,7 +77,7 @@ export function Testimonials() {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, delay: idx * 0.12 }}
               data-cursor="Avis"
-              className="snap-center shrink-0 w-[85%] sm:w-[60%] md:w-auto bg-zinc-900 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 md:gap-6 hover:border-white/15 transition-colors"
+              className="h-full bg-zinc-900 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 md:gap-6 hover:border-white/15 transition-colors"
             >
               <div className="flex gap-1">
                 {Array.from({ length: t.rating }).map((_, i) => (
@@ -89,10 +96,7 @@ export function Testimonials() {
               </div>
             </motion.div>
           ))}
-        </div>
-        <p className="md:hidden text-center text-xs text-zinc-600 uppercase tracking-widest mt-6">
-          Glissez pour parcourir →
-        </p>
+        </SnapCarousel>
       </div>
     </section>
   );

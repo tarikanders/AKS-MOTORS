@@ -26,6 +26,8 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   lenisRef.current = lenis;
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
+  // Point d'entrée « passer l'intro » (tap sur le rideau) ; null hors intro.
+  const releaseRef = useRef<(() => void) | null>(null);
 
   // Décide s'il faut jouer l'intro. Reste `false` (comme le rendu serveur)
   // jusqu'à ce que l'effet de montage lise sessionStorage, pour éviter un
@@ -51,25 +53,43 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
     lenisRef.current?.stop();
     document.body.style.overflow = 'hidden';
 
+    // Libération idempotente : quel que soit le chemin (fin d'animation,
+    // garde-fou, tap pour passer), le scroll est rendu exactement une fois.
+    const release = () => {
+      if (releaseRef.current === null) return;
+      releaseRef.current = null;
+      try {
+        window.sessionStorage.setItem(SESSION_KEY, '1');
+      } catch {
+        // Stockage bloqué (mode privé / réglages) : l'intro rejouera, tant pis.
+      }
+      setDone(true);
+      onCompleteRef.current();
+      lenisRef.current?.start();
+      document.body.style.overflow = '';
+    };
+    releaseRef.current = release;
+
     let timeout: ReturnType<typeof setTimeout>;
+    // Garde-fou : si la fin d'animation n'arrive jamais (rAF affamé pendant
+    // l'hydratation sur mobile, exception en aval…), on libère au plus tard
+    // après 4 s. Un scroll définitivement bloqué est pire qu'une intro écourtée.
+    const failSafe = setTimeout(release, 4000);
+
     const controls = animate(count, 100, {
       duration: 1.6,
       ease: [0.22, 1, 0.36, 1],
       onComplete: () => {
-        window.sessionStorage.setItem(SESSION_KEY, '1');
         // Laisse le rideau se lever puis libère.
-        timeout = setTimeout(() => {
-          setDone(true);
-          onCompleteRef.current();
-          lenisRef.current?.start();
-          document.body.style.overflow = '';
-        }, 600);
+        timeout = setTimeout(release, 600);
       },
     });
 
     return () => {
       controls.stop();
       clearTimeout(timeout);
+      clearTimeout(failSafe);
+      releaseRef.current = null;
       lenisRef.current?.start();
       document.body.style.overflow = '';
     };
@@ -86,6 +106,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-zinc-950"
           exit={{ y: '-100%' }}
           transition={{ duration: 1, ease: EASE }}
+          onClick={() => releaseRef.current?.()}
         >
           <motion.div
             initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}

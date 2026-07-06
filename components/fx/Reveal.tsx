@@ -1,10 +1,18 @@
-import { type ReactNode, type ElementType } from 'react';
+import { type ReactNode } from 'react';
 import { motion, type Variants } from 'motion/react';
 import { usePrefersReducedMotion } from '../../lib/useReducedMotion';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Segment = { text: string; className?: string };
+
+/** Balises acceptées par `as` (toujours un tag HTML texte). */
+type TextTag = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'div';
+
+/** Signature JSX explicite d'un tag HTML : immunise contre la pollution des
+    types JSX globaux par @react-three/fiber (qui rend `ElementType` inutilisable
+    en composant polymorphe — props réduites à `never`). */
+type PolymorphicTag = (props: { className?: string; children?: ReactNode }) => ReactNode;
 
 type RevealTextProps = {
   /** Texte à révéler. Les `\n` créent des lignes distinctes. */
@@ -14,7 +22,7 @@ type RevealTextProps = {
    * peut contenir des `\n`. Tous partagent le même stagger.
    */
   segments?: Segment[];
-  as?: ElementType;
+  as?: TextTag;
   className?: string;
   /** Délai global avant le départ du stagger (s). */
   delay?: number;
@@ -63,6 +71,7 @@ export function RevealText({
   const reduced = usePrefersReducedMotion();
   const lines = buildLines(text, segments);
   const manual = start !== undefined;
+  const Comp = Tag as unknown as PolymorphicTag;
 
   // Props d'animation communes : mode manuel (animate) vs scroll (whileInView).
   const trigger = manual
@@ -71,7 +80,7 @@ export function RevealText({
 
   if (reduced) {
     return (
-      <Tag className={className}>
+      <Comp className={className}>
         <motion.span
           initial={{ opacity: 0 }}
           {...(manual
@@ -91,7 +100,7 @@ export function RevealText({
             </span>
           ))}
         </motion.span>
-      </Tag>
+      </Comp>
     );
   }
 
@@ -105,7 +114,7 @@ export function RevealText({
   };
 
   return (
-    <Tag className={className}>
+    <Comp className={className}>
       <motion.span
         initial="hidden"
         {...trigger}
@@ -128,7 +137,7 @@ export function RevealText({
           </span>
         ))}
       </motion.span>
-    </Tag>
+    </Comp>
   );
 }
 
