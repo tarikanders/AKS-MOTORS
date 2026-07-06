@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, animate, useTransform } from 'motion/react';
 import { Logo } from '../Logo';
-import { useLenis } from './SmoothScroll';
 import { usePrefersReducedMotion } from '../../lib/useReducedMotion';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -9,12 +8,18 @@ const SESSION_KEY = 'aks-intro-played';
 
 /**
  * Rideau d'intro : compteur 0→100 %, logo révélé, puis le rideau se lève.
- * Bloque le scroll pendant l'intro. Ne rejoue pas dans la même session.
- * En reduced-motion : pas d'intro (complète immédiatement).
+ * Ne rejoue pas dans la même session. En reduced-motion : pas d'intro.
+ *
+ * NE VERROUILLE JAMAIS LE SCROLL. Le scroll natif tourne sur le thread
+ * compositeur et survit à une hydratation qui sature le thread JS ; un verrou
+ * (body overflow hidden / lenis.stop), lui, ne peut être levé QUE par le thread
+ * JS — s'il est saturé (premier chargement mobile : hydratation + décodage
+ * vidéos), la page entière est morte plusieurs secondes et l'utilisateur
+ * recharge. Le rideau opaque suffit : scroller derrière est sans conséquence,
+ * et le premier geste (tap/molette/toucher) passe l'intro.
  */
 export function Preloader({ onComplete }: { onComplete: () => void }) {
   const reduced = usePrefersReducedMotion();
-  const lenis = useLenis();
   const [done, setDone] = useState(false);
   // Démontage forcé du rideau : la sortie AnimatePresence dépend de rAF, qui
   // peut être affamé (onglet en arrière-plan, hydratation lourde). `gone`
@@ -25,9 +30,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const rounded = useTransform(count, (v) => Math.round(v));
   const counterX = useTransform(count, [0, 100], ['0%', '-2%']);
 
-  // Refs pour lire les dernières valeurs sans relancer l'effet (mount-only).
-  const lenisRef = useRef(lenis);
-  lenisRef.current = lenis;
+  // Ref pour lire la dernière valeur sans relancer l'effet (mount-only).
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
   // Point d'entrée « passer l'intro » (tap sur le rideau) ; null hors intro.
@@ -53,12 +56,8 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       return;
     }
 
-    // Verrouille le scroll pendant l'intro.
-    lenisRef.current?.stop();
-    document.body.style.overflow = 'hidden';
-
-    // Libération idempotente : quel que soit le chemin (fin d'animation,
-    // garde-fou, tap pour passer), le scroll est rendu exactement une fois.
+    // Fin d'intro idempotente : quel que soit le chemin (fin d'animation,
+    // garde-fou, geste pour passer), elle ne s'exécute qu'une fois.
     const release = () => {
       if (releaseRef.current === null) return;
       releaseRef.current = null;
@@ -69,8 +68,6 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       }
       setDone(true);
       onCompleteRef.current();
-      lenisRef.current?.start();
-      document.body.style.overflow = '';
       // La sortie animée dure 1 s ; à 1,4 s on retire le rideau du DOM même
       // si rAF n'a jamais joué l'animation (sinon : écran noir bloqué).
       goneTimer = setTimeout(() => setGone(true), 1400);
@@ -81,6 +78,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
     // visiteur ne doit JAMAIS se retrouver face à un scroll qui ne répond pas.
     const onScrollIntent = () => releaseRef.current?.();
     window.addEventListener('wheel', onScrollIntent, { passive: true });
+    window.addEventListener('touchstart', onScrollIntent, { passive: true });
     window.addEventListener('touchmove', onScrollIntent, { passive: true });
 
     let timeout: ReturnType<typeof setTimeout>;
@@ -105,12 +103,11 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       clearTimeout(failSafe);
       clearTimeout(goneTimer);
       window.removeEventListener('wheel', onScrollIntent);
+      window.removeEventListener('touchstart', onScrollIntent);
       window.removeEventListener('touchmove', onScrollIntent);
       releaseRef.current = null;
-      lenisRef.current?.start();
-      document.body.style.overflow = '';
     };
-    // onComplete/lenis lus via refs pour ne relancer l'effet que sur ready/shouldPlay/reduced.
+    // onComplete lu via ref pour ne relancer l'effet que sur ready/shouldPlay/reduced.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, shouldPlay, reduced]);
 
