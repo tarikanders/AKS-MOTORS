@@ -63,16 +63,18 @@ export function RouteMap() {
   const drawn = useSpring(scrollYProgress, { stiffness: 80, damping: 26, mass: 0.4 });
 
   return (
-    <section ref={sectionRef} id="parcours" className="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
+    <section ref={sectionRef} id="parcours" className="pt-0 pb-20 md:py-32 bg-zinc-950 relative overflow-hidden">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-2/3 h-1/2 bg-red-900/5 blur-[140px] rounded-full pointer-events-none" />
 
-      {/* Logo AKS (mobile) : dans la respiration entre la fin du Processus et le titre */}
+      {/* Logo AKS (mobile) : séparateur en flux normal, centré dans la respiration
+          entre la fin du Processus et le titre — le Processus se termine par 80px
+          de padding, pt-4 + pb-24 équilibrent donc l'espace (≈96px de chaque côté). */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="md:hidden absolute top-3 left-0 right-0 flex justify-center pointer-events-none"
+        className="md:hidden flex justify-center pt-4 pb-24 pointer-events-none"
         aria-hidden="true"
       >
         <Logo className="h-12 w-auto" />

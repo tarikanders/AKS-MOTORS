@@ -95,14 +95,18 @@ export function Services() {
                 hovered ? 'scale-105' : 'scale-100'
               }`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
+            {/* Scrim localisé : assoit le texte sur la zone la plus chargée de l'image */}
+            <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/90 via-black/45 to-transparent" />
 
             <div className="absolute bottom-0 left-0 p-6 md:p-12 max-w-xl">
-              <p className="text-xs text-red-500 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
-                <Gavel className="w-4 h-4" /> USS · CAA · HAA
+              <p className="text-xs text-red-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">
+                <Gavel className="w-4 h-4 drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]" /> USS · CAA · HAA
               </p>
-              <h3 className="text-2xl md:text-4xl font-display font-bold mb-3">Au cœur des enchères</h3>
-              <p className="text-sm md:text-base text-zinc-300 font-light leading-relaxed">
+              <h3 className="text-2xl md:text-4xl font-display font-bold mb-3 [text-shadow:0_2px_16px_rgba(0,0,0,0.85)]">
+                Au cœur des enchères
+              </h3>
+              <p className="text-sm md:text-base text-zinc-100 font-light leading-relaxed [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
                 Nous enchérissons en direct pour vous dans les plus grandes salles du Japon,
                 cote et historique à l'appui.
               </p>
