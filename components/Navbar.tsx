@@ -100,9 +100,9 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
                 <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
               </a>
             ))}
-            <a href="tel:+33769945732" className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors">
+            <a href="tel:+33673681784" className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors">
               <Phone className="w-3 h-3" />
-              +33 7 69 94 57 32
+              +33 6 73 68 17 84
             </a>
             <Magnetic>
               <a href="/#contact" className="inline-block px-6 py-3 bg-white text-black hover:bg-zinc-200 transition-colors duration-300 rounded-sm">
@@ -159,9 +159,9 @@ export function Navbar({ introDone = true }: { introDone?: boolean }) {
               transition={{ delay: 0.7 }}
               className="flex flex-col gap-3 text-sm text-zinc-500"
             >
-              <a href="tel:+33769945732" className="flex items-center gap-2 uppercase tracking-widest hover:text-white transition-colors">
+              <a href="tel:+33673681784" className="flex items-center gap-2 uppercase tracking-widest hover:text-white transition-colors">
                 <Phone className="w-4 h-4" />
-                +33 7 69 94 57 32
+                +33 6 73 68 17 84
               </a>
               <span className="uppercase tracking-widest">L'Excellence Nippone</span>
             </motion.div>

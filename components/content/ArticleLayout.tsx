@@ -144,7 +144,7 @@ export function ArticleLayout({
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
-              href="https://wa.me/33769945732?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
+              href="https://wa.me/33673681784?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-green-600/40 text-green-400 hover:bg-green-600 hover:text-white font-semibold rounded-sm transition-colors"
