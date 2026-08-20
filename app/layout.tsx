@@ -80,7 +80,7 @@ const businessJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/logo.png`,
-  telephone: '+33769945732',
+  telephone: '+33673681784',
   email: 'contact@aksmotors.com',
   address: {
     '@type': 'PostalAddress',

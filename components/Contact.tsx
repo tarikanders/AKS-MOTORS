@@ -8,7 +8,7 @@ import { Magnetic } from './fx/Magnetic';
 
 const BUDGETS = ['< 30 000 €', '30 000 – 60 000 €', '60 000 – 100 000 €', '> 100 000 €', 'À définir'];
 
-const WHATSAPP_NUMBER = '33769945732';
+const WHATSAPP_NUMBER = '33673681784';
 
 export function Contact() {
   const [form, setForm] = useState({
@@ -96,7 +96,7 @@ export function Contact() {
             >
               <Magnetic>
                 <a
-                  href="https://wa.me/33769945732?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
+                  href="https://wa.me/33673681784?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-sm transition-colors duration-300"

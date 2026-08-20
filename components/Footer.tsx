@@ -32,9 +32,9 @@ export function Footer() {
                 <ArrowUpRight className="w-6 h-6 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
               </a>
             </Magnetic>
-            <a href="tel:+33769945732" className="inline-flex items-center gap-2 text-base text-zinc-400 hover:text-white transition-colors mt-4 group">
+            <a href="tel:+33673681784" className="inline-flex items-center gap-2 text-base text-zinc-400 hover:text-white transition-colors mt-4 group">
               <Phone className="w-4 h-4" />
-              +33 7 69 94 57 32
+              +33 6 73 68 17 84
             </a>
           </div>
           

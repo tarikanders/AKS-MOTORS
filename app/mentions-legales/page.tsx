@@ -51,7 +51,7 @@ export default function Page() {
             <br />RCS : [À COMPLÉTER]
             <br />Siège social : 67000 Strasbourg, France
             <br />E-mail : contact@aksmotors.com
-            <br />Téléphone : +33 7 69 94 57 32
+            <br />Téléphone : +33 6 73 68 17 84
             <br />Directeur de la publication : [À COMPLÉTER]
           </p>
 

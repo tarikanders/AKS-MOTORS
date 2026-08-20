@@ -32,7 +32,7 @@ Bonus : faire la même chose sur **Bing Webmaster Tools** (https://www.bing.com/
    - Nom : **AKS Motors**
    - Adresse : **67000 Strasbourg** (adresse précise requise par Google ; si pas de vitrine,
      option « zone de service » sans afficher l'adresse).
-   - Téléphone : **+33 7 69 94 57 32**
+   - Téléphone : **+33 6 73 68 17 84**
    - Site : **https://aksmotors.com**
 4. Remplir : description (avec mots-clés « importation véhicules japonais JDM », « homologation »),
    horaires, photos de voitures importées, du process, de l'équipe.

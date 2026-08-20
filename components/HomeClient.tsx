@@ -48,7 +48,7 @@ function FloatingActions() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            href="https://wa.me/33769945732?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
+            href="https://wa.me/33673681784?text=Bonjour%2C%20je%20souhaite%20importer%20un%20v%C3%A9hicule%20JDM."
             target="_blank"
             rel="noopener noreferrer"
             style={{ bottom: 'calc(5.5rem + env(safe-area-inset-bottom))' }}

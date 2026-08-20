@@ -1,6 +1,6 @@
 export const SITE_URL = 'https://aksmotors.com';
 export const SITE_NAME = 'AKS Motors';
-export const PHONE = '+33769945732';
+export const PHONE = '+33673681784';
 export const EMAIL = 'contact@aksmotors.com';
 
 export function absoluteUrl(path: string): string {
