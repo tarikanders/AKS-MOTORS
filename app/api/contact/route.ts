@@ -2,11 +2,10 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 // Destinataire des leads + expéditeur (configurables via variables d'env Vercel).
+// Le domaine aksmotors.com est vérifié dans Resend (DKIM + SPF/MX sur `send.`),
+// on envoie donc directement depuis contact@aksmotors.com.
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? 'contact@aksmotors.com';
-// Tant que le domaine aksmotors.com n'est pas vérifié dans Resend, on utilise
-// l'expéditeur de test 'onboarding@resend.dev'. Après vérification du domaine,
-// définir CONTACT_FROM_EMAIL = 'AKS Motors <contact@aksmotors.com>'.
-const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? 'AKS Motors <onboarding@resend.dev>';
+const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? 'AKS Motors <contact@aksmotors.com>';
 
 type ContactPayload = {
   firstName?: string;
