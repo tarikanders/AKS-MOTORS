@@ -138,7 +138,7 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
               {/* Unique H1 de la home : c'est lui qui porte le mot-clé principal.
                   Les grands titres « L'Excellence Nippone » sont décoratifs (p). */}
               <h1 className="text-red-500 font-medium tracking-[0.2em] uppercase text-xs sm:text-sm">
-                Importez votre véhicule du Japon !
+                Import &amp; homologation de véhicules du Japon
               </h1>
             </motion.div>
           </motion.div>
@@ -177,9 +177,9 @@ export function Hero({ introDone = true }: { introDone?: boolean }) {
               style={isMobile ? undefined : { opacity: descOpacity, y: descY }}
               className="text-zinc-400 max-w-xl text-base md:text-xl mb-8 md:mb-12 font-light leading-relaxed"
             >
-              Porsche, Mercedes, BMW, Audi… de la recherche aux enchères japonaises
-              jusqu'à l'homologation française. Nous réalisons votre rêve automobile
-              en important vos modèles préférés.
+              Sportives JDM, Porsche, Mercedes, BMW, Audi… de la recherche aux enchères
+              japonaises jusqu'à l'homologation DREAL et à la carte grise française.
+              Importateur basé à Strasbourg, en Alsace, au service de toute la France.
             </motion.p>
           </motion.div>
           

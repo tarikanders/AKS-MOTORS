@@ -76,7 +76,10 @@ export function Services() {
             Pourquoi le Japon ? Parce que la même voiture y coûte souvent{' '}
             <strong className="text-white font-medium">30 à 50 % de moins qu'en France</strong> — parfois
             plus de <strong className="text-white font-medium">10 000 € d'écart</strong>. Vous accédez à la
-            voiture de vos rêves à moindre coût, sans compromis sur l'état.
+            voiture de vos rêves à moindre coût, sans compromis sur l'état. Nous prenons en charge
+            l'intégralité du parcours : enchère, transport maritime, dédouanement et{' '}
+            <strong className="text-white font-medium">homologation DREAL / UTAC</strong> jusqu'à la carte
+            grise française.
           </motion.p>
         </div>
 

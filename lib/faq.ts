@@ -36,6 +36,14 @@ export const HOME_FAQ = [
     a: "Oui. Pour les modèles rares ou les configurations très précises (couleur, options spécifiques), nous activons notre réseau de concessionnaires partenaires au Japon pour des achats de gré à gré. Cela peut allonger légèrement le délai mais garantit d'obtenir exactement ce que vous cherchez.",
   },
   {
+    q: "Importez-vous aussi des Porsche et des allemandes depuis le Japon ?",
+    a: "Oui. Le marché japonais est un excellent vivier de Porsche, Mercedes-Benz, BMW et Audi : entretien méticuleux, kilométrages faibles, compteurs déjà en kilomètres et de nombreux exemplaires vendus neufs en conduite à gauche. L'import et l'homologation suivent exactement le même parcours que pour un véhicule japonais. Nous détaillons ce cas sur notre page dédiée à l'importation d'une Porsche du Japon.",
+  },
+  {
+    q: "Où êtes-vous situés, et travaillez-vous partout en France ?",
+    a: "AKS Motors est basé à Strasbourg (67000), dans le Bas-Rhin. Nous accompagnons les passionnés d'Alsace et du Grand Est — Strasbourg, Haguenau, Saverne, Sélestat, Colmar, Mulhouse — avec la possibilité de nous rencontrer sur rendez-vous, et nous travaillons partout en France : l'import, le dédouanement et l'homologation se pilotent à distance, avec un justificatif à chaque étape.",
+  },
+  {
     q: "Que couvre exactement votre prestation de bout en bout ?",
     a: "Définition de votre besoin → recherche aux enchères → achat et inspection → transport maritime → dédouanement (TVA, droits de douane) → homologation → carte grise → livraison. Une seule interlocution, zéro démarche de votre côté avec l'offre « clé en main ».",
   },

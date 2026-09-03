@@ -24,7 +24,9 @@ export function Footer() {
               <Logo className="h-16 md:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.03]" />
             </a>
             <p className="text-zinc-400 max-w-sm text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10">
-              Spécialiste de l'importation de véhicules de sport et de collection du marché japonais.
+              Importateur de véhicules du Japon basé à Strasbourg&nbsp;: sportives et voitures de
+              collection japonaises, Porsche et allemandes de spécification japonaise — des enchères
+              du Japon jusqu'à l'homologation et la carte grise française.
             </p>
             <Magnetic strength={0.2}>
               <a href="mailto:contact@aksmotors.com" className="inline-flex items-center gap-2 text-xl md:text-2xl font-display font-light hover:text-red-500 transition-colors group">
@@ -45,7 +47,9 @@ export function Footer() {
               <li><a href="/#processus" className="text-zinc-300 hover:text-white transition-colors">Processus</a></li>
               <li><a href="/#stock" className="text-zinc-300 hover:text-white transition-colors">Stock</a></li>
               <li><a href="/importer-une-voiture-du-japon" className="text-zinc-300 hover:text-white transition-colors">Importer du Japon</a></li>
-              <li><a href="/homologation-vehicule-japonais" className="text-zinc-300 hover:text-white transition-colors">Homologation</a></li>
+              <li><a href="/homologation-vehicule-japonais" className="text-zinc-300 hover:text-white transition-colors">Homologation Japon</a></li>
+              <li><a href="/importer-une-porsche-du-japon" className="text-zinc-300 hover:text-white transition-colors">Importer une Porsche du Japon</a></li>
+              <li><a href="/import-voiture-japon-alsace" className="text-zinc-300 hover:text-white transition-colors">Import Japon en Alsace</a></li>
               <li><a href="/dedouanement-frais-import-japon" className="text-zinc-300 hover:text-white transition-colors">Dédouanement & frais</a></li>
               <li><a href="/encheres-japonaises" className="text-zinc-300 hover:text-white transition-colors">Enchères japonaises</a></li>
               <li><a href="/modeles" className="text-zinc-300 hover:text-white transition-colors">Modèles JDM</a></li>
@@ -62,8 +66,11 @@ export function Footer() {
               <li><a href="#" className="text-zinc-300 hover:text-white transition-colors flex justify-between items-center group">YouTube <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" /></a></li>
             </ul>
             <div className="text-sm text-zinc-400 font-light leading-relaxed">
-              67000 Strasbourg, France<br />
-              Visite sur rendez-vous
+              67000 Strasbourg — Bas-Rhin, Alsace<br />
+              Visite sur rendez-vous<br />
+              <span className="text-zinc-500">
+                Import &amp; homologation Japon en Alsace, dans le Grand Est et partout en France.
+              </span>
             </div>
           </div>
         </div>
