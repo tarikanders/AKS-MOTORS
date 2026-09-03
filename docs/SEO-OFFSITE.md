@@ -49,6 +49,39 @@ Bonus : faire la même chose sur **Bing Webmaster Tools** (https://www.bing.com/
 
 ---
 
+## 1 bis. IndexNow (Bing, Yandex, Naver, Seznam, Yep)
+
+Ces moteurs acceptent une notification directe a chaque publication, au lieu
+d'attendre leur prochain crawl. **Google n'y participe pas** (teste depuis 2021,
+jamais adopte) : pour lui, seuls le sitemap et la demande d'indexation via
+Search Console comptent.
+
+La cle de verification est servie a la racine du domaine :
+`https://aksmotors.com/014c3cd470ebcf4bc6709a0a22df0eed.txt` (fichier `public/014c3cd470ebcf4bc6709a0a22df0eed.txt`, dont le contenu
+est la cle elle-meme). Ne pas la renommer ni la supprimer : le fichier doit
+rester accessible, sinon les soumissions sont rejetees.
+
+Pour resoumettre apres une mise en ligne (reponse attendue : HTTP 200 ou 202) :
+
+```sh
+KEY=014c3cd470ebcf4bc6709a0a22df0eed
+python3 - "$KEY" <<'PY' > /tmp/indexnow.json
+import json,sys,urllib.request,re
+key=sys.argv[1]
+xml=urllib.request.urlopen("https://aksmotors.com/sitemap.xml",timeout=30).read().decode()
+print(json.dumps({
+  "host":"aksmotors.com","key":key,
+  "keyLocation":f"https://aksmotors.com/{key}.txt",
+  "urlList":re.findall(r"<loc>(.*?)</loc>",xml),
+}))
+PY
+curl -X POST https://api.indexnow.org/indexnow \
+  -H "Content-Type: application/json; charset=utf-8" \
+  --data-binary @/tmp/indexnow.json
+```
+
+---
+
 ## 2. Google Business Profile (déterminant pour le local + la marque)
 
 1. Créer/revendiquer la fiche sur https://business.google.com
