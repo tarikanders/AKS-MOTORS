@@ -85,7 +85,10 @@ export function Contact() {
               transition={{ delay: 0.2 }}
               className="text-zinc-400 text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10"
             >
-              Décrivez votre projet — modèle, options et couleurs recherchées — et nous vous répondons sous 24h avec une analyse personnalisée.
+              Décrivez votre projet — modèle, options et couleurs recherchées — et nous vous répondons
+              sous 24h avec une analyse personnalisée : faisabilité, budget global tout compris
+              (transport, dédouanement, homologation) et délai. Importateur basé à Strasbourg, nous
+              intervenons en Alsace, dans le Grand Est et partout en France.
             </motion.p>
 
             <motion.div

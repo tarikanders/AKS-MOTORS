@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: 'Importer une voiture du Japon : guide complet (étapes, délais, prix)',
   description:
     "Comment importer une voiture du Japon en France : étapes de l'enchère à la carte grise, délais réels, coûts, et accompagnement clé en main par AKS Motors.",
+  keywords: [
+    'importer une voiture du japon',
+    'import japon voiture',
+    'importation véhicule japonais',
+    'importateur japon france',
+    'homologation japon',
+    'import japon alsace',
+  ],
   alternates: { canonical: PATH },
   openGraph: {
     title: 'Importer une voiture du Japon : le guide complet',
@@ -55,6 +63,8 @@ export default function Page() {
         { label: 'Homologation des véhicules japonais', href: '/homologation-vehicule-japonais', desc: 'DREAL, UTAC, carte grise : tout comprendre.' },
         { label: 'Dédouanement & frais d’import', href: '/dedouanement-frais-import-japon', desc: 'Droits de douane, TVA, coût réel.' },
         { label: 'Les enchères automobiles japonaises', href: '/encheres-japonaises', desc: 'USS, CAA : comment ça marche.' },
+        { label: 'Importer une Porsche du Japon', href: '/importer-une-porsche-du-japon', desc: 'Le cas des Porsche et allemandes japonaises.' },
+        { label: 'Import Japon en Alsace', href: '/import-voiture-japon-alsace', desc: 'Strasbourg, Bas-Rhin, Haut-Rhin.' },
         { label: 'Nos modèles JDM', href: '/modeles', desc: 'Skyline, Supra, RX-7, NSX…' },
       ]}
     >
@@ -110,11 +120,21 @@ export default function Page() {
         grise, et zéro démarche de votre côté.
       </p>
 
+      <h2>Le Japon, ce n'est pas que le JDM</h2>
+      <p>
+        On y trouve aussi un vivier remarquable d'allemandes : <strong>Porsche</strong>,
+        Mercedes-Benz, BMW et Audi, entretenues avec une rigueur peu commune, faiblement kilométrées
+        et fréquemment vendues neuves en conduite à gauche. Le parcours d'import et d'homologation est
+        le même — voir notre page{' '}
+        <a href="/importer-une-porsche-du-japon">importer et homologuer une Porsche du Japon</a>.
+      </p>
+
       <h2>AKS Motors, votre importateur de véhicules japonais</h2>
       <p>
-        Basés à Strasbourg, nous accompagnons les passionnés dans toute la France pour importer la
-        voiture japonaise de leurs rêves, en toute transparence. <a href="/#contact">Contactez-nous</a> pour
-        une première analyse gratuite de votre projet.
+        Basés à <strong>Strasbourg</strong>, dans le <strong>Bas-Rhin</strong>, nous accompagnons les
+        passionnés d'<a href="/import-voiture-japon-alsace">Alsace</a>, du Grand Est et de toute la
+        France pour importer la voiture japonaise de leurs rêves, en toute transparence.{' '}
+        <a href="/#contact">Contactez-nous</a> pour une première analyse gratuite de votre projet.
       </p>
     </ArticleLayout>
   );

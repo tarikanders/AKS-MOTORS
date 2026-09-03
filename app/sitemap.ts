@@ -6,13 +6,15 @@ import { ARTICLES } from '@/lib/blog';
 // Date de dernière évolution réelle du contenu des pages statiques et des
 // fiches modèles — à mettre à jour à chaque modification éditoriale (un
 // `new Date()` recalculé à chaque build serait un faux signal de fraîcheur).
-const CONTENT_UPDATED = new Date('2026-07-06');
+const CONTENT_UPDATED = new Date('2026-09-03');
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
     { path: '/', priority: 1, freq: 'weekly' },
     { path: '/importer-une-voiture-du-japon', priority: 0.9, freq: 'monthly' },
     { path: '/homologation-vehicule-japonais', priority: 0.9, freq: 'monthly' },
+    { path: '/importer-une-porsche-du-japon', priority: 0.9, freq: 'monthly' },
+    { path: '/import-voiture-japon-alsace', priority: 0.9, freq: 'monthly' },
     { path: '/dedouanement-frais-import-japon', priority: 0.9, freq: 'monthly' },
     { path: '/encheres-japonaises', priority: 0.8, freq: 'monthly' },
     { path: '/modeles', priority: 0.8, freq: 'monthly' },

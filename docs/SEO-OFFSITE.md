@@ -7,6 +7,32 @@
 
 ---
 
+## 0. Cartographie mots-clés → pages (on-site)
+
+Chaque requête cible a **une** page propriétaire. Ne jamais optimiser deux pages
+sur la même requête (cannibalisation) : renforcer la page propriétaire et lier
+les autres vers elle.
+
+| Requête cible | Page propriétaire |
+| --- | --- |
+| homologation japon · homologation japon véhicule · homologation véhicule japonais | `/homologation-vehicule-japonais` |
+| homologation porsche japon · importer une porsche du japon · import porsche japon | `/importer-une-porsche-du-japon` |
+| import japon alsace · import japon bas-rhin · importateur voiture japon strasbourg | `/import-voiture-japon-alsace` |
+| importer une voiture du japon · importation véhicule japonais | `/importer-une-voiture-du-japon` |
+| frais import japon · droits de douane voiture japon · tva import véhicule | `/dedouanement-frais-import-japon` |
+| enchères japonaises voiture · USS · CAA · HAA | `/encheres-japonaises` |
+| [modèle] import france (R34, Supra MK4…) | `/modeles/[slug]` |
+
+Le NAP (Nom / Adresse / Téléphone) et les zones desservies sont centralisés dans
+`lib/seo.ts` (`autoDealerJsonLd`, `AREAS_SERVED`) : toute modification d'adresse
+ou de téléphone se fait **là**, jamais page par page — la cohérence NAP est un
+critère de classement local majeur (voir § 2).
+
+⚠️ Le nœud `AutoDealer` est émis une seule fois, par `app/layout.tsx`. Ne pas le
+redéclarer dans une page : deux nœuds sous le même `@id` se contrediraient.
+
+---
+
 ## 1. Google Search Console (à faire en premier, gratuit)
 
 1. Aller sur https://search.google.com/search-console

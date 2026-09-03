@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Space_Grotesk, Cormorant_Garamond, Yuji_Boku } from 'next/font/google';
+import { autoDealerJsonLd } from '@/lib/seo';
 import './globals.css';
 
 const inter = Inter({
@@ -40,28 +41,43 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "AKS Motors — Importation de voitures japonaises (JDM) & homologation France",
+    default:
+      "Import Japon & homologation de véhicule japonais — AKS Motors, Strasbourg",
     template: '%s — AKS Motors',
   },
   description:
-    "Importation directe de véhicules de sport et de collection japonais (JDM) depuis les enchères du Japon jusqu'à l'homologation française. Sourcing, logistique, dédouanement et carte grise clés en main.",
+    "Importateur de véhicules du Japon basé à Strasbourg (Bas-Rhin, Alsace) : voitures japonaises JDM et Porsche, des enchères japonaises jusqu'à l'homologation DREAL/UTAC et la carte grise française. Devis global tout compris.",
   applicationName: 'AKS Motors',
+  // Signal secondaire pour Google, mais toujours lu par Bing et par plusieurs
+  // moteurs de réponse IA : on y aligne les requêtes cibles du site.
+  keywords: [
+    'homologation japon',
+    'homologation véhicule japonais',
+    'homologation porsche japon',
+    'import japon alsace',
+    'import japon bas-rhin',
+    'importateur voiture japon strasbourg',
+    'importer une voiture du japon',
+    'import jdm france',
+    'enchères japonaises voiture',
+    'carte grise véhicule importé du japon',
+  ],
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
     url: SITE_URL,
     siteName: 'AKS Motors',
-    title: "AKS Motors — L'Excellence Nippone | Import JDM",
+    title: "AKS Motors — Import Japon & homologation | Strasbourg, Alsace",
     description:
-      "Importation directe de véhicules JDM depuis le Japon : sourcing aux enchères, logistique, dédouanement et homologation française.",
-    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'AKS Motors' }],
+      "Importation directe de véhicules japonais et de Porsche depuis le Japon : sourcing aux enchères, logistique, dédouanement et homologation française (DREAL/UTAC).",
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'AKS Motors — import et homologation Japon' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "AKS Motors — L'Excellence Nippone | Import JDM",
+    title: "AKS Motors — Import Japon & homologation | Strasbourg, Alsace",
     description:
-      "Importation directe de véhicules JDM depuis le Japon : sourcing, dédouanement et homologation française.",
+      "Importation de véhicules japonais et de Porsche depuis le Japon : sourcing, dédouanement et homologation française.",
     images: ['/logo.png'],
   },
   icons: {
@@ -70,32 +86,10 @@ export const metadata: Metadata = {
   },
 };
 
-// Données structurées globales : profil de l'entreprise (SEO local + Knowledge Graph).
-const businessJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'AutoDealer',
-  name: 'AKS Motors',
-  description:
-    "Spécialiste de l'importation de véhicules de sport et de collection du marché japonais (JDM), de l'enchère japonaise à l'homologation française.",
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  image: `${SITE_URL}/logo.png`,
-  telephone: '+33673681784',
-  email: 'contact@aksmotors.com',
-  address: {
-    '@type': 'PostalAddress',
-    postalCode: '67000',
-    addressLocality: 'Strasbourg',
-    addressCountry: 'FR',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 48.5734,
-    longitude: 7.7521,
-  },
-  areaServed: 'FR',
-  priceRange: '€€€',
-};
+// Données structurées globales : profil de l'entreprise (SEO local + Knowledge
+// Graph). Défini dans lib/seo.ts pour garantir un NAP identique sur toutes les
+// pages qui le réutilisent (notamment la page locale Alsace).
+const businessJsonLd = autoDealerJsonLd();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

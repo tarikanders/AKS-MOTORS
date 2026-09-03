@@ -5,9 +5,9 @@ import { ArticleLayout } from '@/components/content/ArticleLayout';
 const PATH = '/a-propos';
 
 export const metadata: Metadata = {
-  title: 'À propos — Votre importateur de véhicules japonais',
+  title: 'À propos — Votre importateur de véhicules du Japon à Strasbourg',
   description:
-    "AKS Motors, spécialiste de l'importation de véhicules de sport et de collection japonais, de l'enchère à l'homologation française. Basés à Strasbourg, au service des passionnés.",
+    "AKS Motors, importateur de véhicules de sport et de collection venus du Japon, de l'enchère japonaise à l'homologation française. Basés à Strasbourg (Bas-Rhin, Alsace), au service des passionnés dans toute la France.",
   alternates: { canonical: PATH },
   openGraph: {
     title: 'À propos d’AKS Motors',
@@ -27,15 +27,18 @@ export default function Page() {
       lede="AKS Motors est né d'une conviction : l'importation d'un véhicule japonais doit être une expérience transparente, sécurisée et passionnante — pas un parcours du combattant."
       related={[
         { label: 'Importer une voiture du Japon', href: '/importer-une-voiture-du-japon', desc: 'Notre métier, étape par étape.' },
+        { label: 'Homologation Japon', href: '/homologation-vehicule-japonais', desc: 'DREAL, UTAC, carte grise.' },
+        { label: 'Import Japon en Alsace', href: '/import-voiture-japon-alsace', desc: 'Strasbourg, Bas-Rhin, Haut-Rhin.' },
         { label: 'Nos modèles JDM', href: '/modeles', desc: 'Les légendes que nous sourçons.' },
       ]}
     >
       <h2>Notre mission</h2>
       <p>
-        Nous accompagnons les passionnés dans toute la France pour importer la voiture japonaise de
-        leurs rêves, depuis les enchères du Japon jusqu'à l'homologation française. Un seul
-        interlocuteur, zéro démarche de votre côté, et une <strong>transparence absolue</strong> à
-        chaque étape.
+        Nous accompagnons les passionnés dans toute la France pour importer la voiture de leurs rêves
+        depuis le Japon — sportives JDM, mais aussi <a href="/importer-une-porsche-du-japon">Porsche</a>{' '}
+        et allemandes de spécification japonaise — des enchères japonaises jusqu'à l'
+        <a href="/homologation-vehicule-japonais">homologation française</a>. Un seul interlocuteur,
+        zéro démarche de votre côté, et une <strong>transparence absolue</strong> à chaque étape.
       </p>
 
       <h2>Notre engagement de transparence</h2>
@@ -48,8 +51,9 @@ export default function Page() {
 
       <h2>L'équipe</h2>
       <p>
-        Basés à Strasbourg, nous mettons notre réseau au Japon et notre maîtrise des formalités
-        françaises au service de votre projet.
+        Basés à <strong>Strasbourg</strong>, dans le <strong>Bas-Rhin</strong>, nous mettons notre
+        réseau au Japon et notre maîtrise des formalités françaises au service de votre projet — en{' '}
+        <a href="/import-voiture-japon-alsace">Alsace</a>, dans le Grand Est et partout en France.
       </p>
 
       {/* TODO: compléter les biographies réelles des fondateurs. */}

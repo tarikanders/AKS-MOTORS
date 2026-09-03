@@ -26,7 +26,7 @@ const steps: Step[] = [
   { icon: ScanLine, title: 'Inspection', desc: 'Examen complet sur place : carrosserie, mécanique, châssis. Photos HD et relevé d’état.' },
   { icon: Ship, title: 'Transport maritime', desc: 'Chargement portuaire puis traversée en RORO ou conteneur — env. 30 à 45 jours en mer, avec un suivi au quotidien.' },
   { icon: Anchor, title: 'Rotterdam', desc: 'Débarquement au port de Rotterdam, dédouanement et formalités d’import européennes.' },
-  { icon: FileCheck, title: 'Homologation', desc: 'Mise aux normes, accompagnement sur les démarches administratives et préparation pour la carte grise française définitive.' },
+  { icon: FileCheck, title: 'Homologation', desc: 'Homologation DREAL / UTAC : mise aux normes, réception à titre isolé et démarches administratives jusqu’à la carte grise française définitive.' },
   { icon: Key, title: 'Livraison', desc: 'Remise des clés de votre véhicule immatriculé, prêt à prendre la route.' },
 ];
 
@@ -100,7 +100,8 @@ export function Process() {
             segments={[{ text: 'Le\n' }, { text: 'Processus', className: 'text-zinc-500' }]}
           />
           <p className="text-zinc-400 max-w-lg font-light text-base md:text-lg">
-            De Tokyo à votre garage. Sept étapes maîtrisées de bout en bout pour une tranquillité d'esprit totale.
+            De Tokyo à votre garage, en Alsace comme partout en France. Sept étapes maîtrisées de bout
+            en bout — enchère, transport, dédouanement, homologation — pour une tranquillité d'esprit totale.
           </p>
         </motion.div>
 
