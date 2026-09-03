@@ -71,14 +71,16 @@ export const metadata: Metadata = {
     title: "AKS Motors — Import Japon & homologation | Strasbourg, Alsace",
     description:
       "Importation directe de véhicules japonais et de Porsche depuis le Japon : sourcing aux enchères, logistique, dédouanement et homologation française (DREAL/UTAC).",
-    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'AKS Motors — import et homologation Japon' }],
+    // Pas d'`images` ici : app/opengraph-image.tsx (convention App Router) prime
+    // sur cette cle et fournit la carte generee, alt compris.
   },
   twitter: {
     card: 'summary_large_image',
     title: "AKS Motors — Import Japon & homologation | Strasbourg, Alsace",
     description:
       "Importation de véhicules japonais et de Porsche depuis le Japon : sourcing, dédouanement et homologation française.",
-    images: ['/logo.png'],
+    // Idem : sans `twitter-image`, Next reutilise la carte opengraph-image
+    // generee, bien plus lisible que le logo brut.
   },
   icons: {
     icon: '/logo.webp',
