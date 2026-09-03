@@ -2,12 +2,13 @@ import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og';
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = 'AKS Motors — Importation de voitures japonaises (JDM) & homologation France';
+export const alt = 'AKS Motors — import et homologation de véhicules du Japon';
 
 export default function Image() {
   return renderOgImage({
-    eyebrow: "L'Excellence Nippone",
-    title: 'Importez votre voiture du Japon',
-    subtitle: "Enchères japonaises, transport, dédouanement et homologation française — clé en main.",
+    eyebrow: 'Import & homologation Japon',
+    title: 'Importez votre véhicule du Japon',
+    subtitle:
+      'Enchères japonaises, dédouanement, homologation DREAL et carte grise — depuis Strasbourg, partout en France.',
   });
 }
