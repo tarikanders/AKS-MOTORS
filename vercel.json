@@ -3,9 +3,15 @@
   "framework": "nextjs",
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [{ "type": "host", "value": "www.aksmotors.com" }],
-      "destination": "https://aksmotors.com/:path*",
+      "destination": "https://aksmotors.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path+",
+      "has": [{ "type": "host", "value": "www.aksmotors.com" }],
+      "destination": "https://aksmotors.com/:path+",
       "permanent": true
     }
   ]
